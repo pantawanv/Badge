@@ -1,5 +1,7 @@
 using Badge.Data;
+using Badge.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,17 +12,19 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorPages();
 
+builder.Services.AddTransient<IEmailSender, EmailSender>();
+builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
     // Password settings.
     options.Password.RequireDigit = true;
     options.Password.RequireLowercase = true;
-    options.Password.RequireNonAlphanumeric = true;
+    options.Password.RequireNonAlphanumeric = false;
     options.Password.RequireUppercase = true;
     options.Password.RequiredLength = 6;
     options.Password.RequiredUniqueChars = 1;
@@ -33,8 +37,12 @@ builder.Services.Configure<IdentityOptions>(options =>
     // User settings.
     options.User.AllowedUserNameCharacters =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-    options.User.RequireUniqueEmail = false;
+    options.User.RequireUniqueEmail = true;
+
+    
 });
+
+
 
 builder.Services.ConfigureApplicationCookie(options =>
 {
