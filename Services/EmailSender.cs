@@ -30,7 +30,7 @@ public class EmailSender : IEmailSender
     public async Task Execute(string apiKey, string subject, string message, string toEmail)
     {
         //var client = new SendGridClient(apiKey);
-        SmtpClient smtpClient = new SmtpClient("websmtp.simply.com", 567);
+        SmtpClient smtpClient = new SmtpClient("websmtp.simply.com", 587);
         smtpClient.Credentials = new System.Net.NetworkCredential("badge@civah.dk", "Password123.");
         smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
         smtpClient.EnableSsl = true;
@@ -39,7 +39,9 @@ public class EmailSender : IEmailSender
         {
             From = new MailAddress("Badge@civah.dk", "Badge"),
             Subject = subject,
-            Body = message
+            Body = message,
+            IsBodyHtml = true
+
         };
         msg.To.Add(toEmail);
         // Disable click tracking.

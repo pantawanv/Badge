@@ -7,6 +7,6 @@ namespace Badge.Models
     public class Ticket
     {
         [Key]
-        string Id { get; set; }
+        public string Id { get; set; }
     }
 }
