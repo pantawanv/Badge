@@ -13,9 +13,9 @@ namespace Badge.Pages.Administration.Member
 {
     public class CreateModel : PageModel
     {
-        private readonly Badge.Data.BadgeContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public CreateModel(Badge.Data.BadgeContext context)
+        public CreateModel(ApplicationDbContext context)
         {
             _context = context;
         }

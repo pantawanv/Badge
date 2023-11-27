@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel;
+using Badge.Areas.Identity.Data;
 
 namespace Badge.Models
 {
@@ -19,9 +20,9 @@ namespace Badge.Models
         [DisplayName("Gruppetype")]
         public GroupType GroupType { get; set; }
         [DisplayName("Leder Id")]
-        public int LeaderId { get; set; }
+        public string LeaderId { get; set; }
         [ForeignKey(nameof(LeaderId))]
         [DisplayName("Leder")]
-        public Leader Leader { get; set;}
+        public ApplicationUser Leader { get; set;}
     }
 }

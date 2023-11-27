@@ -12,9 +12,9 @@ namespace Badge.Pages.Administration.Forældre
 {
     public class IndexModel : PageModel
     {
-        private readonly Badge.Data.BadgeContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public IndexModel(Badge.Data.BadgeContext context)
+        public IndexModel(ApplicationDbContext context)
         {
             _context = context;
         }

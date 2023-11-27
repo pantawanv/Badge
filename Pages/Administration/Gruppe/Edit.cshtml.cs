@@ -13,9 +13,9 @@ namespace Badge.Pages.Administration.Gruppe
 {
     public class EditModel : PageModel
     {
-        private readonly Badge.Data.BadgeContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public EditModel(Badge.Data.BadgeContext context)
+        public EditModel(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -37,7 +37,7 @@ namespace Badge.Pages.Administration.Gruppe
             }
             Group = group;
            ViewData["GroupTypeId"] = new SelectList(_context.GroupTypes, "Id", "Name");
-           ViewData["LeaderId"] = new SelectList(_context.Leaders, "Id", "Id");
+           //ViewData["LeaderId"] = new SelectList(_context.Leaders, "Id", "Id");
             return Page();
         }
 

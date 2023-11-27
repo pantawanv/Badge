@@ -12,9 +12,9 @@ namespace Badge.Pages.Administration.Gruppe
 {
     public class CreateModel : PageModel
     {
-        private readonly Badge.Data.BadgeContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public CreateModel(Badge.Data.BadgeContext context)
+        public CreateModel(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -22,7 +22,7 @@ namespace Badge.Pages.Administration.Gruppe
         public IActionResult OnGet()
         {
         ViewData["GroupTypeId"] = new SelectList(_context.GroupTypes, "Id", "Name");
-        ViewData["LeaderId"] = new SelectList(_context.Leaders, "Id", "Id");
+        ViewData["LeaderId"] = new SelectList(_context.Users, "Id", "FName");
             return Page();
         }
 

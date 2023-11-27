@@ -12,9 +12,9 @@ namespace Badge.Pages.Administration.Gruppe
 {
     public class DeleteModel : PageModel
     {
-        private readonly Badge.Data.BadgeContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public DeleteModel(Badge.Data.BadgeContext context)
+        public DeleteModel(ApplicationDbContext context)
         {
             _context = context;
         }

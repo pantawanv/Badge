@@ -13,9 +13,9 @@ namespace Badge.Pages.Administration.Salg
 {
     public class EditModel : PageModel
     {
-        private readonly Badge.Data.BadgeContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public EditModel(Badge.Data.BadgeContext context)
+        public EditModel(ApplicationDbContext context)
         {
             _context = context;
         }

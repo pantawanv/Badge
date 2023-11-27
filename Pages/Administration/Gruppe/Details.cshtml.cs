@@ -12,9 +12,9 @@ namespace Badge.Pages.Administration.Gruppe
 {
     public class DetailsModel : PageModel
     {
-        private readonly Badge.Data.BadgeContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public DetailsModel(Badge.Data.BadgeContext context)
+        public DetailsModel(ApplicationDbContext context)
         {
             _context = context;
         }

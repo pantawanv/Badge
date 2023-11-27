@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Azure.Identity;
+using Badge.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,12 +15,12 @@ var connectionString = builder.Configuration["ConnectionStrings:DefaultConnectio
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddDbContext<BadgeContext>(options =>
-    options.UseSqlServer(connectionString));
+//builder.Services.AddDbContext<BadgeContext>(options =>
+//    options.UseSqlServer(connectionString));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorPages();
 
@@ -50,7 +51,6 @@ builder.Services.Configure<IdentityOptions>(options =>
 });
 
 
-
 builder.Services.ConfigureApplicationCookie(options =>
 {
     // Cookie settings
@@ -63,6 +63,20 @@ builder.Services.ConfigureApplicationCookie(options =>
 });
 
 var app = builder.Build();
+
+//using (var scope = app.Services.CreateScope())
+//{
+//    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+//    var roles = new[] { "Admin", "Manager", "Member" };
+
+//    foreach (var role in roles)
+//    {
+//        if (!await roleManager.RoleExistsAsync(role))
+//        {
+//            await roleManager.CreateAsync(new IdentityRole(role));
+//        }
+//    }
+//}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
