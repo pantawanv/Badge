@@ -2,13 +2,13 @@
 @model Badge.Pages.Administration.Gruppe.DetailsModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detajler";
 }
 
-<h1>Details</h1>
+<h1>Detajler</h1>
 
 <div>
-    <h4>Group</h4>
+    <h4>Gruppe</h4>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
@@ -33,5 +33,5 @@
 </div>
 <div>
     <a asp-page="./Edit" asp-route-id="@Model.Group?.Id">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
+    <a asp-page="./Index">Tilbage til liste</a>
 </div>
