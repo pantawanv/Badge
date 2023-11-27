@@ -4,10 +4,6 @@
       "type": "mssql",
       "connectionId": "ConnectionStrings:DefaultConnection",
       "dynamicId": null
-    },
-    "mssql2": {
-      "type": "mssql",
-      "connectionId": "ConnectionStrings:BadgeContext"
     }
   }
 }

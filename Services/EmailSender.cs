@@ -8,30 +8,29 @@ namespace Badge.Services;
 public class EmailSender : IEmailSender
 {
     private readonly ILogger _logger;
+    private readonly IConfiguration _configuration;
 
     public EmailSender(IOptions<AuthMessageSenderOptions> optionsAccessor,
-                       ILogger<EmailSender> logger)
+                       ILogger<EmailSender> logger, IConfiguration configuration)
     {
         Options = optionsAccessor.Value;
         _logger = logger;
+        _configuration = configuration;
     }
 
     public AuthMessageSenderOptions Options { get; } //Set with Secret Manager.
 
     public async Task SendEmailAsync(string toEmail, string subject, string message)
     {
-        //if (string.IsNullOrEmpty(Options.SendGridKey))
-        //{
-        //    throw new Exception("Null SendGridKey");
-        //}
-        await Execute(null, subject, message, toEmail);
+        await Execute(subject, message, toEmail);
     }
 
-    public async Task Execute(string apiKey, string subject, string message, string toEmail)
+    public async Task Execute(string subject, string message, string toEmail)
     {
         //var client = new SendGridClient(apiKey);
         SmtpClient smtpClient = new SmtpClient("websmtp.simply.com", 587);
-        smtpClient.Credentials = new System.Net.NetworkCredential("badge@civah.dk", "Password123.");
+        string email = _configuration["EmailSender:Email"];
+        smtpClient.Credentials = new System.Net.NetworkCredential(email, "Password123.");
         smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
         smtpClient.EnableSsl = true;
 
