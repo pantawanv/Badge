@@ -19,4 +19,12 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.11" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\Panta\Eksamensprojekt 2023\Badge\Pages\Administration\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\Panta\Eksamensprojekt 2023\Badge\Pages\Administration\.editorconfig" />
+  </ItemGroup>
+
 </Project>
