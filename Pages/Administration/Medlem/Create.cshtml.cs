@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Badge.Data;
 using Badge.Models;
+using System.Diagnostics;
 
 namespace Badge.Pages.Administration.Member
 {
@@ -32,9 +33,12 @@ namespace Badge.Pages.Administration.Member
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Members == null || Member == null)
+            Debug.WriteLine(Member.GroupId);
+            
+            var group = from g in _context.Groups where g.Id == Member.GroupId select g;
+            if (group!=null)
             {
-                return Page();
+                Member.Group = group as Group;
             }
 
             _context.Members.Add(Member);

@@ -25,9 +25,9 @@ namespace Badge.Pages.Administration.Gruppe
         {
             if (_context.Groups != null)
             {
-                //Group = await _context.Groups
-                //.Include(@ => @.GroupType)
-                //.Include(@ => @.Leader).ToListAsync();
+                Group = await _context.Groups
+                .Include(g => g.GroupType)
+                .Include(g => g.Leader).ToListAsync();
             }
         }
     }

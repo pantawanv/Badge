@@ -13,6 +13,6 @@ namespace Badge.Models
         public string LName { get; set; }
         public string UserId { get; set; }
         [ForeignKey(nameof(UserId))]
-        public IdentityUser identityUser { get; set; }
+        public IdentityUser IdentityUser { get; set; }
     }
 }

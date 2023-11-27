@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Badge.Migrations
 {
     [DbContext(typeof(BadgeContext))]
-    [Migration("20231124124156_Classes")]
-    partial class Classes
+    [Migration("20231127120936_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -320,13 +320,13 @@ namespace Badge.Migrations
 
             modelBuilder.Entity("Badge.Models.Leader", b =>
                 {
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "identityUser")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("identityUser");
+                    b.Navigation("IdentityUser");
                 });
 
             modelBuilder.Entity("Badge.Models.Manager", b =>
