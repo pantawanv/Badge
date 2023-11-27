@@ -34,11 +34,6 @@ namespace Badge.Pages.Administration.Salg
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Sales == null || Sale == null)
-            {
-                return Page();
-            }
-
             _context.Sales.Add(Sale);
             await _context.SaveChangesAsync();
 

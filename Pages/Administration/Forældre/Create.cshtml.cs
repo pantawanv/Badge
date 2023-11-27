@@ -32,10 +32,6 @@ namespace Badge.Pages.Administration.Forældre
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Parents == null || Parent == null)
-            {
-                return Page();
-            }
 
             _context.Parents.Add(Parent);
             await _context.SaveChangesAsync();
