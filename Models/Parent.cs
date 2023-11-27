@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Badge.Models
@@ -8,12 +9,18 @@ namespace Badge.Models
     {
         [Key]
         public int Id { get; set; }
+        [DisplayName("Medlems Id")]
         public int MemberId { get; set; }
         [ForeignKey(nameof(MemberId))]
+        [DisplayName("Medlem")]
         public Member Member { get; set; }
+        [DisplayName("Fornavn")]
         public string FName { get; set; }
+        [DisplayName("Efternavn")]
         public string LName { get; set; }
+        [DisplayName("Tlf.")]
         public string Phone { get; set; }
+        [DisplayName("E-mail")]
         public string Email { get; set; }
     }
 }
