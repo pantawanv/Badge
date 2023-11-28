@@ -33,10 +33,10 @@ namespace Badge.Pages.Administration.Gruppe
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-          if (!ModelState.IsValid || _context.Groups == null || Group == null)
-            {
-                return Page();
-            }
+          //if (!ModelState.IsValid || _context.Groups == null || Group == null)
+          //  {
+          //      return Page();
+          //  }
 
             _context.Groups.Add(Group);
             await _context.SaveChangesAsync();
