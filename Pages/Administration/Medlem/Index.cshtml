@@ -24,7 +24,9 @@
     <thead>
         <tr>
             <th>
+               
                 @Html.DisplayNameFor(model => model.Members[0].FName)
+                
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Members[0].LName)
@@ -33,7 +35,9 @@
                 @Html.DisplayNameFor(model => model.Members[0].Group)
             </th>
             <th>
-                Count 
+                 <a asp-page="./Index" asp-route-sortOrder="@Model.SaleSort">
+                Lodsedler solgt 
+                </a>
             </th>
             <th>
 

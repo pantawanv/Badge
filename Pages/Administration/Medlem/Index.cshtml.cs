@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Badge.Data;
 using Badge.Models;
+using Microsoft.CodeAnalysis.Operations;
 
 namespace Badge.Pages.Administration.Medlem
 {
@@ -19,12 +20,21 @@ namespace Badge.Pages.Administration.Medlem
             _context = context;
         }
 
+        public string SaleSort { get; set; }
+        public string FNameSort { get; set; }
         public string CurrentFilter { get; set; }
+
+      
 
         public IList<Models.Member> Members { get;set; } 
 
-        public async Task OnGetAsync(string searchString)
+
+        public async Task OnGetAsync(string sortOrder, string searchString)
         {
+
+
+            SaleSort = String.IsNullOrEmpty(sortOrder) ? "sale_desc" : "";
+            FNameSort = String.IsNullOrEmpty(sortOrder) ? "FName_desc" : "";
 
             CurrentFilter = searchString;
 
@@ -37,6 +47,19 @@ namespace Badge.Pages.Administration.Medlem
             }
             
 
+            switch (sortOrder)
+            {
+                case "sale_desc":
+                    memberIQ = memberIQ.OrderByDescending(m => CountSales(m));
+                    break;
+
+                default:
+                    memberIQ = memberIQ.OrderBy(m => CountSales(m));
+                    break;
+            }
+
+
+
             if (_context.Members != null)
             {
                 Members = await memberIQ.AsNoTracking()
@@ -44,10 +67,11 @@ namespace Badge.Pages.Administration.Medlem
             }
         }
 
-        public int CountSales (Models.Member member)
+        public int CountSales(Models.Member member)
         {
             var count = from s in _context.Sales where s.SellerId == member.Id select s;
             return count.Count();
         }
+      
     }
 }
