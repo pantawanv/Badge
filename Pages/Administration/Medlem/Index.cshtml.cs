@@ -47,16 +47,16 @@ namespace Badge.Pages.Administration.Medlem
             }
             
 
-            switch (sortOrder)
-            {
-                case "sale_desc":
-                    memberIQ = memberIQ.OrderByDescending(m => CountSales(m));
-                    break;
+            //switch (sortOrder)
+            //{
+            //    case "sale_desc":
+            //        memberIQ = memberIQ.OrderByDescending(m => CountSales(m).ToList());
+            //        break;
 
-                default:
-                    memberIQ = memberIQ.OrderBy(m => CountSales(m));
-                    break;
-            }
+            //    default:
+            //        memberIQ = memberIQ.OrderBy(m => CountSales(m));
+            //        break;
+            //}
 
 
 

@@ -14,23 +14,36 @@ namespace Badge.Pages.Administration.Forældre
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly IConfiguration Configuration;
 
-        public IndexModel(ApplicationDbContext context)
+        public IndexModel(ApplicationDbContext context, IConfiguration configuration)
         {
             _context = context;
+            Configuration = configuration;  
         }
 
         public string MemberSort { get; set; }
         public string FNameSort { get; set; }
         public string CurrentFilter { get; set; }
+        public string CurrentSort { get; set; }
        
 
-        public IList<Parent> Parents { get; set; }
+        public PaginatedList<Parent> Parents { get; set; }
 
-        public async Task OnGetAsync(string sortOrder, string searchString)
+        public async Task OnGetAsync(string sortOrder, string currentFilter, string searchString, int? pageIndex)
         {
+            CurrentSort = sortOrder;
             MemberSort = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
             FNameSort = String.IsNullOrEmpty(sortOrder) ? "FName_desc" : "";
+
+            if (searchString != null)
+            {
+                pageIndex = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
 
             CurrentFilter = searchString;
         
@@ -61,15 +74,20 @@ namespace Badge.Pages.Administration.Forældre
 
             }
 
-            if (_context.Parents != null)
-            {
-                Parents = await parentsIQ.AsNoTracking()
-                .Include(p => p.Member).ToListAsync();
-            
-            }
 
-          
-          
+
+            var pageSize = Configuration.GetValue("PageSize", 4);
+            Parents = await PaginatedList<Parent>.CreateAsync(parentsIQ.AsNoTracking(), pageIndex ?? 1, pageSize);
+
+            //if (_context.Parents != null)
+            //{
+            //    Parents = await parentsIQ.AsNoTracking()
+            //    .Include(p => p.Member).ToListAsync();
+
+            //}
+
+
+
         }
     }
 }
