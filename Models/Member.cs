@@ -13,7 +13,7 @@ namespace Badge.Models
 
         public Member()
         {
-            //Sales = new HashSet<Sale>();
+            Sales = new HashSet<Sale>();
         }
 
         [Key]
@@ -30,7 +30,7 @@ namespace Badge.Models
 
 
 
-        //[InverseProperty(nameof(Sale.Seller))]
-        //public virtual ICollection<Sale> Sales { get; set; }
+        [InverseProperty(nameof(Sale.Seller))]
+        public virtual ICollection<Sale> Sales { get; set; }
     }
 }

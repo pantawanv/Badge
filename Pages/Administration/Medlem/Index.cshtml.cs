@@ -49,12 +49,12 @@ namespace Badge.Pages.Administration.MemberAdmin
             switch (sortOrder)
             {
                 case "sale_desc":
-                    memberIQ = memberIQ.OrderBy(m => SalesCount(m));
+                    memberIQ = memberIQ.OrderByDescending(m => m.Sales.Count);
                     
                     break;
 
                 default:
-                    memberIQ = memberIQ.OrderBy(m => SalesCount(m));
+                    memberIQ = memberIQ.OrderBy(m => m.Sales.Count);
                     break;
             }
             
@@ -63,14 +63,8 @@ namespace Badge.Pages.Administration.MemberAdmin
 
             if (_context.Members != null)
             {
-                Members = await memberIQ.AsNoTracking().Include(m => m.Group).ToListAsync();
+                Members = await memberIQ.AsNoTracking().Include(m => m.Group).Include(m => m.Sales).ToListAsync();
             }
-        }
-
-        public int SalesCount (Member member)
-        {
-            var count = from s in _context.Sales where s.SellerId == member.Id select s;
-            return count.Count();
         }
       
     }
