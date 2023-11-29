@@ -13,13 +13,19 @@ namespace Badge.Pages.Administration.GroupAdmin
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly IConfiguration Configuration;
 
-        public IndexModel(ApplicationDbContext context)
+        public IndexModel(ApplicationDbContext context, IConfiguration configuration)
         {
             _context = context;
+            Configuration = configuration;
         }
 
+       
+
+      
         public string CurrentFilter { get; set; }   
+     
 
         public IList<Group> Groups { get;set; } 
 
