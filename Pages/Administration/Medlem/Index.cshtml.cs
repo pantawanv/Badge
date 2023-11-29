@@ -45,6 +45,7 @@ namespace Badge.Pages.Administration.MemberAdmin
             }
             
 
+
             switch (sortOrder)
             {
                 case "sale_desc":
@@ -57,6 +58,7 @@ namespace Badge.Pages.Administration.MemberAdmin
                     break;
             }
             
+
 
 
             if (_context.Members != null)

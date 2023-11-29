@@ -25,12 +25,15 @@
     <thead>
         <tr>
             <th>
-                <a asp-page="./Index" asp-route-sortOrder="@Model.MemberSort">
+                <a asp-page="./Index" asp-route-sortOrder="@Model.MemberSort"
+                    asp-route-currentFilter="@Model.CurrentFilter">
                 Barn 
                 </a>
             </th>
             <th>
-                <a asp-page="./Index" asp-route-sortOrder="@Model.FNameSort">
+                <a asp-page="./Index" asp-route-sortOrder="@Model.FNameSort"
+                asp-route-currrentFilter="@Model.CurrentFilter">
+
                 @Html.DisplayNameFor(model => model.Parents[0].FName)
                 </a>
             </th>
@@ -73,3 +76,25 @@
 }
     </tbody>
 </table>
+
+@{
+    var prevDisabled = !Model.Parents.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Parents.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./Index"
+asp-route-sortOrder="@Model.CurrentSort"
+asp-route-pageIndex="@(Model.Parents.PageIndex - 1)"
+asp-route-currentFilter="@Model.CurrentFilter"
+class="btn btn-primary @prevDisabled">
+Previous
+</a>
+
+<a asp-page="./Index"
+    asp-route-sortOrder="@Model.CurrentSort"
+    asp-route-pageIndex="@(Model.Parents.PageIndex + 1)"
+    asp-route-currentFilter="@Model.CurrentFilter"
+    class="btn btn-primary @nextDisabled">
+    Next
+
+</a>
