@@ -19,16 +19,34 @@ namespace Badge.Pages.Administration.Gruppe
             _context = context;
         }
 
-        public IList<Group> Group { get;set; } = default!;
+        public string CurrentFilter { get; set; }   
 
-        public async Task OnGetAsync()
+        public IList<Group> Groups { get;set; } 
+
+        public async Task OnGetAsync(string searchString)
         {
+            CurrentFilter = searchString;
+
+
+            IQueryable<Group> groupsIQ = from g in _context.Groups
+                                         select g;
+
+            if(!String.IsNullOrEmpty(searchString))
+            {
+                groupsIQ = groupsIQ.Where(g => g.Name.Contains(searchString));
+                
+            }
+
+
             if (_context.Groups != null)
             {
-                Group = await _context.Groups
+                Groups = await groupsIQ.AsNoTracking()
                 .Include(g => g.GroupType)
                 .Include(g => g.Leader).ToListAsync();
             }
+
+
+          
         }
     }
 }

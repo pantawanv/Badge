@@ -10,32 +10,47 @@
 <p>
     <a asp-page="Create">Opret ny</a>
 </p>
+
+<form asp-page="./Index" method="get">
+    <div class="form-actions no color">
+    <p>
+        Søg på fornavn:
+        <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+        <input type="submit" value="Search" class="btn btn-primary" />
+        <a asp-page="./Index">Tilbage til liste</a>
+    </p>
+    </div>
+    </form>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Parent[0].Member)
+                <a asp-page="./Index" asp-route-sortOrder="@Model.MemberSort">
+                Barn 
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Parent[0].FName)
+                <a asp-page="./Index" asp-route-sortOrder="@Model.FNameSort">
+                @Html.DisplayNameFor(model => model.Parents[0].FName)
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Parent[0].LName)
+                @Html.DisplayNameFor(model => model.Parents[0].LName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Parent[0].Phone)
+                @Html.DisplayNameFor(model => model.Parents[0].Phone)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Parent[0].Email)
+                @Html.DisplayNameFor(model => model.Parents[0].Email)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Parent) {
+@foreach (var item in Model.Parents) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Member.Id)
+                @Html.DisplayFor(modelItem => item.Member.FName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FName)

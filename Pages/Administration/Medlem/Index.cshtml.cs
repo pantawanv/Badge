@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Badge.Data;
 using Badge.Models;
 
-namespace Badge.Pages.Administration.Member
+namespace Badge.Pages.Administration.Medlem
 {
     public class IndexModel : PageModel
     {
@@ -19,15 +19,35 @@ namespace Badge.Pages.Administration.Member
             _context = context;
         }
 
-        public IList<Models.Member> Member { get;set; } = default!;
+        public string CurrentFilter { get; set; }
 
-        public async Task OnGetAsync()
+        public IList<Models.Member> Members { get;set; } 
+
+        public async Task OnGetAsync(string searchString)
         {
+
+            CurrentFilter = searchString;
+
+            IQueryable<Models.Member> memberIQ = from m in _context.Members
+                                          select m;
+
+            if(!String.IsNullOrEmpty(searchString))
+            {
+                memberIQ = memberIQ.Where(m => m.FName.Contains(searchString));
+            }
+            
+
             if (_context.Members != null)
             {
-                Member = await _context.Members
+                Members = await memberIQ.AsNoTracking()
                 .Include(m => m.Group).ToListAsync();
             }
+        }
+
+        public int CountSales (Models.Member member)
+        {
+            var count = from s in _context.Sales where s.SellerId == member.Id select s;
+            return count.Count();
         }
     }
 }

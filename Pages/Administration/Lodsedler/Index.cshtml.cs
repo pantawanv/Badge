@@ -19,14 +19,40 @@ namespace Badge.Pages.Administration.Lodsedler
             _context = context;
         }
 
-        public IList<Ticket> Ticket { get;set; } = default!;
+        public string CurrentFilter { get; set; }
 
-        public async Task OnGetAsync()
+        public IList<Ticket> Tickets { get;set; } 
+
+        public async Task OnGetAsync(string searchString)
         {
+
+            CurrentFilter = searchString;
+
+            IQueryable<Ticket> ticketsIQ = from t in _context.Tickets
+                                           select t;
+
+            if(!String.IsNullOrEmpty(searchString)) 
+            { 
+                ticketsIQ = ticketsIQ.Where(t => t.Id.Contains(searchString));
+            }
+
+
             if (_context.Tickets != null)
             {
-                Ticket = await _context.Tickets.ToListAsync();
+               Tickets = await ticketsIQ.AsNoTracking().ToListAsync();
+                    
             }
         }
+
+
+    
+        
+
+
+
+
+
     }
 }
+
+

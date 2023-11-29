@@ -19,13 +19,27 @@ namespace Badge.Pages.Administration.Salg
             _context = context;
         }
 
-        public IList<Sale> Sale { get;set; } = default!;
+        public string CurrentFilter { get; set; }
+        public IList<Sale> Sales{ get;set; } 
 
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(string searchString)
         {
+            CurrentFilter = searchString;
+
+            IQueryable<Sale> salesIQ = from s in _context.Sales
+                                        select s;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                salesIQ = salesIQ.Where(s => s.TicketId.ToString().Contains(searchString));
+
+            }
+
+
             if (_context.Sales != null)
             {
-                Sale = await _context.Sales
+
+                Sales = await salesIQ.AsNoTracking()
                 .Include(s => s.Channel)
                 .Include(s => s.Seller)
                 .Include(s => s.Ticket).ToListAsync();

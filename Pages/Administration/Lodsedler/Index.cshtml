@@ -10,15 +10,32 @@
 <p>
     <a asp-page="Create">Opret ny</a>
 </p>
+<form asp-page="./Index" method="get">
+    <div class="form-actions no color">
+        <p>
+            Søg på id:
+            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+            <input type="submit" value="Search" class="btn btn-primary" />
+            <a asp-page="./Index">Tilbage til liste</a>
+        </p>
+    </div>
+</form>
+
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Tickets[0].Id)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Ticket) {
+@foreach (var item in Model.Tickets) {
         <tr>
+            <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+            </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Rediger</a> |
                 <a asp-page="./Details" asp-route-id="@item.Id">Detaljer</a> |

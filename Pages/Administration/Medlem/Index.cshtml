@@ -1,5 +1,5 @@
 ﻿@page
-@model Badge.Pages.Administration.Member.IndexModel
+@model Badge.Pages.Administration.Medlem.IndexModel
 
 @{
     ViewData["Title"] = "Medlem";
@@ -10,23 +10,38 @@
 <p>
     <a asp-page="Create">Opret ny</a>
 </p>
+<form asp-page="./Index" method="get">
+    <div class="form-actions no color">
+        <p>
+            Søg på medlem:
+            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+            <input type="submit" value="Search" class="btn btn-primary" />
+            <a asp-page="./Index">Tilbage til liste</a>
+        </p>
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Member[0].FName)
+                @Html.DisplayNameFor(model => model.Members[0].FName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Member[0].LName)
+                @Html.DisplayNameFor(model => model.Members[0].LName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Member[0].Group)
+                @Html.DisplayNameFor(model => model.Members[0].Group)
             </th>
-            <th></th>
+            <th>
+                Count 
+            </th>
+            <th>
+
+            </th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Member) {
+@foreach (var item in Model.Members) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.FName)
@@ -36,6 +51,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Group.Name)
+            </td>
+            <td>
+                @Model.CountSales(item) 
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Rediger</a> |
