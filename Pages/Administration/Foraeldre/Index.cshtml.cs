@@ -77,7 +77,7 @@ namespace Badge.Pages.Administration.ParentAdmin
 
 
             var pageSize = Configuration.GetValue("PageSize", 4);
-            Parents = await PaginatedList<Parent>.CreateAsync(parentsIQ.AsNoTracking(), pageIndex ?? 1, pageSize);
+            Parents = await PaginatedList<Parent>.CreateAsync(parentsIQ.AsNoTracking().Include(p => p.Member), pageIndex ?? 1, pageSize);
 
             //if (_context.Parents != null)
             //{

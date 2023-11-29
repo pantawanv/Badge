@@ -57,7 +57,7 @@
                 @Html.DisplayFor(modelItem => item.Group.Name)
             </td>
             <td>
-                @Model.CountSales(item) 
+                @Model.SalesCount(item) 
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Rediger</a> |
