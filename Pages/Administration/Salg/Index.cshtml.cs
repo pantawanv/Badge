@@ -20,6 +20,7 @@ namespace Badge.Pages.Administration.Salg
         }
 
         public string CurrentFilter { get; set; }
+
         public IList<Sale> Sales{ get;set; } 
 
         public async Task OnGetAsync(string searchString)
@@ -31,8 +32,7 @@ namespace Badge.Pages.Administration.Salg
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                salesIQ = salesIQ.Where(s => s.TicketId.ToString().Contains(searchString));
-
+                salesIQ = salesIQ.Where(s => s.TicketId.Contains(searchString));
             }
 
 
