@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Badge.Data;
 using Badge.Models;
 
-namespace Badge.Pages.Administration.Forældre
+namespace Badge.Pages.Administration.ParentAdmin
 {
     public class CreateModel : PageModel
     {

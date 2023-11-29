@@ -9,7 +9,7 @@ using Badge.Data;
 using Badge.Models;
 using System.Text.RegularExpressions;
 
-namespace Badge.Pages.Administration.Forældre
+namespace Badge.Pages.Administration.ParentAdmin
 {
     public class IndexModel : PageModel
     {

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Badge.Data;
 using Badge.Models;
 
-namespace Badge.Pages.Administration.Forældre
+namespace Badge.Pages.Administration.ParentAdmin
 {
     public class DetailsModel : PageModel
     {

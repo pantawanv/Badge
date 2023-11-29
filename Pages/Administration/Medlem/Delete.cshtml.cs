@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Badge.Data;
 using Badge.Models;
 
-namespace Badge.Pages.Administration.Member
+namespace Badge.Pages.Administration.MemberAdmin
 {
     public class DeleteModel : PageModel
     {

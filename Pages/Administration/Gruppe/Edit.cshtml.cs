@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Badge.Data;
 using Badge.Models;
 
-namespace Badge.Pages.Administration.Gruppe
+namespace Badge.Pages.Administration.GroupAdmin
 {
     public class EditModel : PageModel
     {

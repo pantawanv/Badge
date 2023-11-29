@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Badge.Data;
 using Badge.Models;
 
-namespace Badge.Pages.Administration.Lodsedler
+namespace Badge.Pages.Administration.TicketAdmin
 {
     public class CreateModel : PageModel
     {

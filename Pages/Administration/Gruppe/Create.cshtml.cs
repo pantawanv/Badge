@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Badge.Data;
 using Badge.Models;
 
-namespace Badge.Pages.Administration.Gruppe
+namespace Badge.Pages.Administration.GroupAdmin
 {
     public class CreateModel : PageModel
     {

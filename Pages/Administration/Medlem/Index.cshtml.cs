@@ -9,7 +9,7 @@ using Badge.Data;
 using Badge.Models;
 using Microsoft.CodeAnalysis.Operations;
 
-namespace Badge.Pages.Administration.Medlem
+namespace Badge.Pages.Administration.MemberAdmin
 {
     public class IndexModel : PageModel
     {
@@ -24,9 +24,7 @@ namespace Badge.Pages.Administration.Medlem
         public string FNameSort { get; set; }
         public string CurrentFilter { get; set; }
 
-      
-
-        public IList<Models.Member> Members { get;set; } 
+        public IList<Member> Members { get;set; } 
 
 
         public async Task OnGetAsync(string sortOrder, string searchString)
@@ -38,7 +36,7 @@ namespace Badge.Pages.Administration.Medlem
 
             CurrentFilter = searchString;
 
-            IQueryable<Models.Member> memberIQ = from m in _context.Members
+            IQueryable<Member> memberIQ = from m in _context.Members
                                           select m;
 
             if(!String.IsNullOrEmpty(searchString))
@@ -50,24 +48,24 @@ namespace Badge.Pages.Administration.Medlem
             switch (sortOrder)
             {
                 case "sale_desc":
-                    memberIQ = memberIQ.OrderByDescending(m => CountSales(m));
+                    memberIQ = memberIQ.OrderBy(m => SalesCount(m));
+                    
                     break;
 
                 default:
-                    memberIQ = memberIQ.OrderBy(m => CountSales(m));
+                    memberIQ = memberIQ.OrderBy(m => SalesCount(m));
                     break;
             }
-
+            
 
 
             if (_context.Members != null)
             {
-                Members = await memberIQ.AsNoTracking()
-                .Include(m => m.Group).ToListAsync();
+                Members = await memberIQ.AsNoTracking().Include(m => m.Group).ToListAsync();
             }
         }
 
-        public int CountSales(Models.Member member)
+        public int SalesCount (Member member)
         {
             var count = from s in _context.Sales where s.SellerId == member.Id select s;
             return count.Count();

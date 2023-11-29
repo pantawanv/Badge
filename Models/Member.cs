@@ -1,13 +1,21 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
+#nullable disable
 namespace Badge.Models
 {
     [Table("Member")]
-    public class Member
+    public partial class Member
     {
+
+        public Member()
+        {
+            //Sales = new HashSet<Sale>();
+        }
+
         [Key]
         public int Id { get; set; }
         [DisplayName("Fornavn")]
@@ -19,5 +27,10 @@ namespace Badge.Models
         [ForeignKey(nameof(GroupId))]
         [DisplayName("Gruppe")]
         public Group Group { get; set; }
+
+
+
+        //[InverseProperty(nameof(Sale.Seller))]
+        //public virtual ICollection<Sale> Sales { get; set; }
     }
 }

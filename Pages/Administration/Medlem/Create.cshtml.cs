@@ -9,7 +9,7 @@ using Badge.Data;
 using Badge.Models;
 using System.Diagnostics;
 
-namespace Badge.Pages.Administration.Member
+namespace Badge.Pages.Administration.MemberAdmin
 {
     public class CreateModel : PageModel
     {
@@ -33,8 +33,7 @@ namespace Badge.Pages.Administration.Member
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            Debug.WriteLine(Member.GroupId);
-            
+                        
             var group = from g in _context.Groups where g.Id == Member.GroupId select g;
             if (group!=null)
             {

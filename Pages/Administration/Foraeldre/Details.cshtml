@@ -1,13 +1,12 @@
 ﻿@page
-@model Badge.Pages.Administration.Forældre.DeleteModel
+@model Badge.Pages.Administration.ParentAdmin.DetailsModel
 
 @{
-    ViewData["Title"] = "Slet";
+    ViewData["Title"] = "Detajler";
 }
 
-<h1>Slet</h1>
+<h1>Detajler</h1>
 
-<h3>Er du sikker på, at du vil slette denne forældre?</h3>
 <div>
     <h4>Forældre</h4>
     <hr />
@@ -43,10 +42,8 @@
             @Html.DisplayFor(model => model.Parent.Email)
         </dd>
     </dl>
-    
-    <form method="post">
-        <input type="hidden" asp-for="Parent.Id" />
-        <input type="submit" value="Slet" class="btn btn-danger" /> |
-        <a asp-page="./Index">Tilbage til liste</a>
-    </form>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Parent?.Id">Edit</a> |
+    <a asp-page="./Index">Tilbage til liste</a>
 </div>

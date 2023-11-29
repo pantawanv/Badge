@@ -1,5 +1,5 @@
 ﻿@page
-@model Badge.Pages.Administration.User.CreateModel
+@model Badge.Pages.Administration.UserAdmin.CreateModel
 @{
     ViewData["Title"] = "Opret Bruger";
 }
@@ -10,7 +10,28 @@
 <div class="row">
     <div class="col-md-4">
         <form method="post">
-
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="User.FName" class="control-label"></label>
+                <input asp-for="User.FName" class="form-control" />
+                <span asp-validation-for="User.FName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="User.LName" class="control-label"></label>
+                <input asp-for="User.LName" class="form-control" />
+                <span asp-validation-for="User.LName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="User.Email" class="control-label"></label>
+                <input asp-for="User.Email" class="form-control" />
+                <span asp-validation-for="User.Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RoleId" class="control-label"></label>
+                <select asp-for="RoleId" class="form-control" asp-items="ViewBag.RoleId"></select>
+                <span asp-validation-for="RoleId" class="text-danger"></span>
+            </div>
+            <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </form>
     </div>
 </div>

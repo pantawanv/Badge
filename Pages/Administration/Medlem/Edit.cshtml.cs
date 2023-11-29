@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Badge.Data;
 using Badge.Models;
 
-namespace Badge.Pages.Administration.Member
+namespace Badge.Pages.Administration.MemberAdmin
 {
     public class EditModel : PageModel
     {
@@ -21,7 +21,7 @@ namespace Badge.Pages.Administration.Member
         }
 
         [BindProperty]
-        public Models.Member Member { get; set; } = default!;
+        public Member Member { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
