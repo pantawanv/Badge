@@ -7,13 +7,12 @@
 }
 
 <div style="width: 150px;margin:auto; margin-top: 20%;"><img src="/images/logo.png" style="width:150px;" /></div>
-<h1 style="text-align:center;">@ViewData["Title"]</h1>
 <div class="row">
     <div>
         <section style="text-align:center;">
             
             <form id="account" method="post">
-                <h2 >Use a local account to log in.</h2>
+                <h2 >Log ind</h2>
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                 <div class="form-floating mb-3">
@@ -33,17 +32,14 @@
                     </label>
                 </div>
                 <div>
-                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Log in</button>
+                    <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary" style="background-color:#5F8CB4; font-family: Signika; font-weight: bold; border-width:0;">Log in</button>
                 </div>
                 <div>
                     <p>
-                        <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
+                        <a style="color: #5F8CB4;" id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
                     </p>
                     <p>
-                        <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
-                    </p>
-                    <p>
-                        <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
+                        <a style="color: #5F8CB4;id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
                     </p>
                 </div>
             </form>

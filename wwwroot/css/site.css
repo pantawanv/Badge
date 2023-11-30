@@ -1,5 +1,6 @@
 html {
   font-size: 14px;
+  
 }
 
 @media (min-width: 768px) {
@@ -18,5 +19,19 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    background-color: #E6E5E5;
+}
+
+h1, h2, h3 {
+    font-family: 'Signika', sans-serif;
+}
+
+.rounded-container {
+    background-color: white;
+    border-radius: 15px;
+}
+
+body .button {
+    background-color: #5F8CB4;
 }
