@@ -13,37 +13,89 @@ namespace Badge.Pages.Administration.SalesAdmin
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly IConfiguration Configuration;
 
-        public IndexModel(ApplicationDbContext context)
+        public IndexModel(ApplicationDbContext context, IConfiguration configuration)
         {
             _context = context;
+            Configuration = configuration;
         }
 
+        public string TicketSort { get; set; }
+        public string SellerSort { get; set; }
+        public string ChannelSort { get; set; }
+        public string PaymentCollectedSort { get; set; }
+        public string SalesDateSort { get; set; }
         public string CurrentFilter { get; set; }
+        public string CurrentSort { get; set; }
 
-        public IList<Sale> Sales{ get;set; } 
+        public PaginatedList<Sale> Sales{ get;set; } 
 
-        public async Task OnGetAsync(string searchString)
+        public async Task OnGetAsync(string  sortOrder, string currentFilter, string searchString, int? pageIndex)
         {
+           CurrentSort = sortOrder;
+
+            TicketSort = String.IsNullOrEmpty(sortOrder) ? "ticket_desc" : "";
+            SellerSort = String.IsNullOrEmpty(sortOrder) ? "seller_desc" : "";
+            ChannelSort = String.IsNullOrEmpty(sortOrder) ? "channel_desc" : "";
+            PaymentCollectedSort = String.IsNullOrEmpty(sortOrder) ? "paymentCollected_desc" : "";
+            SalesDateSort = String.IsNullOrEmpty(sortOrder) ? "salesDate_desc" : "";
+
+            if(searchString != null)
+            {
+                pageIndex = 1; 
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
             CurrentFilter = searchString;
+
 
             IQueryable<Sale> salesIQ = from s in _context.Sales
                                         select s;
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                salesIQ = salesIQ.Where(s => s.TicketId.Contains(searchString));
+                salesIQ = salesIQ.Where(s => s.TicketId.Contains(searchString)
+                //|| s.SellerId.Contains(searchString) || s.Channel.Contains(searchString) 
+                //|| s.SalesDate.Contains(searchString)
+                );
             }
 
-
-            if (_context.Sales != null)
+            switch (sortOrder)
             {
+                case "ticket_desc":
+                    salesIQ = salesIQ.OrderByDescending(s => s.TicketId);
+                    break;
+                case "seller_desc":
+                    salesIQ = salesIQ.OrderByDescending(s => s.Seller);
+                    break;
+                case "channel_desc":
+                    salesIQ = salesIQ.OrderByDescending(s => s.Channel);
+                    break;
+                case "paymentCollected_desc":
+                    salesIQ = salesIQ.OrderByDescending(s => s.PaymentCollected);
+                    break;
+                case "salesDate_desc":
+                    salesIQ = salesIQ.OrderByDescending(s => s.SalesDate);
+                    break;
+                default: 
+                    salesIQ = salesIQ.OrderBy(s => s.Ticket);
+                    break;
+            }
 
-                Sales = await salesIQ.AsNoTracking()
+            var pageSize = Configuration.GetValue("PageSize", 4);
+            Sales = await PaginatedList<Sale>.CreateAsync(salesIQ.AsNoTracking()
                 .Include(s => s.Channel)
                 .Include(s => s.Seller)
-                .Include(s => s.Ticket).ToListAsync();
-            }
+                .Include(s => s.Ticket), pageIndex ?? 1, pageSize);
+
+
+
+
+         
         }
     }
 }

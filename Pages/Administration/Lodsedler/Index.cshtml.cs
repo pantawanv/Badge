@@ -13,18 +13,35 @@ namespace Badge.Pages.Administration.TicketAdmin
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly IConfiguration Configuration;
 
-        public IndexModel(ApplicationDbContext context)
+
+        public IndexModel(ApplicationDbContext context, IConfiguration configuration)
         {
             _context = context;
+            Configuration = configuration;
         }
 
+        public string TicketSort { get; set; }
         public string CurrentFilter { get; set; }
+        public string CurrentSort { get; set; }
 
-        public IList<Ticket> Tickets { get;set; } 
+        public PaginatedList<Ticket> Tickets { get;set; } 
 
-        public async Task OnGetAsync(string searchString)
+        public async Task OnGetAsync(string sortOrder,string searchString, int? pageIndex)
         {
+            CurrentSort = sortOrder;
+
+            TicketSort = String.IsNullOrEmpty(sortOrder) ? "ticket_desc" : "";
+
+            if (searchString != null)
+            {
+                pageIndex = 1; 
+            }
+            else
+            {
+                searchString = CurrentFilter;
+            }
 
             CurrentFilter = searchString;
 
@@ -36,12 +53,17 @@ namespace Badge.Pages.Administration.TicketAdmin
                 ticketsIQ = ticketsIQ.Where(t => t.Id.Contains(searchString));
             }
 
-
-            if (_context.Tickets != null)
+            switch (sortOrder)
             {
-               Tickets = await ticketsIQ.AsNoTracking().ToListAsync();
-                    
+                case "ticket_desc":
+                    ticketsIQ = ticketsIQ.OrderByDescending(t => t.Id);
+                    break;
+             
             }
+
+            var pageSize = Configuration.GetValue("PageSize", 4);
+            Tickets = await PaginatedList<Ticket>.CreateAsync(ticketsIQ.AsNoTracking(), pageIndex ?? 1, pageSize);
+          
         }
 
 

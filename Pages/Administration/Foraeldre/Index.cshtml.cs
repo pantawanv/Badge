@@ -24,6 +24,9 @@ namespace Badge.Pages.Administration.ParentAdmin
 
         public string MemberSort { get; set; }
         public string FNameSort { get; set; }
+        public string LNameSort { get; set; }
+        public string PhoneSort { get; set; }
+        public string EMailSort { get; set; }
         public string CurrentFilter { get; set; }
         public string CurrentSort { get; set; }
        
@@ -35,6 +38,9 @@ namespace Badge.Pages.Administration.ParentAdmin
             CurrentSort = sortOrder;
             MemberSort = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
             FNameSort = String.IsNullOrEmpty(sortOrder) ? "FName_desc" : "";
+            LNameSort = String.IsNullOrEmpty(sortOrder) ? "LName_desc" : "";
+            PhoneSort = String.IsNullOrEmpty(sortOrder) ? "Phone_desc" : "";
+            EMailSort = String.IsNullOrEmpty(sortOrder) ? "Email_desc" : "";
 
             if (searchString != null)
             {
@@ -54,7 +60,9 @@ namespace Badge.Pages.Administration.ParentAdmin
             if (!String.IsNullOrEmpty(searchString) )
             {
                 parentsIQ = parentsIQ.Where(p => p.LName.Contains(searchString)
-                || p.FName.Contains(searchString) || p.Member.FName.Contains(searchString));
+                || p.FName.Contains(searchString) || p.Member.FName.Contains(searchString)|| p.LName.Contains(searchString)
+                || p.Phone.Contains(searchString) || p.Email.Contains(searchString)
+                );
 
             }
 
@@ -67,6 +75,15 @@ namespace Badge.Pages.Administration.ParentAdmin
                 case "FName_desc":
                     parentsIQ = parentsIQ.OrderByDescending(p => p.FName);
                     break;
+                case "LName_desc":
+                    parentsIQ = parentsIQ.OrderByDescending(p => p.LName);
+                    break;
+                case "Phone_desc":
+                    parentsIQ = parentsIQ.OrderByDescending(p => p.Phone);
+                    break;
+                case "Email_desc":
+                    parentsIQ = parentsIQ.OrderByDescending(p => p.Email);
+                    break;
                 default:
                     parentsIQ = parentsIQ.OrderBy(p => p.FName);
                     break;
@@ -77,7 +94,8 @@ namespace Badge.Pages.Administration.ParentAdmin
 
 
             var pageSize = Configuration.GetValue("PageSize", 4);
-            Parents = await PaginatedList<Parent>.CreateAsync(parentsIQ.AsNoTracking().Include(p => p.Member), pageIndex ?? 1, pageSize);
+            Parents = await PaginatedList<Parent>.CreateAsync(parentsIQ.AsNoTracking()
+                .Include(p => p.Member), pageIndex ?? 1, pageSize);
 
            
 

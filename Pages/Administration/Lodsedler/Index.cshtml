@@ -25,7 +25,10 @@
     <thead>
         <tr>
             <th>
+                 <a asp-page="./Index" asp-route-sortOrder="@Model.TicketSort"
+                    asp-route-currentFilter="@Model.CurrentFilter">
                 @Html.DisplayNameFor(model => model.Tickets[0].Id)
+                </a>
             </th>
             <th></th>
         </tr>
@@ -45,3 +48,26 @@
 }
     </tbody>
 </table>
+
+@{
+    var prevDisabled = !Model.Tickets.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Tickets.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./Index"
+   asp-route-sortOrder="@Model.CurrentSort"
+   asp-route-pageIndex="@(Model.Tickets.PageIndex - 1)"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-primary @prevDisabled">
+    Previous
+</a>
+
+<a asp-page="./Index"
+   asp-route-sortOrder="@Model.CurrentSort"
+   asp-route-pageIndex="@(Model.Tickets.PageIndex + 1)"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-primary @nextDisabled">
+    Next
+
+</a>
+

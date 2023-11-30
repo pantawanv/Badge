@@ -14,57 +14,80 @@ namespace Badge.Pages.Administration.MemberAdmin
     public class IndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly IConfiguration Configuration;
 
-        public IndexModel(ApplicationDbContext context)
+        public IndexModel(ApplicationDbContext context, IConfiguration configuration)
         {
             _context = context;
+            Configuration = configuration;
         }
 
-        public string SaleSort { get; set; }
         public string FNameSort { get; set; }
+        public string LNameSort { get; set; }
+        public string GroupSort { get; set; }
+        public string SaleSort { get; set; }
         public string CurrentFilter { get; set; }
+        public string CurrentSort { get; set; }
 
-        public IList<Member> Members { get;set; } 
+        public PaginatedList<Member> Members { get;set; } 
 
 
-        public async Task OnGetAsync(string sortOrder, string searchString)
+        public async Task OnGetAsync(string sortOrder,string CurrenFilter, string searchString, int? pageIndex)
         {
-
-
-            SaleSort = String.IsNullOrEmpty(sortOrder) ? "sale_desc" : "";
             FNameSort = String.IsNullOrEmpty(sortOrder) ? "FName_desc" : "";
+            LNameSort = String.IsNullOrEmpty(sortOrder) ? "LName_desc" : "";
+            GroupSort = String.IsNullOrEmpty(sortOrder) ? "Group_desc" : "";
+            SaleSort = String.IsNullOrEmpty(sortOrder) ? "Sale_desc" : "";
+           
+            if (searchString != null)
+            {
+                pageIndex = 1; 
+            }
+            else
+            {
+                searchString = CurrenFilter;
+            }
 
-            CurrentFilter = searchString;
+            CurrenFilter = searchString;
 
             IQueryable<Member> memberIQ = from m in _context.Members
                                           select m;
 
+
             if(!String.IsNullOrEmpty(searchString))
             {
-                memberIQ = memberIQ.Where(m => m.FName.Contains(searchString));
+                memberIQ = memberIQ.Where(m => m.FName.Contains(searchString)
+                ||m.LName.Contains(searchString));
             }
             
 
 
             switch (sortOrder)
             {
-                case "sale_desc":
-                    memberIQ = memberIQ.OrderByDescending(m => m.Sales.Count);
-                    
+                case "FName_desc":
+                    memberIQ = memberIQ.OrderByDescending(m => m.FName);
                     break;
-
+                //case "LName_desc":
+                //    memberIQ = memberIQ.OrderByDescending(m => m.LName.Count);
+                //    break;
+                case "Group_desc":
+                    memberIQ = memberIQ.OrderByDescending(m => m.Group);
+                    break;
+                case "Sale_desc":
+                    memberIQ = memberIQ.OrderByDescending(m => m.Sales.Count);
+                    break;
                 default:
                     memberIQ = memberIQ.OrderBy(m => m.Sales.Count);
                     break;
             }
-            
 
 
 
-            if (_context.Members != null)
-            {
-                Members = await memberIQ.AsNoTracking().Include(m => m.Group).Include(m => m.Sales).ToListAsync();
-            }
+            var pageSize = Configuration.GetValue("PageSize", 4);
+            Members = await PaginatedList<Member>.CreateAsync(memberIQ.AsNoTracking().Include(m => m.Group).Include(m => m.Sales), pageIndex ?? 1, pageSize);
+
+
+           
         }
       
     }

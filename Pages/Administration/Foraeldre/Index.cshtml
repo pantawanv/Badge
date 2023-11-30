@@ -33,18 +33,26 @@
             <th>
                 <a asp-page="./Index" asp-route-sortOrder="@Model.FNameSort"
                 asp-route-currrentFilter="@Model.CurrentFilter">
-
                 @Html.DisplayNameFor(model => model.Parents[0].FName)
                 </a>
             </th>
             <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.LNameSort"
+                asp-route-currrentFilter="@Model.CurrentFilter">
                 @Html.DisplayNameFor(model => model.Parents[0].LName)
+                </a>
             </th>
             <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.PhoneSort"
+                asp-route-currrentFilter="@Model.CurrentFilter">
                 @Html.DisplayNameFor(model => model.Parents[0].Phone)
+                </a>
             </th>
             <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.EMailSort"
+                asp-route-currrentFilter="@Model.CurrentFilter">
                 @Html.DisplayNameFor(model => model.Parents[0].Email)
+                </a>
             </th>
             <th></th>
         </tr>
