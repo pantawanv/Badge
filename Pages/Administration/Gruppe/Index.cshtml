@@ -56,7 +56,7 @@
                 @Html.DisplayFor(modelItem => item.GroupType.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Leader.FName)
+                <a asp-page="/Administration/User/LeaderEdit" asp-route-id="@item.Leader.Id">@Html.DisplayFor(modelItem => item.Leader.FName)</a>
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Rediger</a> |

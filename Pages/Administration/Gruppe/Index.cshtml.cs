@@ -53,11 +53,10 @@ namespace Badge.Pages.Administration.GroupAdmin
 
             if(!String.IsNullOrEmpty(searchString))
             {
-                groupsIQ = groupsIQ.Where(g => g.Name.Contains(searchString)
-                //|| g.GroupType.Contains(searchString) || g.Leader.Contains(searchString)
-                );
-
-
+                groupsIQ = groupsIQ.Where(g => g.Name.Contains(searchString) 
+                || g.GroupType.Name.Contains(searchString) 
+                || g.Leader.FName.Contains(searchString) 
+                || g.Leader.LName.Contains(searchString));
             }
 
             switch (sortOrder)
