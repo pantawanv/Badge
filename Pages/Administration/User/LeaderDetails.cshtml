@@ -1,0 +1,32 @@
+﻿@page
+@model Badge.Pages.Administration.User.LeaderDetailsModel
+
+@{
+    ViewData["Title"] = "LeaderDetails";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>LeaderDetails</h1>
+
+<div>
+    <h4>Member</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.User.FName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.User.FName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.User.LName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.User.LName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.User?.Id">Edit</a> |
+    <a asp-page="./LeaderIndex">Back to List</a>
+</div>
