@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Badge.Data;
 using Badge.Models;
+using Badge.Areas.Identity.Data;
+using System.Drawing.Printing;
 
 namespace Badge.Pages.Administration.GroupAdmin
 {
@@ -19,7 +21,8 @@ namespace Badge.Pages.Administration.GroupAdmin
             _context = context;
         }
 
-      public Group Group { get; set; } = default!; 
+      public Group Group { get; set; } = default!;
+      public IList<Member> Members { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -36,6 +39,8 @@ namespace Badge.Pages.Administration.GroupAdmin
             else 
             {
                 Group = group;
+                Members = group.Members.ToList();
+
             }
             return Page();
         }

@@ -28,8 +28,6 @@ namespace Badge.Models
         [DisplayName("Gruppe")]
         public Group Group { get; set; }
 
-
-
         [InverseProperty(nameof(Sale.Seller))]
         public virtual ICollection<Sale> Sales { get; set; }
     }
