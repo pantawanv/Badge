@@ -2,15 +2,18 @@
 @model LoginModel
 
 @{
-    ViewData["Title"] = "Log in";
+    ViewData["Title"] = "Log ind";
+    Layout = "_LoginLayout";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div style="width: 150px;margin:auto; margin-top: 20%;"><img src="/images/logo.png" style="width:150px;" /></div>
+<h1 style="text-align:center;">@ViewData["Title"]</h1>
 <div class="row">
-    <div class="col-md-6">
-        <section>
+    <div>
+        <section style="text-align:center;">
+            
             <form id="account" method="post">
-                <h2>Use a local account to log in.</h2>
+                <h2 >Use a local account to log in.</h2>
                 <hr />
                 <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
                 <div class="form-floating mb-3">
