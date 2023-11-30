@@ -67,9 +67,9 @@ namespace Badge.Pages.Administration.MemberAdmin
                 case "FName_desc":
                     memberIQ = memberIQ.OrderByDescending(m => m.FName);
                     break;
-                //case "LName_desc":
-                //    memberIQ = memberIQ.OrderByDescending(m => m.LName.Count);
-                //    break;
+                case "LName_desc":
+                    memberIQ = memberIQ.OrderByDescending(m => m.LName);
+                    break;
                 case "Group_desc":
                     memberIQ = memberIQ.OrderByDescending(m => m.Group);
                     break;

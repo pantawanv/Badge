@@ -19,10 +19,10 @@ namespace Badge.Models
         [ForeignKey(nameof(SellerId))]
         [DisplayName("Sælger")]
         public Member Seller { get; set; }
-        [DisplayName("Kanal Id")]
+        [DisplayName("Betalingskanal Id")]
         public int ChannelId { get; set; }
         [ForeignKey(nameof(ChannelId))]
-        [DisplayName("Kanal")]
+        [DisplayName("Betalingskanal")]
         public Channel Channel { get; set; }
         [DisplayName("Betalt")]
         public bool PaymentCollected { get; set; }

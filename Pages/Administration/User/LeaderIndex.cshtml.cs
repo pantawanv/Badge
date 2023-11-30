@@ -29,8 +29,7 @@ namespace Badge.Pages.Administration.User
             {
                 IdentityRole role = await _context.Roles.FirstAsync(r => r.Name == "Leader");
                 string roleid = role.Id;
-                //User = await from u in _context.Users where (from ur in _context.UserRoles where ur.RoleId == role.Id (_context.Roles.Where(r => r.Name == "Leader" select r.Id)) && ur.UserId == u.Id select u;
-                    //_context.Users.ToListAsync();
+                User = await (from u in _context.Users where (from r in _context.UserRoles where r.RoleId == roleid && r.UserId == u.Id select r).ToList().Count > 0 select u).ToListAsync();
             }
         }
     }
