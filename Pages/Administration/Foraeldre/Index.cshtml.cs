@@ -52,7 +52,6 @@ namespace Badge.Pages.Administration.ParentAdmin
             }
 
             CurrentFilter = searchString;
-        
 
             IQueryable<Parent> parentsIQ = from p in _context.Parents
                                            select p;
@@ -87,8 +86,6 @@ namespace Badge.Pages.Administration.ParentAdmin
                 default:
                     parentsIQ = parentsIQ.OrderBy(p => p.FName);
                     break;
-                
-
             }
 
 

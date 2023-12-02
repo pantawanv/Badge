@@ -7,15 +7,30 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
-
 @if (User.IsInRole("Admin"))
 {
     <div class="text-center">
-        <h1 class="display-4">You're an admin Harry!</h1>
-        
+        <h1 class="display-4">Yer an admin, Harry!</h1>
+        <h2>Velkommen, @UserManager.GetUserAsync(User).Result.FName</h2>
     </div>
+    <div class="table">
+        <div class="row-cols-9">
+            <h1>Celina's genveje</h1>
+            <p>Fordi hun er doven</p>
+        </div>
+        <div class="row">
+            <div class="col-4" style="margin:auto">
+                <a asp-page="./Administration/User/LeaderIndex">
+                    <button style="width:100%; height:150px; background-color:lightslategrey; border:none; border-radius: 15px;">Ledere</button>
+                </a>
+            </div>
+            <div class="col-4" style="margin:auto">
+                <button style="width:100%; height:150px; background-color:lightslategrey; border:none; border-radius: 15px;" asp-asp-page="./Administration/User/LeaderIndex">Ledere</button>
+            </div>
+            <div class="col-4" style="margin:auto">
+                <button style="width:100%; height:150px; background-color:lightslategrey; border:none; border-radius: 15px;" a asp-asp-page="./Administration/User/LeaderIndex">Ledere</button>
+            </div>
+        </div>
+    </div>
+    
 }

@@ -61,7 +61,7 @@
                 @Html.DisplayFor(modelItem => item.LName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Sales.Count)
+                @item.Sales.Count.ToString()
             </td>
         </tr>
 }

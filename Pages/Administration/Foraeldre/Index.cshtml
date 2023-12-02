@@ -61,7 +61,7 @@
 @foreach (var item in Model.Parents) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Member.FName)
+                <a asp-page="/Administration/Medlem/Details" asp-route-id="@item.Member.Id">@Html.DisplayFor(modelItem => item.Member.FName)</a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FName)

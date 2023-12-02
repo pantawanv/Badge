@@ -8,11 +8,6 @@ namespace Badge.Models
     [Table("Group")]
     public class Group
     {
-        public Group()
-        {
-            Members = new HashSet<Member>();
-        }
-
         [Key]
         public int Id { get; set; }
         [Required]
@@ -30,7 +25,5 @@ namespace Badge.Models
         [DisplayName("Leder")]
         public ApplicationUser Leader { get; set;}
 
-        [InverseProperty(nameof(Member.Group))]
-        public virtual ICollection<Member> Members { get; set; }
     }
 }
