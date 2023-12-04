@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Badge.Data;
 using Badge.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
+using System.Diagnostics;
 
 namespace Badge.Pages.Administration.User
 {
@@ -19,6 +20,7 @@ namespace Badge.Pages.Administration.User
 
         public string CurrentFilter { get; set; }
         public IList<ApplicationUser> User { get;set; } = default!;
+        public IList<ApplicationUser> SelectedUsers { get; set; } = default!;
 
         public async Task OnGetAsync(string? searchString)
         {
@@ -47,13 +49,14 @@ namespace Badge.Pages.Administration.User
                         User =  UserIQ.ToList();
                     }
                 }
-
             }
+        }
 
-           
-
-            
-            
+        public async Task SelectedUser (ApplicationUser user)
+        {
+            SelectedUsers.Add(user);
+            LocalRedirect("./");
+            Debug.WriteLine("yep");
         }
     }
 }

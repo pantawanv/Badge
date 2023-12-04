@@ -1,0 +1,40 @@
+﻿@page
+@using Microsoft.AspNetCore.Components.Web;
+@using System.Diagnostics;
+@model Badge.Pages.CelinasShitCorner.dragdropModel
+@{
+   
+}
+<script>
+    function allowDrop(ev) {
+      ev.preventDefault();
+    }
+
+    function drag(ev) {
+      ev.dataTransfer.setData("text", ev.target.id);
+    }
+
+    function drop(ev) {
+      ev.preventDefault();
+      var data = ev.dataTransfer.getData("text");
+      ev.target.appendChild(document.getElementById(data));
+    }
+
+</script>
+@{
+     void OnDrop(DragEventArgs Event)
+    {
+        Debug.WriteLine("Yep");
+    }
+}
+<div class="box-full">
+<div style="background-color:green; float: right; width:50%;height:100px;" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div style="background-color:blue; width:50%;height:100px;" dropzone="move" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+</div>
+<div class="box-half" ondrop="drop(event)" ondragover="allowDrop(event)">
+
+@foreach(var item in Model.Ids)
+{
+        <div asp-for="" id="drag-@item" class="box-full ticket-box" ondragenter="allowDrop(false)" draggable="true" ondragstart="drag(event)">@item.id - @item.title</div>
+}
+</div>

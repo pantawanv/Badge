@@ -37,23 +37,41 @@
 <table class="table">
     <thead>
         <tr>
+            <th></th>
             <th>
                 @Html.DisplayNameFor(model => model.User[0].FName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.User[0].LName)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User[0].Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User[0].PhoneNumber)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model.User) {
-        <tr>
+            @item
+            var style = ""; if (Model.SelectedUsers != null && Model.SelectedUsers.Contains(item)) { style = "background-color:blue;"; }
+
+
+            <tr style="@style">
+                <td><input type="checkbox" onclick="(@Model.SelectedUser(item))"/></td>
             <td>
                 @Html.DisplayFor(modelItem => item.FName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.LName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PhoneNumber)
             </td>
             <td>
                 <a asp-page="./LeaderEdit" asp-route-id="@item.Id">Edit</a> |

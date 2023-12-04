@@ -6,14 +6,94 @@
 }
 
 <h1>Detajler</h1>
+<div class="box-full" style="height:fit-content; display:flex;" > 
+    <div class="box-half">
+        <h4>Lodseddel</h4>
+        <hr />
+        <dl class="row">
+            <dt>ID</dt>
+            <dd>@Model.Ticket.Id</dd>
+            <dt>Medlems tildeling</dt>
+            <dd> 
+            @if (Model.TicketMemberAssign == null)
+            {
+                    <p>Ikke tildelt et medlem</p>
+            }
+            else
+            {
+                <p>Tildelt @Model.TicketMemberAssign.Member.FName</p>
+            }
+            </dd>
+            <dt>Gruppe tildeling</dt>
+            <dd>
+                @if (Model.TicketGroupAssign == null)
+                {
+                    <p>Ikke tildelt en gruppe</p>
+                }else
+                {
+                    <p>Tildelt @Model.TicketGroupAssign.Group.Name</p>
+                }
+            </dd>
+            @if (Model.Sale == null)
+            {
 
-<div>
-    <h4>Lodseddel</h4>
-    <hr />
-    <dl class="row">
-    </dl>
+            }
+            else
+            {
+                <h4>Kvittering</h4>
+                <dt>Solgt af</dt>
+                <dd>@Model.Sale.Seller.FName @Model.Sale.Seller.LName - @Model.Sale.Seller.Group.Name</dd>
+                <dt>Dato for salg</dt>
+                <dd>@Model.Sale.SalesDate.ToShortDateString()</dd>
+                <dt>Salgs kanal</dt>
+                <dd>@Model.Sale.Channel.Name</dd>
+            }
+        </dl>
+    </div>
+
+    <div class="box-3rd" style="margin: auto; margin-right:0px; margin-top:0px;">
+        <h3>Tildel</h3>
+        @if(Model.Sale != null)
+        {
+            <p class="text-danger">Du kan ikke tildele et lod der er solgt.</p>
+        }
+        else
+        {
+            <form method="post">
+                <div class="form-group">
+                <label asp-for="TicketGroupAssign.GroupId" class="control-label"></label>
+                 <select asp-for="TicketGroupAssign.GroupId" class="form-control" asp-items="ViewBag.GroupId"></select>
+                <span asp-validation-for="TicketGroupAssign.GroupId" class="text-danger"></span>
+                </div>
+                
+                <div class="form-group">
+               @* <label asp-for="TicketMemberAssign.MemberId" class="control-label"></label>
+                @if (Model.TicketGroupAssign == null)
+                {
+                        <select asp-for="TicketMemberAssign.MemberId" class="form-control" asp-items="ViewBag.MemberId" disabled></select>
+                    }
+                    else
+                    {
+                        <select asp-for="TicketMemberAssign.MemberId" class="form-control" asp-items="ViewBag.MemberId"></select>
+                    }
+                    
+                    <span asp-validation-for="TicketMemberAssign.MemberId" class="text-danger"></span>
+                </div>*@
+                
+                <div class="form-group">
+                    <input type="submit" value="Gem" style="width: 100%; margin-top: 20px;" class="btn btn-primary">
+                </div>
+            </form>
+
+        }
+    </div>
 </div>
-<div>
+
+<div class="box-full"  >
     <a asp-page="./Edit" asp-route-id="@Model.Ticket?.Id">Edit</a> |
     <a asp-page="./Index">Tilbage til liste</a>
+</div>
+<div>
+  
+   
 </div>

@@ -23,5 +23,7 @@ namespace Badge.Data
         public DbSet<Parent> Parents { get; set; }
         public DbSet<Sale> Sales { get; set; }
         public DbSet<Ticket> Tickets { get; set; }
+        public DbSet<TicketGroupAssign> TicketGroupAssigns { get; set; }
+        public DbSet<TicketMemberAssign> TicketMemberAssigns { get; set; }
     }
 }

@@ -35,3 +35,23 @@ h1, h2, h3 {
 body .button {
     background-color: #5F8CB4;
 }
+
+.box-3rd {
+    width: 33%;
+    padding: 15px;
+}
+
+.box-half {
+    width: 50%;
+    padding: 15px;
+}
+
+.box-full {
+    width: 100%;
+    padding: 15px;
+}
+
+.ticket-box {
+    background-color: white;
+    border-radius:25px;
+}
