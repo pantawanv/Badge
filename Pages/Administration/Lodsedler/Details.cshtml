@@ -67,7 +67,7 @@
                 </div>
                 
                 <div class="form-group">
-               @* <label asp-for="TicketMemberAssign.MemberId" class="control-label"></label>
+                <label asp-for="TicketMemberAssign.MemberId" class="control-label"></label>
                 @if (Model.TicketGroupAssign == null)
                 {
                         <select asp-for="TicketMemberAssign.MemberId" class="form-control" asp-items="ViewBag.MemberId" disabled></select>
@@ -78,7 +78,7 @@
                     }
                     
                     <span asp-validation-for="TicketMemberAssign.MemberId" class="text-danger"></span>
-                </div>*@
+                </div>
                 
                 <div class="form-group">
                     <input type="submit" value="Gem" style="width: 100%; margin-top: 20px;" class="btn btn-primary">

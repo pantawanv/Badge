@@ -28,7 +28,7 @@ namespace Badge.Pages.Administration.SalesAdmin
                 return NotFound();
             }
 
-            var sale = await _context.Sales.FirstOrDefaultAsync(s => s.Id == id);
+            var sale = await _context.Sales.Include(s => s.Seller).Include(s => s.Ticket).Include(s => s.Channel).FirstOrDefaultAsync(s => s.Id == id);
             if (sale == null)
             {
                 return NotFound();
