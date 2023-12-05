@@ -28,7 +28,7 @@ namespace Badge.Pages.Administration.ParentAdmin
                 return NotFound();
             }
 
-            var parent = await _context.Parents.FirstOrDefaultAsync(m => m.Id == id);
+            var parent = await _context.Parents.Include(f => f.Member).FirstOrDefaultAsync(m => m.Id == id);
             if (parent == null)
             {
                 return NotFound();

@@ -21,11 +21,12 @@ namespace Badge.Pages.Administration.TicketAdmin
             _context = context;
 
         }
-
+        [BindProperty]
         public Ticket Ticket { get; set; } = default!;
         [BindProperty]
         public TicketGroupAssign TicketGroupAssign { get; set; }
-        public TicketMemberAssign? TicketMemberAssign { get; set; } = default!;
+        [BindProperty]
+        public TicketMemberAssign TicketMemberAssign { get; set; }
         public Sale? Sale { get; set; } = default!;
 
 
@@ -46,12 +47,14 @@ namespace Badge.Pages.Administration.TicketAdmin
             {
                 Ticket = ticket;
 
-                var ticketGroupAssign = await _context.TicketGroupAssigns.FirstOrDefaultAsync(t => t.TicketId == id);
+                var ticketGroupAssign = await _context.TicketGroupAssigns.Include(t => t.Group).FirstOrDefaultAsync(t => t.TicketId == id);
                 if (ticketGroupAssign != null)
                 {
                     TicketGroupAssign = ticketGroupAssign;
+                    var groupMembers = from m in _context.Members where m.GroupId == TicketGroupAssign.GroupId select m;
+                    ViewData["GroupMembers"] = new SelectList(groupMembers, "Id", "FName");
                 }
-                var ticketMemberAssign = await _context.TicketMemberAssigns.FirstOrDefaultAsync(t => t.TicketId == id);
+                var ticketMemberAssign = await _context.TicketMemberAssigns.Include(t => t.Member).FirstOrDefaultAsync(t => t.TicketId == id);
                 if (ticketMemberAssign != null)
                 {
                     TicketMemberAssign = ticketMemberAssign;
@@ -70,14 +73,52 @@ namespace Badge.Pages.Administration.TicketAdmin
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostDeleteGroupAssignAsync()
         {
-                
+            TicketGroupAssign ticketGroupAssign = await _context.TicketGroupAssigns.FirstOrDefaultAsync(t => t.TicketId == Ticket.Id);
+
+            if (ticketGroupAssign != null) {
+
+                _context.TicketGroupAssigns.Remove(ticketGroupAssign);
+                _context.SaveChanges();
+
+                await OnPostDeleteMemberAssignAsync();
+            }
+
+            return RedirectToPage("Details", new { id = Ticket.Id });
+        }
+
+        public async Task<IActionResult> OnPostDeleteMemberAssignAsync()
+        {
+            TicketMemberAssign ticketMemberAssign = await _context.TicketMemberAssigns.FirstOrDefaultAsync(t => t.TicketId == Ticket.Id);
+            if (ticketMemberAssign != null)
+            {
+                _context.TicketMemberAssigns.Remove(ticketMemberAssign);
+                _context.SaveChanges();
+            }
+            return RedirectToPage("Details", new { id = Ticket.Id });
+        }
+
+        public async Task<IActionResult> OnPostAddAssignAsync()
+        {
+            var ticketGroupAssign = await _context.TicketGroupAssigns.Include(t => t.Group).FirstOrDefaultAsync(t => t.TicketId == Ticket.Id);
+            if (ticketGroupAssign == null)
+            {
                 TicketGroupAssign.TicketId = Ticket.Id;
                 var result = await _context.TicketGroupAssigns.AddAsync(TicketGroupAssign);
                 _context.SaveChanges();
-                return RedirectToPage("./Index");
-            
+            }
+            else
+            {
+                var memberGroupAssign = await _context.TicketMemberAssigns.FirstOrDefaultAsync(t => t.TicketId == Ticket.Id);
+                if(memberGroupAssign == null)
+                {
+                    TicketMemberAssign.TicketId = Ticket.Id;
+                    var result = await _context.TicketMemberAssigns.AddAsync(TicketMemberAssign);
+                    _context.SaveChanges();
+                }
+            }
+            return RedirectToPage("Details", new { id = Ticket.Id});
         }
     }
 }

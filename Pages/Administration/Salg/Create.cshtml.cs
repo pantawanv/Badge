@@ -22,8 +22,8 @@ namespace Badge.Pages.Administration.SalesAdmin
         public IActionResult OnGet()
         {
         ViewData["ChannelId"] = new SelectList(_context.Channels, "Id", "Name");
-        ViewData["SellerId"] = new SelectList(_context.Members, "Id", "Id");
-        ViewData["TicketId"] = new SelectList(_context.Tickets, "Id", "Id");
+        ViewData["SellerId"] = new SelectList(_context.Members, "Id", "FullName");
+            ViewData["TicketId"] = new SelectList(from t in _context.Tickets where (from s in _context.Sales where s.TicketId == t.Id select s).Any() == false select t, "Id", "Id");
             return Page();
         }
 

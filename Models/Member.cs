@@ -30,5 +30,14 @@ namespace Badge.Models
 
         [InverseProperty(nameof(Sale.Seller))]
         public virtual ICollection<Sale> Sales { get; set; }
+        [NotMapped]
+
+        public string FullName
+        {
+            get
+            {
+                return FName + " " + LName;
+            }
+        }
     }
 }

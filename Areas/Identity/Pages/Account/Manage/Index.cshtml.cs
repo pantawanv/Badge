@@ -3,6 +3,7 @@
 #nullable disable
 
 using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
@@ -41,7 +42,9 @@ namespace Badge.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+            [DisplayName("Fornavn")]
             public string FName { get; set; }
+            [DisplayName("Efternavn")]
             public string LName { get; set; }
         }
 

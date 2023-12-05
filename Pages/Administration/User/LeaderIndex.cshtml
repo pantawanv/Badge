@@ -33,11 +33,16 @@
     </form>
 
 </div>
-
+@if (Model.SelectedUsers != null)
+{
+    @foreach (var s in Model.SelectedUsers)
+    {
+        <p>@s.FName</p>
+    }
+}
 <table class="table">
     <thead>
         <tr>
-            <th></th>
             <th>
                 @Html.DisplayNameFor(model => model.User[0].FName)
             </th>
@@ -55,12 +60,11 @@
     </thead>
     <tbody>
 @foreach (var item in Model.User) {
-            @item
+            
             var style = ""; if (Model.SelectedUsers != null && Model.SelectedUsers.Contains(item)) { style = "background-color:blue;"; }
 
+            <tr style="@style ">
 
-            <tr style="@style">
-                <td><input type="checkbox" onclick="(@Model.SelectedUser(item))"/></td>
             <td>
                 @Html.DisplayFor(modelItem => item.FName)
             </td>

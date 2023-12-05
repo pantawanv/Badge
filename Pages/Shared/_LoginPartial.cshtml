@@ -3,25 +3,22 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-<ul class="navbar-nav">
+<ul class="l-nav-container">
 @if (SignInManager.IsSignedIn(User))
 {
-    <li class="nav-item">
-            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello, @UserManager.GetUserAsync(User).Result.FName</a>
+    <li class="l-nav-user">
+            <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@UserManager.GetUserAsync(User).Result.FName @UserManager.GetUserAsync(User).Result.LName</a>
     </li>
-    <li class="nav-item">
+    <li class="l-nav-user">
         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" >
-            <button  type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+            <button  type="submit" class="">Log ud</button>
         </form>
     </li>
 }
 else
 {
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">Login</a>
+    <li class="l-nav-item" style="margin-bottom:30px; font-size:20px; text-align:center; font-weight:600;">
+        <a asp-area="Identity" asp-page="/Account/Login">Log ind</a>
     </li>
 }
 </ul>

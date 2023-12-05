@@ -2,24 +2,37 @@
 @model Badge.Pages.Administration.MemberAdmin.IndexModel
 
 @{
-    ViewData["Title"] = "Medlem";
+    ViewData["Title"] = "Medlemmer";
 }
-
-<h1>Medlem</h1>
-
-<p>
-    <a asp-page="Create">Opret ny</a>
-</p>
-<form asp-page="./Index" method="get">
-    <div class="form-actions no color">
-        <p>
-            Søg på medlem:
-            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
-            <input type="submit" value="Search" class="btn btn-primary" />
-            <a asp-page="./Index">Tilbage til liste</a>
-        </p>
+<div class="row" style="width:100%; padding:0; margin:0;">
+    <div class="col-7" style="margin: 0; padding: 0;">
+        <h1>Medlemmer</h1>
     </div>
-</form>
+    <div class="col-2" style="margin-right:0; margin-left:auto; padding:0; width:10%;">
+        <a asp-page="Create">
+            <button style="margin:auto; margin-right: 0; width:100%;" class="btn btn-primary">Opret</button>
+        </a>
+    </div>
+</div>
+
+
+<div class="row" style="width:100%; padding:0; margin:0;">
+
+    <form asp-page="./Index" method="get" style="padding:0; margin:0;">
+        <div class="form-actions no color">
+            <p style="padding:0; margin:0;">
+
+                <div style="width:90%; height:40px; padding:0; margin:0;float:left;">
+                    <input name="SearchString" value="@Model.CurrentFilter" style="width:100%; height:100%; margin:0; padding-left: 20px; border:none; border-radius: 5px 0 0 5px;" type="text" name="SearchString" value="" />
+                </div>
+                <div style="width:10%; height:40px; padding:0 ; margin:0; float:right;">
+                    <input style="width:100%; height:100%; margin:0px; border:none; border-radius:0 5px 5px 0; " type="submit" value="Søg" class="btn btn-primary" />
+                </div>
+            </p>
+        </div>
+    </form>
+</div>
+
 <table class="table">
     <thead>
         <tr>
@@ -63,7 +76,7 @@
                 @Html.DisplayFor(modelItem => item.LName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Group.Name)
+                <a asp-page="/Administration/Gruppe/Details" asp-route-id="@item.Group.Id">@Html.DisplayFor(modelItem => item.Group.Name)</a>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Sales.Count)

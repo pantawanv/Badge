@@ -28,7 +28,7 @@ namespace Badge.Pages.Administration.MemberAdmin
                 return NotFound();
             }
 
-            var member = await _context.Members.FirstOrDefaultAsync(m => m.Id == id);
+            var member = await _context.Members.Include(m => m.Group).FirstOrDefaultAsync(m => m.Id == id);
             if (member == null)
             {
                 return NotFound();

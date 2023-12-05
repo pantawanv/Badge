@@ -31,7 +31,7 @@ namespace Badge.Pages.Administration.GroupAdmin
                 return NotFound();
             }
 
-            var group = await _context.Groups.FirstOrDefaultAsync(m => m.Id == id);
+            var group = await _context.Groups.Include(g => g.Leader).Include(g => g.GroupType).FirstOrDefaultAsync(m => m.Id == id);
             if (group == null)
             {
                 return NotFound();

@@ -4,22 +4,35 @@
 @{
     ViewData["Title"] = "Lodseddel";
 }
-
-<h1>Lodseddel</h1>
-
-<p>
-    <a asp-page="Create">Opret ny</a>
-</p>
-<form asp-page="./Index" method="get">
-    <div class="form-actions no color">
-        <p>
-            Søg på id:
-            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
-            <input type="submit" value="Search" class="btn btn-primary" />
-            <a asp-page="./Index">Tilbage til liste</a>
-        </p>
+<div class="row" style="width:100%; padding:0; margin:0;">
+    <div class="col-7" style="margin: 0; padding: 0;">
+        <h1>Lodsedler</h1>
     </div>
-</form>
+    <div class="col-2" style="margin-right:0; margin-left:auto; padding:0; width:10%;">
+        <a asp-page="Create" >
+            <button style="margin:auto; margin-right: 0; width:100%;" class="btn btn-primary">Opret</button>
+        </a>
+    </div>
+</div>
+
+
+<div class="row" style="width:100%; padding:0; margin:0;">
+
+    <form asp-page="./Index" method="get" style="padding:0; margin:0;">
+        <div class="form-actions no color">
+            <p style="padding:0; margin:0;">
+
+                <div style="width:90%; height:40px; padding:0; margin:0;float:left;">
+                    <input name="SearchString" value="@Model.CurrentFilter" style="width:100%; height:100%; margin:0; padding-left: 20px; border:none; border-radius: 5px 0 0 5px;" type="text" name="SearchString" value="" />
+                </div>
+                <div style="width:10%; height:40px; padding:0 ; margin:0; float:right;">
+                    <input style="width:100%; height:100%; margin:0px; border:none; border-radius:0 5px 5px 0; " type="submit" value="Søg" class="btn btn-primary" />
+                </div>
+            </p>
+        </div>
+    </form>
+</div>
+
 
 <table class="table">
     <thead>
@@ -29,6 +42,21 @@
                     asp-route-currentFilter="@Model.CurrentFilter">
                 @Html.DisplayNameFor(model => model.Tickets[0].Id)
                 </a>
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.GroupNameSort"
+                    asp-route-currentFilter="@Model.CurrentFilter">
+                    Gruppe 
+                </a>
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.MemberNameSort"
+                   asp-route-currentFilter="@Model.CurrentFilter">
+                    Medlem
+                </a>
+            </th>
+            <th>
+                Solgt
             </th>
             <th></th>
         </tr>
@@ -40,7 +68,31 @@
                     @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Rediger</a> |
+                    @if (@Model.GroupAssigns.FirstOrDefault(g => g.TicketId == item.Id) != null){
+                        @Model.GroupAssigns.FirstOrDefault(g => g.TicketId == item.Id).Group.Name
+                    } else
+                    {
+                        <p>-</p>
+                    }
+            </td>
+            <td>
+                    @if (@Model.MemberAssigns.FirstOrDefault(g => g.TicketId == item.Id) != null)
+                        {
+                        <a asp-page="/Administration/Medlem/Details" asp-route-id="@Model.MemberAssigns.FirstOrDefault(g => g.TicketId == item.Id).Member.Id">@Model.MemberAssigns.FirstOrDefault(g => g.TicketId == item.Id).Member.FName <t></t> @Model.MemberAssigns.FirstOrDefault(g => g.TicketId == item.Id).Member.LName</a>
+                        
+                        }
+                        else
+                        {
+                         <p>-</p>
+                        }
+                    </td>
+                    <td>
+                    @if (Model.Sales.FirstOrDefault(s=>s.TicketId == item.Id) != null)
+                    {
+                        <input type="checkbox" checked onclick="return false" />
+                    }
+                </td>
+                <td>
                 <a asp-page="./Details" asp-route-id="@item.Id">Detaljer</a> |
                 <a asp-page="./Delete" asp-route-id="@item.Id">Slet</a>
             </td>

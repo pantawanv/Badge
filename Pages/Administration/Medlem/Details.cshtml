@@ -27,7 +27,7 @@
             @Html.DisplayNameFor(model => model.Member.Group)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Member.Group.Name)
+            <a asp-page="/Administration/Gruppe/Details" asp-route-id="@Model.Member.Group.Id">@Html.DisplayFor(model => model.Member.Group.Name)</a>
         </dd>
     </dl>
 </div>

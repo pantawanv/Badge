@@ -4,6 +4,8 @@ using Badge.Data;
 using Badge.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections;
 
 namespace Badge.Pages.Administration.User
 {
@@ -20,10 +22,11 @@ namespace Badge.Pages.Administration.User
 
         public string CurrentFilter { get; set; }
         public IList<ApplicationUser> User { get;set; } = default!;
-        public IList<ApplicationUser> SelectedUsers { get; set; } = default!;
+        public List<ApplicationUser> SelectedUsers { get; set; }
 
         public async Task OnGetAsync(string? searchString)
         {
+            if (SelectedUsers == null) { SelectedUsers = new List<ApplicationUser>(); }
             if (_context.Users != null)
             {
                 IdentityRole role = await _context.Roles.FirstAsync(r => r.Name == "Leader");
@@ -52,11 +55,12 @@ namespace Badge.Pages.Administration.User
             }
         }
 
-        public async Task SelectedUser (ApplicationUser user)
+        public async Task<IActionResult> SelectedUser (ApplicationUser user)
         {
             SelectedUsers.Add(user);
             LocalRedirect("./");
             Debug.WriteLine("yep");
+            return RedirectToPage("./Index");
         }
     }
 }
