@@ -72,7 +72,7 @@ body .button {
     background-color: var(--maincolor);
     width:275px;
     color: white;
-    font-family: Signika;
+    font-family: 'Signika';
     font-weight: 400;
     position:fixed;
     z-index:1;
@@ -141,7 +141,8 @@ body .button {
 }
     .navbar-logo a {
         color: white;
-        font-size: 30px;
+        font-size: 32px;
+        font-weight: 500;
         margin:0px;
         padding:0px;
     }

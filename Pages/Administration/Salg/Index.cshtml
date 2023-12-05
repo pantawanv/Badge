@@ -75,7 +75,7 @@
                     <a asp-page="/Administration/Lodsedler/Details" asp-route-id="@item.Ticket.Id">@Html.DisplayFor(modelItem => item.Ticket.Id)</a>
             </td>
             <td>
-                    <a asp-page="/Administration/Medlem/Details" asp-route-id="@item.Seller.Id">@Html.DisplayFor(modelItem => item.Seller.FName) @Html.DisplayFor(modelItem => item.Seller.LName)</a>
+                    <a asp-page="/Administration/Medlem/Details" asp-route-id="@item.Seller.Id">@Html.DisplayFor(modelitem => item.Seller.FullName)</a>
 
             </td>
             <td>

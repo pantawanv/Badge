@@ -38,7 +38,7 @@ namespace Badge.Pages.Administration.SalesAdmin
             TicketSort = String.IsNullOrEmpty(sortOrder) ? "ticket_desc" : "";
             SellerSort = String.IsNullOrEmpty(sortOrder) ? "seller_desc" : "";
             ChannelSort = String.IsNullOrEmpty(sortOrder) ? "channel_desc" : "";
-            PaymentCollectedSort = String.IsNullOrEmpty(sortOrder) ? "paymentCollected_desc" : "";
+            PaymentCollectedSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("paymentCollected_asc") ? "paymentCollected_desc" : "paymentCollected_asc";
             SalesDateSort = String.IsNullOrEmpty(sortOrder) ? "salesDate_desc" : "";
 
             if(searchString != null)
@@ -59,8 +59,7 @@ namespace Badge.Pages.Administration.SalesAdmin
             if (!String.IsNullOrEmpty(searchString))
             {
                 salesIQ = salesIQ.Where(s => s.TicketId.Contains(searchString)
-                ||s.Seller.FName.Contains(searchString)
-                ||s.Seller.LName.Contains(searchString)
+                ||s.Seller.FullName.Contains(searchString)
                 );
             }
 
@@ -70,13 +69,16 @@ namespace Badge.Pages.Administration.SalesAdmin
                     salesIQ = salesIQ.OrderByDescending(s => s.TicketId);
                     break;
                 case "seller_desc":
-                    salesIQ = salesIQ.OrderByDescending(s => s.Seller);
+                    salesIQ = salesIQ.OrderByDescending(s => s.Seller.FullName);
                     break;
                 case "channel_desc":
                     salesIQ = salesIQ.OrderByDescending(s => s.Channel);
                     break;
                 case "paymentCollected_desc":
                     salesIQ = salesIQ.OrderByDescending(s => s.PaymentCollected);
+                    break;
+                case "paymentCollected_asc":
+                    salesIQ = salesIQ.OrderBy(s => s.PaymentCollected);
                     break;
                 case "salesDate_desc":
                     salesIQ = salesIQ.OrderByDescending(s => s.SalesDate);
