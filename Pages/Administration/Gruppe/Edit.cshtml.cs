@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Badge.Data;
 using Badge.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Badge.Pages.Administration.GroupAdmin
 {
@@ -37,7 +38,12 @@ namespace Badge.Pages.Administration.GroupAdmin
             }
             Group = group;
            ViewData["GroupTypeId"] = new SelectList(_context.GroupTypes, "Id", "Name");
-           //ViewData["LeaderId"] = new SelectList(_context.Leaders, "Id", "Id");
+
+            IdentityRole role = await _context.Roles.FirstAsync(r => r.Name == "Leader");
+            string roleid = role.Id;
+            var leaders = await (from u in _context.Users where (from r in _context.UserRoles where r.RoleId == roleid && r.UserId == u.Id select r).ToList().Count > 0 select u).ToListAsync();
+
+            ViewData["LeaderId"] = new SelectList(leaders, "Id", "FullName");
             return Page();
         }
 

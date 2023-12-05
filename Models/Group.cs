@@ -25,5 +25,9 @@ namespace Badge.Models
         [DisplayName("Leder")]
         public ApplicationUser Leader { get; set;}
 
+        [InverseProperty(nameof(Member.Group))]
+        public virtual ICollection<Member> Members { get; set; }
+        
+
     }
 }
