@@ -1,37 +1,38 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using Badge.Data;
 using Badge.Areas.Identity.Data;
+using Badge.Data;
 using Microsoft.AspNetCore.Identity;
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace Badge.Pages.Administration.User
 {
-    public class LeaderIndexModel : PageModel
+    public class ManagerIndexModel : PageModel
     {
         private readonly ApplicationDbContext _context;
         private readonly IConfiguration Configuration;
 
-        public LeaderIndexModel(Badge.Data.ApplicationDbContext context, IConfiguration configuration)
+        public ManagerIndexModel(Badge.Data.ApplicationDbContext context, IConfiguration configuration)
         {
             _context = context;
             Configuration = configuration;
         }
 
         public string CurrentFilter { get; set; }
-        public IList<ApplicationUser> User { get;set; } = default!;
+        public IList<ApplicationUser> User { get; set; } = default!;
+  
 
         public async Task OnGetAsync(string? searchString)
         {
+
             if (_context.Users != null)
             {
-                IdentityRole role = await _context.Roles.FirstAsync(r => r.Name == "Leader");
+                IdentityRole role = await _context.Roles.FirstAsync(r => r.Name == "Manager");
                 string roleid = role.Id;
                 User = await (from u in _context.Users where (from r in _context.UserRoles where r.RoleId == roleid && r.UserId == u.Id select r).ToList().Count > 0 select u).ToListAsync();
-                
-                
+
+
                 if (searchString != null)
                 {
                     CurrentFilter = searchString;
@@ -52,6 +53,6 @@ namespace Badge.Pages.Administration.User
                 }
             }
         }
-
     }
 }
+

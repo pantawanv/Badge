@@ -1,8 +1,8 @@
 ﻿@page
-@model Badge.Pages.Administration.User.LeaderIndexModel
-
+@model Badge.Pages.Administration.User.ManagerIndexModel
 @{
-    ViewData["Title"] = "LeaderIndex";
+
+    ViewData["Title"] = "ManagerIndex";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 <div class="row" style="width:100%; padding:0; margin:0;">
@@ -53,10 +53,9 @@
     </thead>
     <tbody>
 @foreach (var item in Model.User) {
-            
-            
+           
 
-            <tr>
+            <tr >
 
             <td>
                 @Html.DisplayFor(modelItem => item.FName)
