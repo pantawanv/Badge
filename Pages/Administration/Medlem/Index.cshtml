@@ -8,11 +8,14 @@
     <div class="col-7" style="margin: 0; padding: 0;">
         <h1>Medlemmer</h1>
     </div>
-    <div class="col-2" style="margin-right:0; margin-left:auto; padding:0; width:10%;">
-        <a asp-page="Create">
-            <button style="margin:auto; margin-right: 0; width:100%;" class="btn btn-primary">Opret</button>
-        </a>
-    </div>
+    @if (User.IsInRole("Manager") || User.IsInRole("Admin"))
+    {
+        <div class="col-2" style="margin-right:0; margin-left:auto; padding:0; width:10%;">
+            <a asp-page="Create">
+                <button style="margin:auto; margin-right: 0; width:100%;" class="btn btn-primary">Opret</button>
+            </a>
+        </div>
+    }
 </div>
 
 
@@ -82,9 +85,16 @@
                 @Html.DisplayFor(modelItem => item.Sales.Count)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Rediger</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Detaljer</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Slet</a>
+                    @if (User.IsInRole("Manager") || User.IsInRole("Admin"))
+                    {
+                        <a asp-page="./Edit" asp-route-id="@item.Id">Rediger </a><p> | </p>
+                        <a asp-page="./Details" asp-route-id="@item.Id">Detaljer </a><p> | </p> 
+                        <a asp-page="./Delete" asp-route-id="@item.Id">Slet</a>
+                    }
+                    else
+                    {
+                        <a asp-page="./Details" asp-route-id="@item.Id">Detaljer </a>
+                    }
             </td>
         </tr>
 }

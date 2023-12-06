@@ -7,9 +7,14 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
+using System.Text.Encodings.Web;
+using Microsoft.AspNetCore.WebUtilities;
+using System.Text;
 
 namespace Badge.Pages.Administration.UserAdmin
 {
+    [Authorize(Policy = "Admin")]
     public class CreateModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -40,6 +45,7 @@ namespace Badge.Pages.Administration.UserAdmin
         [BindProperty]
         [DisplayName("Rolle")]
         public string RoleId { get; set; }
+
 
         public IActionResult OnGet()
         {
@@ -77,6 +83,7 @@ namespace Badge.Pages.Administration.UserAdmin
                     _logger.LogInformation("User created a new account with password.");
                     var userId = await _userManager.GetUserIdAsync(User);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(User);
+                    code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
                         pageHandler: null,
@@ -88,12 +95,8 @@ namespace Badge.Pages.Administration.UserAdmin
                     
 
 
-                    //await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                    //    $"Welcome to Badge!\n
-                    //    Your account info is \n
-                    //    username: {email}\n
-                    //    password: {password}\n
-                    //    Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _emailSender.SendEmailAsync(email, "Confirm your email",
+                        $"Welcome to Badge!<br>Your account info is <br>username: {email}<br>password: {password}<br>Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
                     return LocalRedirect(returnUrl);
                 }
@@ -113,11 +116,12 @@ namespace Badge.Pages.Administration.UserAdmin
             Random randNum = new Random();
             char[] chars = new char[PasswordLength];
             int allowedCharCount = _allowedChars.Length;
+            string password;
             for (int i = 0; i < PasswordLength; i++)
             {
                 chars[i] = _allowedChars[(int)((_allowedChars.Length) * randNum.NextDouble())];
             }
-            return new string(chars+"23");
+            return (new string(chars))+"23";
         }
 
         private ApplicationUser CreateUser()

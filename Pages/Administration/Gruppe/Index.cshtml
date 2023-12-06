@@ -70,7 +70,7 @@
                 @Html.DisplayFor(modelItem => item.GroupType.Name)
             </td>
             <td>
-            <a asp-page="/Administration/User/LeaderDetails" asp-route-id="@item.Leader.Id">@Html.DisplayFor(modelItem => item.Leader.FullName)</a>
+            <a asp-page="/Administration/User/Details" asp-route-id="@item.Leader.Id">@Html.DisplayFor(modelItem => item.Leader.FullName)</a>
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Rediger</a> |

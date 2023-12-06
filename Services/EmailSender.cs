@@ -28,9 +28,9 @@ public class EmailSender : IEmailSender
     public async Task Execute(string subject, string message, string toEmail)
     {
         //var client = new SendGridClient(apiKey);
-        SmtpClient smtpClient = new SmtpClient("websmtp.simply.com", 587);
+        SmtpClient smtpClient = new SmtpClient("smtp.simply.com", 587);
         string email = _configuration["EmailSender:Email"];
-        smtpClient.Credentials = new System.Net.NetworkCredential(email, "Password123.");
+        smtpClient.Credentials = new System.Net.NetworkCredential("badge@civah.dk", "Password123.");
         smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
         smtpClient.EnableSsl = true;
 

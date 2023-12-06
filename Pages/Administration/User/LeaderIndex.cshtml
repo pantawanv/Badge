@@ -11,7 +11,7 @@
         <h1>Ledere</h1>
     </div>
     <div class="col-2" style="margin-right:0; margin-left:auto; padding:0; width:10%;">
-        <a asp-page="CreateUser" >
+        <a asp-page="Create" >
             <button style="margin:auto; margin-right: 0; width:100%;" class="btn btn-primary">Opret</button>
         </a>
     </div>
@@ -73,7 +73,7 @@
             </td>
             <td>
                 <a asp-page="./LeaderEdit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./LeaderDetails" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
             </td>
         </tr>
