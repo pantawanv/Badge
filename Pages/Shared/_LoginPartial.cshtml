@@ -7,8 +7,20 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="l-nav-user">
-            <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@UserManager.GetUserAsync(User).Result.FName @UserManager.GetUserAsync(User).Result.LName</a>
-    </li>
+            @if (@UserManager.GetUserAsync(User).Result.AppUImageData != null)
+            {
+                <img src="data:image/png;base64,@UserManager.GetUserAsync(User).Result.AppUImageData" width="60px" height="60px" style="border-radius:50%; margin-bottom:15px;" />
+
+                <br />
+            }
+            else
+            {
+                <img src="/images/NoImg.png" width="60px" height="60px" style="border-radius:50%; margin-bottom:15px;"/>
+                <br />
+
+            }
+            <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@UserManager.GetUserAsync(User).Result.FName @UserManager.GetUserAsync(User).Result.LName</a> 
+        </li>
     <li class="l-nav-user">
         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" >
             <button  type="submit" class="">Log ud</button>

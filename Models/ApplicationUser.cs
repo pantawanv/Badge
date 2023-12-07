@@ -13,8 +13,14 @@ namespace Badge.Areas.Identity.Data
         [PersonalData]
         [DisplayName("Fornavn")]
         public string? LName { get; set; }
+        [PersonalData]
+        [DisplayName("Profil Billede")]
+        public string? AppUImageData { get; set; }
 
         [NotMapped]
         public string FullName { get { return FName + " " + LName; } }
+
+        [NotMapped]
+        public IFormFile ImageFile { get; set; }
     }
 }

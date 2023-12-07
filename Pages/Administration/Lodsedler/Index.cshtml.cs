@@ -72,7 +72,6 @@ namespace Badge.Pages.Administration.TicketAdmin
                 case "group_asc":
                     ticketsIQ = ticketsIQ.OrderBy(t => GroupAssigns.FirstOrDefault(g => g.TicketId == t.Id).Group.Name);
                     break;
-                    break;
                 case "member_desc":
                     ticketsIQ = ticketsIQ.OrderByDescending(t => MemberAssigns.FirstOrDefault(g => g.TicketId == t.Id).Member.FName);
                     break;

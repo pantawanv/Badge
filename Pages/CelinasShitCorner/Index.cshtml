@@ -1,0 +1,18 @@
+﻿@page
+@model Badge.Pages.CelinasShitCorner.IndexModel
+@{
+    ViewData["Title"] = "Log ind";
+    Layout = "_UnAuthLayout";
+}
+
+@if(!User.Identity.IsAuthenticated)
+{
+    <div class="box-full" style="display:inline; align-content:center;">
+        <div class="box-3rd" style="display:inline-block; margin: auto 50px auto auto; ">
+            <button style="width:100%;"></button>
+        </div>
+        <div class="box-3rd" style="display:inline-block; margin:auto; margin: auto 50px auto; ">
+            <button style="width:100%;"></button>
+        </div>
+    </div>
+}
