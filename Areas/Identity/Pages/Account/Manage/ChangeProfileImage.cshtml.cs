@@ -32,7 +32,7 @@ namespace Badge.Areas.Identity.Pages.Account.Manage
         public string StatusMessage { get; set; }
         public class InputModel
         {
-            public IFormFile Image { get; set; }
+            public IFormFile? Image { get; set; }
             public string? ImageString { get; set; }
 
         }
@@ -43,6 +43,7 @@ namespace Badge.Areas.Identity.Pages.Account.Manage
             Input = new InputModel
             {
                 ImageString = imageString,
+                Image = null
             };
         }
 
@@ -57,7 +58,7 @@ namespace Badge.Areas.Identity.Pages.Account.Manage
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostUpdateAsync()
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -84,6 +85,26 @@ namespace Badge.Areas.Identity.Pages.Account.Manage
                 }
                 user.AppUImageData = Convert.ToBase64String(bytes, 0, bytes.Length);
             }
+            _context.Users.Update(user);
+            _context.SaveChanges();
+            return RedirectToPage();
+        }
+        public async Task<IActionResult> OnPostDeleteImageAsync()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                await LoadAsync(user);
+                return Page();
+            }
+
+            user.ImageFile = null;
+            user.AppUImageData = null;
             _context.Users.Update(user);
             _context.SaveChanges();
             return RedirectToPage();
