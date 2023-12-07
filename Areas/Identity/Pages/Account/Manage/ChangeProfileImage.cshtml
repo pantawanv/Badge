@@ -1,0 +1,30 @@
+﻿@page
+@model Badge.Areas.Identity.Pages.Account.Manage.ChangeProfileImageModel
+@{
+    ViewData["Title"] = "Manage Email";
+    ViewData["ActivePage"] = ManageNavPages.ChangeProfileImage;
+}
+
+<h3>@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage" />
+<div class="row">
+    @if(Model.Input.ImageString != null)
+    {
+        <p>hello</p>
+    }
+    <div class="col-md-6">
+        <form id="image-form" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="All" class="text-danger" role="alert"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Image" class="form-control" type="file" />
+                <label asp-for="Input.Image" class="form-label"></label>
+                <span asp-validation-for="Input.Image" class="text-danger"></span>
+            </div>
+            <button id="change-image-button" type="submit" asp-page-handler="ChangeImage" class="w-100 btn btn-lg btn-primary">Change image</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

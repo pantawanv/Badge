@@ -40,7 +40,7 @@ namespace Badge.Areas.Identity.Pages.Account.Manage
         public class InputModel
         {
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Tlf.")]
             public string PhoneNumber { get; set; }
             [DisplayName("Fornavn")]
             public string FName { get; set; }
