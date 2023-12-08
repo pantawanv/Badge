@@ -11,10 +11,10 @@ namespace Badge.Areas.Identity.Data
         [DisplayName("Fornavn")]
         public string? FName { get; set; }
         [PersonalData]
-        [DisplayName("Fornavn")]
+        [DisplayName("Efternavn")]
         public string? LName { get; set; }
         [PersonalData]
-        [DisplayName("Profil Billede")]
+        [DisplayName("Profilbillede")]
         public string? AppUImageData { get; set; }
 
         [NotMapped]

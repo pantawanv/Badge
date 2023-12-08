@@ -13,8 +13,9 @@ namespace Badge.Models
         [Required]
         [StringLength(50)]
         [DisplayName("Gruppe")]
+       
         public string Name { get; set; }
-        [DisplayName("Gruppetype Id")]
+        [DisplayName("Gruppetype")]
         public int GroupTypeId { get; set; }
         [ForeignKey(nameof(GroupTypeId))]
         [DisplayName("Gruppetype")]

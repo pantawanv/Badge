@@ -1,7 +1,7 @@
 ﻿@page
 @model Badge.Areas.Identity.Pages.Account.Manage.ChangeProfileImageModel
 @{
-    ViewData["Title"] = "Manage picture";
+    ViewData["Title"] = "Skift profilbillede";
     ViewData["ActivePage"] = ManageNavPages.ChangeProfileImage;
 }
 
@@ -16,7 +16,7 @@
                 <div class="form-floating mb-3" >
                     <img src="data:image/png;base64,@Model.Input.ImageString" width="100px" height="100px" style="margin-bottom:15px;" />
                 </div>
-                <button id="delete-image-button" type="submit" class="w-100 btn btn-lg btn-primary">Delete image</button>
+                <button id="delete-image-button" type="submit" class="w-100 btn btn-lg btn-primary">Slet billede</button>
             </form>
        </div>
     }
@@ -28,7 +28,7 @@
                 <label asp-for="Input.Image" class="form-label"></label>
                 <span asp-validation-for="Input.Image" class="text-danger"></span>
             </div>
-            <button id="change-image-button" type="submit" asp-page-handler="Update" class="w-100 btn btn-lg btn-primary">Change image</button>
+            <button id="change-image-button" type="submit" asp-page-handler="Update" class="w-100 btn btn-lg btn-primary">Skift billede</button>
         </form>
     </div>
 </div>
