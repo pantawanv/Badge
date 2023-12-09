@@ -3,17 +3,23 @@
 
 @{
     ViewData["Title"] = "Gruppe";
+    string allActive = Model.MyGroups ? "" : "active";
+    string myActive = Model.MyGroups ? "active" : "";
 }
 
 <div class="tab">
-    <a class="tablinks" asp-page="./Index"
-       asp-route-currentFilter="@Model.CurrentFilter" asp-route-sortOrder="@Model.CurrentSort">
-        Alle Grupper
-    </a>
-    <a class ="tablinks" asp-page="./Index" asp-route-myGroups="true"
-       asp-route-currentFilter="@Model.CurrentFilter" asp-route-sortOrder="@Model.CurrentSort">
-        Mine Grupper
-    </a>
+    <div class="tab-button @allActive">
+        <a asp-page="./Index"
+           asp-route-currentFilter="@Model.CurrentFilter" asp-route-sortOrder="@Model.CurrentSort">
+            Alle Grupper
+        </a>
+    </div>
+    <div class="tab-button @myActive">
+        <a asp-page="./Index" asp-route-myGroups="true"
+           asp-route-currentFilter="@Model.CurrentFilter" asp-route-sortOrder="@Model.CurrentSort">
+            Mine Grupper
+        </a>
+    </div>
 </div>
 
 

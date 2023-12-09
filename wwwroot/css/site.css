@@ -50,7 +50,7 @@ head {
 .main-container {
     width: auto;
     margin-top: 50px;
-    margin-left:275px;
+    margin-left:15%;
     margin-right:0;
     margin-bottom:50px;
 }
@@ -64,9 +64,6 @@ h1, h2, h3 {
     margin: 0px;
     padding: 0px;
 
-}
-h1{
-   
 }
 
 .rounded-container {
@@ -109,7 +106,8 @@ body .button {
 .l-navbar {
     height: 100%;
     background-color: var(--maincolor);
-    width:275px;
+    width:15%;
+    min-width: 200px;
     color: white;
     font-family: 'Signika', sans-serif;
     font-weight: 400;
@@ -178,9 +176,9 @@ body .button {
 }
 
 .navbar-logo {
-    margin:30px 20px;
+    margin:30px 25px;
     text-decoration: none;
-    margin-bottom:30%;
+    margin-bottom:40px;
     
 }
     .navbar-logo a {
@@ -264,33 +262,25 @@ body .button {
 
 .tab {
     overflow: hidden;
+    display:flex;
+    margin-bottom: 20px;
 
 }
 
-    .tab button {
-        background-color: inherit;
-        float: left;
-        border: none;
-        outline: none;
-        cursor: pointer;
-        padding: 14px 16px;
-        transition: 0.3s;
-        font-size: 17px;
+.tab-button {
+    background-color: var(--lighterblue);
+    padding: 12px 25px;
+    height: 50px;
+    margin-right: 10px;
+    border-radius: 25px;
+    
+}
+
+    .tab .active {
+        background-color: var(--maincolor);
     }
 
-        /* Change background color of buttons on hover */
-        .tab button:hover {
-            background-color: #ddd;
-        }
-
-        /* Create an active/current tablink class */
-        .tab button.active {
-            background-color: #ccc;
-        }
-
-/* Style the tab content */
-.tabcontent {
-    display: none;
-    padding: 6px 12px;
-    border-top: none;
+.tab-button a {
+    color: white;
+    font-family: 'Signika'
 }

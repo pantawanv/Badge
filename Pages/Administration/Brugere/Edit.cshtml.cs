@@ -6,14 +6,14 @@ using Badge.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
-namespace Badge.Pages.Administration.User
+namespace Badge.Pages.Administration.Users
 {
-    public class LeaderEditModel : PageModel
+    public class EditModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
 
-        public LeaderEditModel(UserManager<ApplicationUser> userManager,
+        public EditModel(UserManager<ApplicationUser> userManager,
             ApplicationDbContext context)
         {
             _userManager = userManager; 

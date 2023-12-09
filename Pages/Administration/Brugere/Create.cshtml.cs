@@ -12,7 +12,7 @@ using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
 
-namespace Badge.Pages.Administration.UserAdmin
+namespace Badge.Pages.Administration.Users
 {
     [Authorize(Policy = "Admin")]
     public class CreateModel : PageModel

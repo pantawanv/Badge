@@ -25,24 +25,21 @@ namespace Badge.Pages.Administration.User
         public string PhoneSort {  get; set; }
         public string CurrentFilter { get; set; }
         public string CurrentSort { get; set; }
-        public PaginatedList<ApplicationUser> User { get; set; } 
-        public IList<ApplicationUser> Users { get; set; }
+        public PaginatedList<ApplicationUser> Users { get; set; } 
 
         public async Task OnGetAsync(string searchString, string? view, string sortOrder, string currrenFilter, int? pageIndex)
         {
-
             CurrentSort = sortOrder;
-            FNameSort = String.IsNullOrEmpty(sortOrder) ? "FName_desc" : "";
+            FNameSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("FName_asc") ? "FName_desc" : "FName_asc";
             LNameSort = String.IsNullOrEmpty(sortOrder) ? "LName_desc" : "";
             PhoneSort = String.IsNullOrEmpty(sortOrder) ? "Phone_desc" : "";
             EMailSort = String.IsNullOrEmpty(sortOrder) ? "Email_desc" : "";
-
-
 
             string leaderId = _roleManager.Roles.First(r => r.Name == "Leader").Id;
             string managerId = _roleManager.Roles.First(r => r.Name == "Manager").Id;
 
             string View = view;
+
             if (_context.Users != null)
             {
                 pageIndex = 1;
@@ -54,59 +51,59 @@ namespace Badge.Pages.Administration.User
 
             CurrentFilter = searchString;
 
+            IQueryable<ApplicationUser> UserIQ = from u in _context.Users select u;
+
+            if (UserIQ.Any())
             {
-                switch (View)
+
                 {
-                    case "leader":
-                        Users = await (from u in _context.Users where _context.UserRoles.Where(r => r.UserId == u.Id && r.RoleId == leaderId).Any() select u).ToListAsync();
+                    switch (View)
+                    {
+                        case "leader":
+                            UserIQ = from u in _context.Users where _context.UserRoles.Where(r => r.UserId == u.Id && r.RoleId == leaderId).Any() select u;
 
-                        break;
-                    case "manager":
-                        Users = await (from u in _context.Users where _context.UserRoles.Where(r => r.UserId == u.Id && r.RoleId == managerId).Any() select u).ToListAsync();
-                        break;
-                    default:
-                        Users = await (from u in _context.Users where _context.UserRoles.Where(r => r.UserId == u.Id && r.RoleId == leaderId).Any() || _context.UserRoles.Where(r => r.UserId == u.Id && r.RoleId == managerId).Any() select u).ToListAsync();
-                        break;
-                }
+                            break;
+                        case "manager":
+                            UserIQ = from u in _context.Users where _context.UserRoles.Where(r => r.UserId == u.Id && r.RoleId == managerId).Any() select u;
+                            break;
+                        default:
+                            UserIQ = from u in _context.Users where _context.UserRoles.Where(r => r.UserId == u.Id && r.RoleId == leaderId).Any() || _context.UserRoles.Where(r => r.UserId == u.Id && r.RoleId == managerId).Any() select u;
+                            break;
+                    }
 
-
-
-                if (Users != null)
-                {
                     if (CurrentFilter != null)
                     {
-                        Users = (from u in Users where u.FullName.ToUpper().Contains(CurrentFilter.ToUpper()) select u).ToList();
+                        UserIQ = from u in UserIQ where u.FullName.Contains(CurrentFilter) select u;
                     }
                 }
+
+
+                switch (sortOrder)
+                {
+                    case "FName_desc":
+                        UserIQ = UserIQ.OrderByDescending(u => u.FName);
+                        break;
+                    case "FName_asc":
+                        UserIQ = UserIQ.OrderBy(u => u.FName);
+                        break;
+                    case "LName_desc":
+                        UserIQ = UserIQ.OrderByDescending(u => u.LName);
+                        break;
+                    case "Phone_desc":
+                        UserIQ = UserIQ.OrderByDescending(u => u.PhoneNumber);
+                        break;
+                    case "EMail_desc":
+                        UserIQ = UserIQ.OrderByDescending(u => u.Email);
+                        break;
+                    default:
+                        UserIQ = UserIQ.OrderByDescending(u => u.FName);
+                        break;
+                }
+
+                var pageSize = Configuration.GetValue("PageSize", 4);
+                Users = await PaginatedList<ApplicationUser>.CreateAsync(UserIQ.AsNoTracking()
+                    , pageIndex ?? 1, pageSize);
             }
-
-          
-
-          
-
-            switch (sortOrder)
-            {
-                case "FName_desc":
-                    Users = Users.AsQueryable().OrderByDescending(u => u.FName).ToList();
-                    break;
-                case "LName_desc":
-                    Users = (IList<ApplicationUser>?)Users.OrderByDescending(u => u.LName);
-                    break;
-                case "Phone_desc":
-                    Users = (IList<ApplicationUser>?)Users.OrderByDescending(u => u.PhoneNumber);
-                    break;
-                case "EMail_desc":
-                    Users = (IList<ApplicationUser>?)Users.OrderByDescending(u => u.Email);
-                    break;
-                default:
-                    Users = Users.AsQueryable().OrderByDescending(u => u.FName).ToList();
-                    break;
-            }
-
-            var pageSize = Configuration.GetValue("PageSize", 4);
-            User = await PaginatedList<ApplicationUser>.CreateAsync(Users.AsQueryable()
-                ,pageIndex ?? 1, pageSize);
-         
         }
     }
 }
