@@ -9,6 +9,9 @@
        asp-route-currentFilter="@Model.CurrentFilter" asp-route-sortOrder="@Model.CurrentSort">
         Alle brugere
     </a>
+    <a asp-page="./Index" asp-route-sortOrder="@Model.FNameSort">
+        @Html.DisplayNameFor(model => model.Users[0].FName)
+    </a>
     <a class="tablinks" asp-page="./Index" asp-route-view="leader"
        asp-route-currentFilter="@Model.CurrentFilter" asp-route-sortOrder="@Model.CurrentSort">
         Ledere
@@ -53,22 +56,22 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Users[0].FName)
+                @Html.DisplayNameFor(model => model.User[0].FName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Users[0].LName)
+                @Html.DisplayNameFor(model => model.User[0].LName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Users[0].Email)
+                @Html.DisplayNameFor(model => model.User[0].Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Users[0].PhoneNumber)
+                @Html.DisplayNameFor(model => model.User[0].PhoneNumber)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.Users)
+        @foreach (var item in Model.User)
         {
 
 
@@ -96,3 +99,21 @@
         }
     </tbody>
 </table>
+@if (Model.User.HasPreviousPage)
+{
+    <a asp-page="./Index"
+       asp-route-sortOrder="@Model.CurrentSort"
+       asp-route-pageIndex="@(Model.User.PageIndex - 1)"
+       asp-route-currentFilter="@Model.CurrentFilter"
+       class="btn btn-primary">
+        Forrige
+    </a>
+}
+@if (Model.User.HasNextPage)
+{
+    <a asp-page="./Index"
+       asp-route-sortOrder="@Model.CurrentSort"
+       asp-route-pageIndex="@(Model.User.PageIndex + 1)"
+       asp-route-currentFilter="@Model.CurrentFilter"
+       class="btn btn-primary">Næste</a>
+}
