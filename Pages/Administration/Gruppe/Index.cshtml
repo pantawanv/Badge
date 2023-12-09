@@ -5,18 +5,17 @@
     ViewData["Title"] = "Gruppe";
 }
 
-
-
-
-
-    
-
 <div class="tab">
-    <button class="tablinksactive" onclick="openTab(event, 'All')">Alle Grupper</button>
-    <button class="tablinks" onclick="openTab(event, 'Mine')">Mine Grupper</button>
+    <a class="tablinks" asp-page="./Index"
+       asp-route-currentFilter="@Model.CurrentFilter" asp-route-sortOrder="@Model.CurrentSort">
+        Alle Grupper
+    </a>
+    <a class ="tablinks" asp-page="./Index" asp-route-myGroups="true"
+       asp-route-currentFilter="@Model.CurrentFilter" asp-route-sortOrder="@Model.CurrentSort">
+        Mine Grupper
+    </a>
 </div>
 
-<div id="All" class="tabcontent" style="display:block;">
 
     <div class="row" style="width:100%; padding:0; margin:0;">
         <div class="col-7" style="margin: 0; padding: 0;">
@@ -28,8 +27,6 @@
             </a>
         </div>
     </div>
-
-
 
     <div class="row" style="width:100%; padding:0; margin:0;">
 
@@ -54,19 +51,22 @@
             <tr>
                 <th>
                     <a asp-page="./Index" asp-route-sortOrder="@Model.GroupNameSort"
-                       asp-route-currentFilter="@Model.CurrentFilter">
+                       asp-route-currentFilter="@Model.CurrentFilter" 
+                       asp-route-myGroups="@Model.MyGroups">
                         @Html.DisplayNameFor(model => model.Groups[0].Name)
                     </a>
                 </th>
                 <th>
                     <a asp-page="./Index" asp-route-sortOrder="@Model.GroupIdSort"
-                       asp-route-currentFilter="@Model.CurrentFilter">
+                       asp-route-currentFilter="@Model.CurrentFilter"
+                       asp-route-myGroups="@Model.MyGroups">
                         @Html.DisplayNameFor(model => model.Groups[0].GroupType)
                     </a>
                 </th>
                 <th>
                     <a asp-page="./Index" asp-route-sortOrder="@Model.GroupLeaderSort"
-                       asp-route-currentFilter="@Model.CurrentFilter">
+                       asp-route-currentFilter="@Model.CurrentFilter"
+                       asp-route-myGroups="@Model.MyGroups">
                         @Html.DisplayNameFor(model => model.Groups[0].Leader)
                     </a>
                 </th>
@@ -96,48 +96,28 @@
         </tbody>
     </table>
 
-    @{
-        var prevDisabled = !Model.Groups.HasPreviousPage ? "disabled" : "";
-        var nextDisabled = !Model.Groups.HasNextPage ? "disabled" : "";
+    @if (Model.Groups.HasPreviousPage)
+    {
+        <a asp-page="./Index"
+            asp-route-sortOrder="@Model.CurrentSort"
+            asp-route-pageIndex="@(Model.Groups.PageIndex - 1)"
+            asp-route-currentFilter="@Model.CurrentFilter"
+            asp-route-myGroups="@Model.MyGroups"
+            class="btn btn-primary">
+            Forrige
+        </a>
     }
-
-    <a asp-page="./Index"
-       asp-route-sortOrder="@Model.CurrentSort"
-       asp-route-pageIndex="@(Model.Groups.PageIndex - 1)"
-       asp-route-currentFilter="@Model.CurrentFilter"
-       class="btn btn-primary @prevDisabled">
-        Forrige
-    </a>
-
-    <a asp-page="./Index"
-       asp-route-sortOrder="@Model.CurrentSort"
-       asp-route-pageIndex="@(Model.Groups.PageIndex + 1)"
-       asp-route-currentFilter="@Model.CurrentFilter"
-       class="btn btn-primary @nextDisabled">
-        Næste
-
-    </a>
-
-
-</div>
-
-<div id="Mine" class="tabcontent">
-    <h3>Mine Grupper</h3>
-    <partial name="_MyGroups" />
-</div>
-
-<script>
-    function openTab(evt, tabName) {
-      var i, tabcontent, tablinks;
-      tabcontent = document.getElementsByClassName("tabcontent");
-      for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-      }
-      tablinks = document.getElementsByClassName("tablinks");
-      for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-      }
-      document.getElementById(tabName).style.display = "block";
-      evt.currentTarget.className += " active";
+    @if (Model.Groups.HasNextPage)
+    {
+        <a asp-page="./Index"
+           asp-route-sortOrder="@Model.CurrentSort"
+           asp-route-pageIndex="@(Model.Groups.PageIndex + 1)"
+           asp-route-currentFilter="@Model.CurrentFilter"
+           asp-route-myGroups="@Model.MyGroups"
+           class="btn btn-primary">
+            Næste
+        </a>
     }
-</script>
+    
+
+

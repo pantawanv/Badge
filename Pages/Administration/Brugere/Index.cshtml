@@ -4,15 +4,32 @@
     ViewData["Title"] = "Index";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
+<div class="tab">
+    <a class="tablinks" asp-page="./Index"
+       asp-route-currentFilter="@Model.CurrentFilter" asp-route-sortOrder="@Model.CurrentSort">
+        Alle brugere
+    </a>
+    <a class="tablinks" asp-page="./Index" asp-route-view="leader"
+       asp-route-currentFilter="@Model.CurrentFilter" asp-route-sortOrder="@Model.CurrentSort">
+        Ledere
+    </a>
+    <a class="tablinks" asp-page="./Index" asp-route-view="manager"
+       asp-route-currentFilter="@Model.CurrentFilter" asp-route-sortOrder="@Model.CurrentSort">
+        Bestyrere
+    </a>
+</div>
+
 <div class="row" style="width:100%; padding:0; margin:0;">
     <div class="col-7">
         <h1>Ledere</h1>
     </div>
+    @if(User.IsInRole("Manager")){
     <div class="col-2" style="margin-right:0; margin-left:auto; padding:0; width:10%;">
         <a asp-page="Create">
             <button style="margin:auto; margin-right: 0; width:100%;" class="btn btn-primary">Opret</button>
         </a>
     </div>
+    }
 </div>
 
 <div class="row" style="width:100%; padding:0; margin:0;">
@@ -22,7 +39,7 @@
             <p style="padding:0; margin:0;">
 
                 <div style="width:90%; height:40px; padding:0; margin:0;float:left;">
-                    <input name="SearchString" value="@Model.CurrentFilter" style="width:100%; height:100%; margin:0; padding: 0; border:none; border-radius: 5px 0 0 5px;" type="text" name="SearchString" value="" />
+                    <input name="searchString" value="@Model.CurrentFilter" style="width:100%; height:100%; margin:0; padding: 0; border:none; border-radius: 5px 0 0 5px;" type="text" name="searchString" value="" />
                 </div>
                 <div style="width:10%; height:40px; padding:0 ; margin:0; float:right;">
                     <input style="width:100%; height:100%; margin:0px; padding: 0; border:none; border-radius:0 5px 5px 0; " type="submit" value="Search" class="btn btn-primary" />
@@ -32,35 +49,26 @@
     </form>
 
 </div>
-
-<div class="box-full" style="display:inline-flex;">
-    <form>
-        <div style="display:inline-block;"><input type="checkbox" /> <p>Ledere</p></div>
-        <div style="display:inline-block;"><input type="checkbox" /> <p>Bestyrere</p></div>
-        <div style="display:inline-block;"><input type="submit" /> </div>
-
-    </form>
-</div>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].FName)
+                @Html.DisplayNameFor(model => model.Users[0].FName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].LName)
+                @Html.DisplayNameFor(model => model.Users[0].LName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].Email)
+                @Html.DisplayNameFor(model => model.Users[0].Email)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].PhoneNumber)
+                @Html.DisplayNameFor(model => model.Users[0].PhoneNumber)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.User)
+        @foreach (var item in Model.Users)
         {
 
 

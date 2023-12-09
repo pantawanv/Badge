@@ -16,7 +16,6 @@
     </div>
 </div>
 
-
 <div class="row" style="width:100%; padding:0; margin:0;">
 
     <form asp-page="./Index" method="get" style="padding:0; margin:0;">
@@ -97,24 +96,22 @@
     </tbody>
 </table>
 
-@{
-    var prevDisabled = !Model.Parents.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.Parents.HasNextPage ? "disabled" : "";
+@if (Model.Parents.HasPreviousPage)
+{
+    <a asp-page="./Index"
+    asp-route-sortOrder="@Model.CurrentSort"
+    asp-route-pageIndex="@(Model.Parents.PageIndex - 1)"
+    asp-route-currentFilter="@Model.CurrentFilter"
+    class="btn btn-primary">
+        Forrige
+    </a>
+}
+@if (Model.Parents.HasNextPage)
+{
+    <a asp-page="./Index"
+       asp-route-sortOrder="@Model.CurrentSort"
+       asp-route-pageIndex="@(Model.Parents.PageIndex + 1)"
+       asp-route-currentFilter="@Model.CurrentFilter"
+       class="btn btn-primary">Næste</a>
 }
 
-<a asp-page="./Index"
-asp-route-sortOrder="@Model.CurrentSort"
-asp-route-pageIndex="@(Model.Parents.PageIndex - 1)"
-asp-route-currentFilter="@Model.CurrentFilter"
-class="btn btn-primary @prevDisabled">
-Forrige
-</a>
-
-<a asp-page="./Index"
-    asp-route-sortOrder="@Model.CurrentSort"
-    asp-route-pageIndex="@(Model.Parents.PageIndex + 1)"
-    asp-route-currentFilter="@Model.CurrentFilter"
-    class="btn btn-primary @nextDisabled">
-Næste
-
-</a>

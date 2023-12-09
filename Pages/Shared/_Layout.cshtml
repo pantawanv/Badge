@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Badge.styles.css" asp-append-version="true" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Signika:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
     
@@ -36,6 +39,10 @@
                     <li class="l-nav-item @(Accessor.HttpContext.Request.Path.Value == "/Administration/Salg" ? "nav-item-active" : "" )">
                             <a asp-area="" asp-page="/Administration/Salg/Index">Salg</a>
                         </li>
+                    </li>
+                    <li class="l-nav-item @(Accessor.HttpContext.Request.Path.Value == "/Administration/Brugere" ? "nav-item-active" : "" )">
+                        <a asp-area="" asp-page="/Administration/Brugere/Index">Brugere</a>
+                    </li>
                         
                     </ul>
                     

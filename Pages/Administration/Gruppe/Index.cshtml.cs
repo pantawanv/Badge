@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Badge.Data;
 using Badge.Models;
+using Microsoft.AspNet.Identity;
 
 namespace Badge.Pages.Administration.GroupAdmin
 {
@@ -26,16 +27,19 @@ namespace Badge.Pages.Administration.GroupAdmin
        public string GroupLeaderSort { get; set; }
        public string CurrentFilter { get; set; }  
        public string CurrentSort { get; set; }
+
+        public bool MyGroups { get; set; }
        
 
         public PaginatedList<Group> Groups { get;set; } 
 
-        public async Task OnGetAsync(string sortOrder, string CurrentFilter, string searchString, int? pageIndex)
+        public async Task OnGetAsync(string sortOrder, string CurrentFilter, string searchString, int? pageIndex, bool myGroups)
         {
             CurrentSort = sortOrder;
             GroupNameSort = String.IsNullOrEmpty(sortOrder) ? "groupName_desc" : "";
             GroupIdSort = String.IsNullOrEmpty(sortOrder) ? "groupId_desc" : "";
             GroupLeaderSort = String.IsNullOrEmpty(sortOrder) ? "groupLeader_desc" : "";
+            MyGroups = myGroups;
             if (searchString != null)
             {
                 pageIndex = 1;
@@ -50,6 +54,10 @@ namespace Badge.Pages.Administration.GroupAdmin
 
             IQueryable<Group> groupsIQ = from g in _context.Groups
                                          select g;
+            if (MyGroups)
+            {
+                groupsIQ = groupsIQ.Where(g => g.LeaderId == User.Identity.GetUserId());
+            }
 
             if(!String.IsNullOrEmpty(searchString))
             {
