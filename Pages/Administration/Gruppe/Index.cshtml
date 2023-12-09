@@ -6,100 +6,138 @@
 }
 
 
-<div class="row" style="width:100%; padding:0; margin:0;">
-    <div class="col-7" style="margin: 0; padding: 0;">
-        <h1>Grupper</h1>
-    </div>
-    <div class="col-2" style="margin-right:0; margin-left:auto; padding:0; width:10%;">
-        <a asp-page="Create">
-            <button style="margin:auto; margin-right: 0; width:100%;" class="btn btn-primary">Opret</button>
-        </a>
-    </div>
+
+
+
+    
+
+<div class="tab">
+    <button class="tablinksactive" onclick="openTab(event, 'All')">Alle Grupper</button>
+    <button class="tablinks" onclick="openTab(event, 'Mine')">Mine Grupper</button>
 </div>
 
+<div id="All" class="tabcontent" style="display:block;">
 
-<div class="row" style="width:100%; padding:0; margin:0;">
-
-    <form asp-page="./Index" method="get" style="padding:0; margin:0;">
-        <div class="form-actions no color">
-            <p style="padding:0; margin:0;">
-
-                <div style="width:90%; height:40px; padding:0; margin:0;float:left;">
-                    <input name="SearchString" value="@Model.CurrentFilter" style="width:100%; height:100%; margin:0; padding-left: 20px; border:none; border-radius: 5px 0 0 5px;" type="text" name="SearchString" value="" />
-                </div>
-                <div style="width:10%; height:40px; padding:0 ; margin:0; float:right;">
-                    <input style="width:100%; height:100%; margin:0px; border:none; border-radius:0 5px 5px 0; " type="submit" value="Søg" class="btn btn-primary" />
-                </div>
-            </p>
+    <div class="row" style="width:100%; padding:0; margin:0;">
+        <div class="col-7" style="margin: 0; padding: 0;">
+            <h1>Grupper</h1>
         </div>
-    </form>
+        <div class="col-2" style="margin-right:0; margin-left:auto; padding:0; width:10%;">
+            <a asp-page="Create">
+                <button style="margin:auto; margin-right: 0; width:100%;" class="btn btn-primary">Opret</button>
+            </a>
+        </div>
+    </div>
+
+
+
+    <div class="row" style="width:100%; padding:0; margin:0;">
+
+        <form asp-page="./Index" method="get" style="padding:0; margin:0;">
+            <div class="form-actions no color">
+                <p style="padding:0; margin:0;">
+
+                    <div style="width:90%; height:40px; padding:0; margin:0;float:left;">
+                        <input name="SearchString" value="@Model.CurrentFilter" style="width:100%; height:100%; margin:0; padding-left: 20px; border:none; border-radius: 5px 0 0 5px;" type="text" name="SearchString" value="" />
+                    </div>
+                    <div style="width:10%; height:40px; padding:0 ; margin:0; float:right;">
+                        <input style="width:100%; height:100%; margin:0px; border:none; border-radius:0 5px 5px 0; " type="submit" value="Søg" class="btn btn-primary" />
+                    </div>
+                </p>
+            </div>
+        </form>
+    </div>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <a asp-page="./Index" asp-route-sortOrder="@Model.GroupNameSort"
+                       asp-route-currentFilter="@Model.CurrentFilter">
+                        @Html.DisplayNameFor(model => model.Groups[0].Name)
+                    </a>
+                </th>
+                <th>
+                    <a asp-page="./Index" asp-route-sortOrder="@Model.GroupIdSort"
+                       asp-route-currentFilter="@Model.CurrentFilter">
+                        @Html.DisplayNameFor(model => model.Groups[0].GroupType)
+                    </a>
+                </th>
+                <th>
+                    <a asp-page="./Index" asp-route-sortOrder="@Model.GroupLeaderSort"
+                       asp-route-currentFilter="@Model.CurrentFilter">
+                        @Html.DisplayNameFor(model => model.Groups[0].Leader)
+                    </a>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.Groups)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.GroupType.Name)
+                    </td>
+                    <td>
+                        <a asp-page="/Administration/User/Details" asp-route-id="@item.Leader.Id">@Html.DisplayFor(modelItem => item.Leader.FullName)</a>
+                    </td>
+                    <td>
+                        <a asp-page="./Edit" asp-route-id="@item.Id">Rediger</a> |
+                        <a asp-page="./Details" asp-route-id="@item.Id">Detaljer</a> |
+                        <a asp-page="./Delete" asp-route-id="@item.Id">Slet</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @{
+        var prevDisabled = !Model.Groups.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.Groups.HasNextPage ? "disabled" : "";
+    }
+
+    <a asp-page="./Index"
+       asp-route-sortOrder="@Model.CurrentSort"
+       asp-route-pageIndex="@(Model.Groups.PageIndex - 1)"
+       asp-route-currentFilter="@Model.CurrentFilter"
+       class="btn btn-primary @prevDisabled">
+        Forrige
+    </a>
+
+    <a asp-page="./Index"
+       asp-route-sortOrder="@Model.CurrentSort"
+       asp-route-pageIndex="@(Model.Groups.PageIndex + 1)"
+       asp-route-currentFilter="@Model.CurrentFilter"
+       class="btn btn-primary @nextDisabled">
+        Næste
+
+    </a>
+
+
 </div>
 
+<div id="Mine" class="tabcontent">
+    <h3>Mine Grupper</h3>
+    <partial name="_MyGroups" />
+</div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                <a asp-page="./Index" asp-route-sortOrder="@Model.GroupNameSort"
-                asp-route-currentFilter="@Model.CurrentFilter">
-                @Html.DisplayNameFor(model => model.Groups[0].Name)
-                </a>
-            </th>
-            <th>
-                <a asp-page="./Index" asp-route-sortOrder="@Model.GroupIdSort"
-                asp-route-currentFilter="@Model.CurrentFilter">
-                @Html.DisplayNameFor(model => model.Groups[0].GroupType)
-                </a>
-            </th>
-            <th>
-                <a asp-page="./Index" asp-route-sortOrder="@Model.GroupLeaderSort"
-                asp-route-currentFilter="@Model.CurrentFilter">
-                @Html.DisplayNameFor(model => model.Groups[0].Leader)
-                </a>
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Groups) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GroupType.Name)
-            </td>
-            <td>
-            <a asp-page="/Administration/User/Details" asp-route-id="@item.Leader.Id">@Html.DisplayFor(modelItem => item.Leader.FullName)</a>
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Rediger</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Detaljer</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Slet</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
-
-@{
-    var prevDisabled = !Model.Groups.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.Groups.HasNextPage ? "disabled" : "";
-}
-
-<a asp-page="./Index"
-   asp-route-sortOrder="@Model.CurrentSort"
-   asp-route-pageIndex="@(Model.Groups.PageIndex - 1)"
-   asp-route-currentFilter="@Model.CurrentFilter"
-   class="btn btn-primary @prevDisabled">
-    Forrige
-</a>
-
-<a asp-page="./Index"
-   asp-route-sortOrder="@Model.CurrentSort"
-   asp-route-pageIndex="@(Model.Groups.PageIndex + 1)"
-   asp-route-currentFilter="@Model.CurrentFilter"
-   class="btn btn-primary @nextDisabled">
-    Næste
-
-</a>
+<script>
+    function openTab(evt, tabName) {
+      var i, tabcontent, tablinks;
+      tabcontent = document.getElementsByClassName("tabcontent");
+      for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+      }
+      tablinks = document.getElementsByClassName("tablinks");
+      for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+      }
+      document.getElementById(tabName).style.display = "block";
+      evt.currentTarget.className += " active";
+    }
+</script>

@@ -37,6 +37,7 @@
 <table class="table">
     <thead>
         <tr>
+            <th></th>
             <th>
                  <a asp-page="./Index" asp-route-sortOrder="@Model.TicketSort"
                     asp-route-currentFilter="@Model.CurrentFilter">
@@ -64,21 +65,22 @@
     <tbody>
 @foreach (var item in Model.Tickets) {
         <tr>
+            <td></td>
             <td>
                     @Html.DisplayFor(modelItem => item.Id)
             </td>
             <td>
-                    @if (@Model.GroupAssigns.FirstOrDefault(g => g.TicketId == item.Id) != null){
-                        @Model.GroupAssigns.FirstOrDefault(g => g.TicketId == item.Id).Group.Name
+                    @if (item.TicketGroupAssign != null){
+                        @item.TicketGroupAssign.Group.Name
                     } else
                     {
                         <p>-</p>
                     }
             </td>
             <td>
-                    @if (@Model.MemberAssigns.FirstOrDefault(g => g.TicketId == item.Id) != null)
+                    @if (item.TicketMemberAssign != null)
                         {
-                        <a asp-page="/Administration/Medlem/Details" asp-route-id="@Model.MemberAssigns.FirstOrDefault(g => g.TicketId == item.Id).Member.Id">@Model.MemberAssigns.FirstOrDefault(g => g.TicketId == item.Id).Member.FName <t></t> @Model.MemberAssigns.FirstOrDefault(g => g.TicketId == item.Id).Member.LName</a>
+                        <a asp-page="/Administration/Medlem/Details" asp-route-id="@item.TicketMemberAssign.Member.Id">@item.TicketMemberAssign.Member.FullName</a>
                         
                         }
                         else

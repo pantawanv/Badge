@@ -29,8 +29,6 @@ namespace Badge.Pages.Administration.TicketAdmin
         public string CurrentSort { get; set; }
 
         public PaginatedList<Ticket> Tickets { get;set; } 
-        public IQueryable<TicketGroupAssign> GroupAssigns { get; set; }
-        public IQueryable<TicketMemberAssign> MemberAssigns { get; set; }
         public IQueryable<Sale> Sales { get; set; }
 
         public async Task OnGetAsync(string sortOrder,string searchString, int? pageIndex)
@@ -58,7 +56,7 @@ namespace Badge.Pages.Administration.TicketAdmin
 
             if(!String.IsNullOrEmpty(searchString)) 
             { 
-                ticketsIQ = ticketsIQ.Where(t => t.Id.Contains(searchString) || GroupAssigns.FirstOrDefault(g => g.TicketId == t.Id).Group.Name.Contains(searchString));
+                ticketsIQ = ticketsIQ.Where(t => t.Id.Contains(searchString) || t.TicketGroupAssign.Group.Name.Contains(searchString) || t.TicketMemberAssign.Member.FName.Contains(searchString) || t.TicketMemberAssign.Member.LName.Contains(searchString));
             }
 
             switch (sortOrder)
@@ -67,16 +65,16 @@ namespace Badge.Pages.Administration.TicketAdmin
                     ticketsIQ = ticketsIQ.OrderByDescending(t => t.Id);
                     break;
                 case "group_desc":
-                    ticketsIQ = ticketsIQ.OrderByDescending(t => GroupAssigns.FirstOrDefault(g => g.TicketId == t.Id).Group.Name);
+                    ticketsIQ = ticketsIQ.OrderByDescending(t => t.TicketGroupAssign.Group.Name);
                     break;
                 case "group_asc":
-                    ticketsIQ = ticketsIQ.OrderBy(t => GroupAssigns.FirstOrDefault(g => g.TicketId == t.Id).Group.Name);
+                    ticketsIQ = ticketsIQ.OrderBy(t => t.TicketGroupAssign.Group.Name);
                     break;
                 case "member_desc":
-                    ticketsIQ = ticketsIQ.OrderByDescending(t => MemberAssigns.FirstOrDefault(g => g.TicketId == t.Id).Member.FName);
+                    ticketsIQ = ticketsIQ.OrderByDescending(t => t.TicketMemberAssign.Member.FName);
                     break;
                 case "member_asc":
-                    ticketsIQ = ticketsIQ.OrderBy(t => MemberAssigns.FirstOrDefault(g => g.TicketId == t.Id).Member.FName);
+                    ticketsIQ = ticketsIQ.OrderBy(t => t.TicketMemberAssign.Member.FName);
                     break;
                 default:
                     ticketsIQ = ticketsIQ.OrderBy(t => t.Id);
@@ -84,13 +82,9 @@ namespace Badge.Pages.Administration.TicketAdmin
             }
 
             var pageSize = Configuration.GetValue("PageSize", 4);
-            var groupAssigns = from g in _context.TicketGroupAssigns select g;
-            var memberAssigns = from m in _context.TicketMemberAssigns select m;
             var sales = from s in _context.Sales select s;
-            GroupAssigns = groupAssigns.Include(g => g.Group).Include(g => g.Ticket);
-            MemberAssigns = memberAssigns.Include(m => m.Member).Include(m => m.Ticket);
             Sales = sales.Include(s => s.Ticket);
-            Tickets = await PaginatedList<Ticket>.CreateAsync(ticketsIQ.AsNoTracking(), pageIndex ?? 1, pageSize);
+            Tickets = await PaginatedList<Ticket>.CreateAsync(ticketsIQ.AsNoTracking().Include(t => t.TicketGroupAssign).ThenInclude(t => t.Group).Include(t => t.TicketMemberAssign).ThenInclude(t => t.Member), pageIndex ?? 1, pageSize);
           
         }
     }

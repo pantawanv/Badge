@@ -31,17 +31,42 @@ p{
 }
 
 html {
+  margin:0;
+  padding:0;
   position: relative;
   min-height: 100%;
 }
 
 body {
+    margin:0;
+    padding:0;
     margin-bottom: 60px;
     background-color: #E6E5E5;
+}
+head {
+    margin: 0;
+    padding: 0;
+}
+.main-container {
+    width: auto;
+    margin-top: 50px;
+    margin-left:275px;
+    margin-right:0;
+    margin-bottom:50px;
+}
+.main {
+    padding:0;
+    margin:0;
 }
 
 h1, h2, h3 {
     font-family: 'Signika', sans-serif;
+    margin: 0px;
+    padding: 0px;
+
+}
+h1{
+   
 }
 
 .rounded-container {
@@ -68,6 +93,14 @@ body .button {
 
 }
 
+.fit {
+    height:100%;
+    width:auto;
+}
+
+.round {
+    border-radius:50%;
+}
 .ticket-box {
     background-color: white;
     border-radius:25px;
@@ -98,6 +131,7 @@ body .button {
     margin-bottom:7px;
     font-weight:300;
     font-size: 20px;
+    margin-right:0;
 }
 
 .l-nav-container {
@@ -175,7 +209,8 @@ body .button {
 }
 
 .main {
-    margin-left: 200px;
+    width: 90%;
+    margin: auto;
     margin-top: 50px;
 }
 .l-nav-user{
@@ -198,4 +233,64 @@ body .button {
     color:#ffffff80;
     font-size:17px;
     margin-bottom:20px;
+}
+
+.dt-container {
+    width:100%;
+    height:auto;
+    padding:1%;
+}
+
+.dt-item {
+    height: 125px;
+    display: inline-flex;
+    width: 100%;
+    background-color: white;
+    border-radius:10px;
+    padding: 20px;
+}
+
+.dt-item-col {
+    width:fit-content;
+    max-height:inherit;
+    height:auto;
+    display:inline-block, flex;
+    vertical-align:middle;
+    margin-top:auto;
+    margin-bottom:auto;
+    margin-left:20px;
+   
+}
+
+.tab {
+    overflow: hidden;
+
+}
+
+    .tab button {
+        background-color: inherit;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        transition: 0.3s;
+        font-size: 17px;
+    }
+
+        /* Change background color of buttons on hover */
+        .tab button:hover {
+            background-color: #ddd;
+        }
+
+        /* Create an active/current tablink class */
+        .tab button.active {
+            background-color: #ccc;
+        }
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border-top: none;
 }
