@@ -58,13 +58,19 @@
                 </a>
             </th>
             <th>
+                 <a asp-page="./Index" asp-route-sortOrder="@Model.LNameSort">
                 @Html.DisplayNameFor(model => model.Users[0].LName)
+                </a>
             </th>
             <th>
+                 <a asp-page="./Index" asp-route-sortOrder="@Model.EMailSort">
                 @Html.DisplayNameFor(model => model.Users[0].Email)
+                </a>
             </th>
             <th>
+                 <a asp-page="./Index" asp-route-sortOrder="@Model.PhoneSort">
                 @Html.DisplayNameFor(model => model.Users[0].PhoneNumber)
+                </a>
             </th>
             <th></th>
         </tr>
