@@ -54,7 +54,7 @@ namespace Badge.Pages.Administration.Users
             {
                 User = user;
                 _userManager.DeleteAsync(user);
-                await _context.SaveChangesAsync();
+                _context.SaveChanges();
             }
 
             return RedirectToPage("./Index");

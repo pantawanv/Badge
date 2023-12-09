@@ -73,7 +73,7 @@ namespace Badge.Pages.Administration.User
 
                     if (CurrentFilter != null)
                     {
-                        UserIQ = from u in UserIQ where u.FullName.Contains(CurrentFilter) select u;
+                        UserIQ = from u in UserIQ where u.FName.Contains(CurrentFilter) || u.LName.Contains(CurrentFilter) select u;
                     }
                 }
 
