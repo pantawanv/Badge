@@ -3,20 +3,29 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Pages/Shared/_Layout.cshtml";
+    string allActive = Model.View == null ? "active" : "";
+    string leaderActive = Model.View == "leader" ? "active" : "";
+    string managerActive = Model.View == "manager" ? "active" : "";
 }
 <div class="tab">
-    <a class="tablinks" asp-page="./Index"
-       asp-route-currentFilter="@Model.CurrentFilter" asp-route-sortOrder="@Model.CurrentSort">
-        Alle brugere
-    </a>
-    <a class="tablinks" asp-page="./Index" asp-route-view="leader"
-       asp-route-currentFilter="@Model.CurrentFilter" asp-route-sortOrder="@Model.CurrentSort">
-        Ledere
-    </a>
-    <a class="tablinks" asp-page="./Index" asp-route-view="manager"
-       asp-route-currentFilter="@Model.CurrentFilter" asp-route-sortOrder="@Model.CurrentSort">
-        Bestyrere
-    </a>
+    <div class="tab-button @allActive">
+        <a asp-page="./Index"
+           asp-route-currentFilter="@Model.CurrentFilter" asp-route-sortOrder="@Model.CurrentSort">
+            Alle brugere
+        </a>
+    </div>
+    <div class="tab-button @leaderActive">
+        <a asp-page="./Index" asp-route-view="leader"
+           asp-route-currentFilter="@Model.CurrentFilter" asp-route-sortOrder="@Model.CurrentSort">
+            Ledere
+        </a>
+    </div>
+    <div class="tab-button @managerActive">
+        <a asp-page="./Index" asp-route-view="manager"
+           asp-route-currentFilter="@Model.CurrentFilter" asp-route-sortOrder="@Model.CurrentSort">
+            Bestyrere
+        </a>
+    </div>
 </div>
 
 <div class="row" style="width:100%; padding:0; margin:0;">
@@ -33,44 +42,34 @@
 </div>
 
 <div class="row" style="width:100%; padding:0; margin:0;">
-
-    <form asp-page="./Index" method="get" style="padding:0; margin:0;">
-        <div class="form-actions no color">
-            <p style="padding:0; margin:0;">
-
+    <form asp-page="./Index" method="get" asp-route-view="@Model.View" style="padding:0;">
+        <div style="width:100%; padding:0; margin:0;">
+            <input name="view" value="@Model.View" hidden />
                 <div style="width:90%; height:40px; padding:0; margin:0;float:left;">
-                    <input name="searchString" value="@Model.CurrentFilter" style="width:100%; height:100%; margin:0; padding: 0; border:none; border-radius: 5px 0 0 5px;" type="text" name="searchString" value="" />
+                    <input name="searchString" value="@Model.CurrentFilter" style="width:100%; height:100%; margin:0; padding: 0; border:none; border-radius: 5px 0 0 5px;" type="text" />
                 </div>
                 <div style="width:10%; height:40px; padding:0 ; margin:0; float:right;">
-                    <input style="width:100%; height:100%; margin:0px; padding: 0; border:none; border-radius:0 5px 5px 0; " type="submit" value="Search" class="btn btn-primary" />
+                    <input style="width:100%; height:100%; margin:0px; padding: 0; border:none; border-radius:0 5px 5px 0; " type="submit" value="Search" class="btn btn-primary"/>
                 </div>
-            </p>
         </div>
     </form>
-
 </div>
 <table class="table">
     <thead>
         <tr>
             <th>
-                <a asp-page="./Index" asp-route-sortOrder="@Model.FNameSort">
+                <a asp-page="./Index" asp-route-sortOrder="@Model.FNameSort" asp-route-view="">
                     @Html.DisplayNameFor(model => model.Users[0].FName)
                 </a>
             </th>
             <th>
-                 <a asp-page="./Index" asp-route-sortOrder="@Model.LNameSort">
                 @Html.DisplayNameFor(model => model.Users[0].LName)
-                </a>
             </th>
             <th>
-                 <a asp-page="./Index" asp-route-sortOrder="@Model.EMailSort">
                 @Html.DisplayNameFor(model => model.Users[0].Email)
-                </a>
             </th>
             <th>
-                 <a asp-page="./Index" asp-route-sortOrder="@Model.PhoneSort">
                 @Html.DisplayNameFor(model => model.Users[0].PhoneNumber)
-                </a>
             </th>
             <th></th>
         </tr>

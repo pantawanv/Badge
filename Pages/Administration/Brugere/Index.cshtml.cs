@@ -25,6 +25,7 @@ namespace Badge.Pages.Administration.User
         public string PhoneSort {  get; set; }
         public string CurrentFilter { get; set; }
         public string CurrentSort { get; set; }
+        public string View {  get; set; }
         public PaginatedList<ApplicationUser> Users { get; set; } 
 
         public async Task OnGetAsync(string searchString, string? view, string sortOrder, string currrenFilter, int? pageIndex)
@@ -38,7 +39,7 @@ namespace Badge.Pages.Administration.User
             string leaderId = _roleManager.Roles.First(r => r.Name == "Leader").Id;
             string managerId = _roleManager.Roles.First(r => r.Name == "Manager").Id;
 
-            string View = view;
+            View = view;
 
             if (_context.Users != null)
             {
