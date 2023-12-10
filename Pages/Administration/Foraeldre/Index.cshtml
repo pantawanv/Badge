@@ -35,12 +35,7 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                <a asp-page="./Index" asp-route-sortOrder="@Model.MemberSort"
-                    asp-route-currentFilter="@Model.CurrentFilter">
-                Barn 
-                </a>
-            </th>
+            <th></th>
             <th>
                 <a asp-page="./Index" asp-route-sortOrder="@Model.FNameSort"
                 asp-route-currrentFilter="@Model.CurrentFilter">
@@ -51,6 +46,12 @@
                 <a asp-page="./Index" asp-route-sortOrder="@Model.LNameSort"
                 asp-route-currrentFilter="@Model.CurrentFilter">
                 @Html.DisplayNameFor(model => model.Parents[0].LName)
+                </a>
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.MemberSort"
+                   asp-route-currentFilter="@Model.CurrentFilter">
+                    Barn
                 </a>
             </th>
             <th>
@@ -70,9 +71,13 @@
     </thead>
     <tbody>
 @foreach (var item in Model.Parents) {
+            var rndm = new Random(item.LName.Length*item.FName.Length);
+            int hue = rndm.Next(0, 360);
         <tr>
             <td>
-                    <a asp-page="/Administration/Medlem/Details" asp-route-id="@item.Member.Id">@Html.DisplayFor(modelItem => item.Member.FullName) </a>
+                    <div class="No-Img" style="background-color:hsl(@hue, 55%, 60%)">
+                        <p>@item.FName.ToCharArray()[0]@item.LName.ToCharArray()[0]</p>
+                    </div>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FName)
@@ -80,6 +85,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.LName)
             </td>
+                <td>
+                    <a asp-page="/Administration/Medlem/Details" asp-route-id="@item.Member.Id">@Html.DisplayFor(modelItem => item.Member.FullName) </a>
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Phone)
             </td>

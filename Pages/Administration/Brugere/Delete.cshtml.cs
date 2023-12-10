@@ -52,11 +52,10 @@ namespace Badge.Pages.Administration.Users
             var user = await _userManager.FindByIdAsync(id);
             if (user != null)
             {
-                User = user;
-                _userManager.DeleteAsync(user);
-                _context.SaveChanges();
+                await _userManager.DeleteAsync(user);
+                
             }
-
+            await _context.SaveChangesAsync();
             return RedirectToPage("./Index");
         }
     }

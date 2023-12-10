@@ -39,6 +39,7 @@
 <table class="table">
     <thead>
         <tr>
+            <th></th>
             <th>
                  <a asp-page="./Index" asp-route-sortOrder="@Model.FNameSort"
                 asp-route-currrentFilter="@Model.CurrentFilter">
@@ -71,7 +72,16 @@
     </thead>
     <tbody>
 @foreach (var item in Model.Members) {
+            var rndm = new Random(item.LName.Length*item.FName.Length);
+            int hue = rndm.Next(0, 360);
         <tr>
+            <td>
+
+
+                <div class="No-Img" style="background-color:hsl(@hue, 55%, 60%)">
+                    <p>@item.FName.ToCharArray()[0]@item.LName.ToCharArray()[0]</p>
+                </div>
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FName)
             </td>

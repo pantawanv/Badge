@@ -1,4 +1,5 @@
 ﻿@page
+@using System.Drawing
 @model Badge.Pages.Administration.User.IndexModel
 @{
     ViewData["Title"] = "Index";
@@ -54,9 +55,11 @@
         </div>
     </form>
 </div>
+
 <table class="table">
     <thead>
         <tr>
+            <th></th>
             <th>
                 <a asp-page="./Index" asp-route-sortOrder="@Model.FNameSort" asp-route-view="">
                     @Html.DisplayNameFor(model => model.Users[0].FName)
@@ -77,11 +80,24 @@
     <tbody>
         @foreach (var item in Model.Users)
         {
-
-
+                
+                
+            
 
             <tr>
+                <td>
+                    @if (item.AppUImageData != null)
+                    {
+                        <img src="data:image/png;base64,@item.AppUImageData" width="50px" height="auto" />
+                    }
+                    else
+                    {
 
+                        var rndm = new Random(item.LName.Length*item.FName.Length);
+                        int hue = rndm.Next(0, 360);
+                        <div class="No-Img" style="background-color:hsl(@hue, 55%, 65%)"><p>@item.FName.ToCharArray()[0]@item.LName.ToCharArray()[0]</p></div>
+                    }
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.FName)
                 </td>

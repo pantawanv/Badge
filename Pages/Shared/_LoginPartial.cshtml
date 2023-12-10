@@ -6,22 +6,27 @@
 <ul class="l-nav-container">
 @if (SignInManager.IsSignedIn(User))
 {
+        var user = @UserManager.GetUserAsync(User).Result;
+        var rndm = new Random(user.LName.Length*user.FName.Length);
+        int hue = rndm.Next(0, 360);
     <li class="l-nav-user">
-            @if (@UserManager.GetUserAsync(User).Result.AppUImageData != null)
+            @if (user.AppUImageData != null)
             {
-                <img src="data:image/png;base64,@UserManager.GetUserAsync(User).Result.AppUImageData" width="60px" height="60px" style="border-radius:50%; margin-bottom:15px;" />
 
-                <br />
+                <div class="No-Img" >
+                    <img style="width:100%; height:100%;" src="data:image/png;base64,@user.AppUImageData" />
+                </div>
             }
             else
             {
-                <img src="/images/NoImg.png" width="60px" height="60px" style="border-radius:50%; margin-bottom:15px;"/>
-                <br />
+                
+                <div class="No-Img" style="background-color:hsl(@hue, 55%, 60%)">
+                    <p>@user.FName.ToCharArray()[0]@user.LName.ToCharArray()[0]</p>
+                </div>
 
             }
             <a asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">@UserManager.GetUserAsync(User).Result.FName @UserManager.GetUserAsync(User).Result.LName</a> 
-        </li>
-    <li class="l-nav-user">
+        
         <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })" method="post" >
             <button  type="submit" class="">Log ud</button>
         </form>

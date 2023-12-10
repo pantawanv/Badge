@@ -119,6 +119,32 @@ body .button {
     padding-top:40px;
 }
 
+.l-navbar-collapsed {
+    height: 100%;
+    background-color: var(--maincolor);
+    width: 75px;
+    color: white;
+    font-family: 'Signika', sans-serif;
+    font-weight: 400;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    padding-top: 40px;
+}
+
+    .l-navbar-collapsed a {
+        display:none;
+    }
+    .l-navbar-collapsed .l-nav-item{
+        
+        font-display:none;
+    }
+    .l-navbar-collapsed #closebtn{
+        display: block;
+    }
+
 .flex {
     display: flex;
 }
@@ -220,9 +246,15 @@ body .button {
     margin-bottom:15px;
 }
 
+.l-nav-user .No-Img {
+    margin:auto;
+    background-color:var(--lighterblue);
+    margin-bottom:10px;
+}
+
 .l-nav-user a{
     font-size:17px;
-    font-weight:400;
+    font-weight:400;;
 }
 
 .l-nav-user button {
@@ -230,8 +262,9 @@ body .button {
     background-color: #ffffff00;
     color:#ffffff80;
     font-size:17px;
-    margin-bottom:20px;
+    margin-bottom:10px;
 }
+
 
 .dt-container {
     width:100%;
@@ -283,4 +316,26 @@ body .button {
 .tab-button a {
     color: white;
     font-family: 'Signika'
+}
+
+.No-Img{
+
+    height:50px;
+    width:50px;
+    border-radius:50%;
+    align-items:center;
+    display:flex;
+}
+.No-Img p {
+    margin:auto;
+    text-align:center;
+    letter-spacing:2px;
+    font-family: 'Signika', sans-serif;
+    font-weight:600;
+    font-size:18px;
+    color:white;
+}
+
+th {
+    border:0px;
 }

@@ -59,9 +59,8 @@ namespace Badge.Pages.Administration.Users
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/");
-            if (ModelState.IsValid)
-            {
+            returnUrl ??= Url.Content("~/Administration/Brugere/Details?id=");
+            
                 string email = User.Email;
                 string fname = User.FName;
                 string lname = User.LName;
@@ -97,15 +96,15 @@ namespace Badge.Pages.Administration.Users
 
                     await _emailSender.SendEmailAsync(email, "Confirm your email",
                         $"Welcome to Badge!<br>Your account info is <br>username: {email}<br>password: {password}<br>Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                    return LocalRedirect(returnUrl);
+                    
+                    return LocalRedirect(returnUrl+userId);
                 }
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
 
-            }
+            
             // If we got this far, something failed, redisplay form
             return Page(); 
         }
