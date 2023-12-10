@@ -14,55 +14,61 @@
         <dl class="row">
             <dt>ID</dt>
             <dd>@Model.Ticket.Id</dd>
-            <dt>Gruppe tildeling</dt>
-            <dd>
-                @if (Model.TicketGroupAssign == null)
-                {
-                    <p>Ikke tildelt en gruppe</p>
-                }else
-                {
-                    <p>Tildelt <a asp-page="/Administration/Gruppe/Details" asp-route-id="@Model.TicketGroupAssign.Group.Id">@Model.TicketGroupAssign.Group.Name</a><form method="post" asp-page-handler="DeleteGroupAssign" asp-route-id="@Model.Ticket.Id"><button class="btn btn-primary">Delete</button></form> </p>
-                    
-                }
-            </dd>
-            <dt>Medlems tildeling</dt>
-            <dd> 
-            @if (Model.TicketMemberAssign == null)
-            {
-                    <p>Ikke tildelt et medlem</p>
-            }
-            else
-            {
-                    <p>Tildelt <a asp-page="/Administration/Medlem/Details" asp-route-id="@Model.TicketMemberAssign.Member.Id">@Model.TicketMemberAssign.Member.FName @Model.TicketMemberAssign.Member.LName</a><form method="post" asp-page-handler="DeleteMemberAssign" asp-route-id="@Model.Ticket.Id"><button class="btn btn-primary">Delete</button></form> </p>
-            }
-            </dd>
+
+ 
 
             @if (Model.Sale == null)
             {
+                <dt>Gruppe tildeling</dt>
+                <dd>
+                    @if (Model.TicketGroupAssign == null)
+                    {
+                        <p>Ikke tildelt en gruppe</p>
+                    }
+                    else
+                    {
+                        <p>Tildelt <a asp-page="/Administration/Gruppe/Details" asp-route-id="@Model.TicketGroupAssign.Group.Id">@Model.TicketGroupAssign.Group.Name</a><form method="post" asp-page-handler="DeleteGroupAssign" asp-route-id="@Model.Ticket.Id"><button class="btn btn-primary">Delete</button></form> </p>
 
+                    }
+                </dd>
+                <dt>Medlems tildeling</dt>
+                <dd>
+                    @if (Model.TicketMemberAssign == null)
+                    {
+                        <p>Ikke tildelt et medlem</p>
+                    }
+                    else
+                    {
+                        <p>Tildelt <a asp-page="/Administration/Medlem/Details" asp-route-id="@Model.TicketMemberAssign.Member.Id">@Model.TicketMemberAssign.Member.FName @Model.TicketMemberAssign.Member.LName</a><form method="post" asp-page-handler="DeleteMemberAssign" asp-route-id="@Model.Ticket.Id"><button class="btn btn-primary">Delete</button></form> </p>
+                    }
+                </dd>
             }
             else
             {
-                <h4>Kvittering</h4>
-                <dt>Solgt af</dt>
-                <dd>@Model.Sale.Seller.FName @Model.Sale.Seller.LName - @Model.Sale.Seller.Group.Name</dd>
-                <dt>Dato for salg</dt>
-                <dd>@Model.Sale.SalesDate.ToShortDateString()</dd>
-                <dt>Salgs kanal</dt>
-                <dd>@Model.Sale.Channel.Name</dd>
+                
             }
         </dl>
     </div>
 
     <div class="box-3rd" style="margin: auto; margin-right:0px; margin-top:0px;">
-        <h3>Tildel</h3>
+        
         @if(Model.Sale != null)
         {
-            <p class="text-danger">Du kan ikke tildele et lod der er solgt.</p>
+            <h4>Kvittering</h4>
+            <dt>Solgt af</dt>
+            <dd>
+                <a asp-page="/Administration/Medlem" asp-route-id="@Model.Sale.SellerId">@Model.Sale.Seller.FullName</a> - <a asp-page="/Administration/Medlem" asp-route-id="@Model.Sale.Seller.GroupId">@Model.Sale.Seller.Group.Name</a>
+                </dd>
+            <dt>Dato for salg</dt>
+            <dd>@Model.Sale.SalesDate.ToShortDateString()</dd>
+            <dt>Salgs-kanal</dt>
+            <dd>@Model.Sale.Channel.Name</dd>
+            <dt>Betaling modtaget</dt>
+            <dd>@Html.DisplayFor(modelItem => Model.Sale.PaymentCollected)</dd>
         }
         else
         {
-
+            <h3>Tildel</h3>
             <form method="post" asp-page-handler="AddAssign" asp-route-id="@Model.Ticket.Id">
                 
                 <div class="form-group">

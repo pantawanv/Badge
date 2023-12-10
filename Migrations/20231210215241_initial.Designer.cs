@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Badge.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231208212616_ticket")]
-    partial class ticket
+    [Migration("20231210215241_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -251,7 +251,8 @@ namespace Badge.Migrations
 
                     b.HasIndex("SellerId");
 
-                    b.HasIndex("TicketId");
+                    b.HasIndex("TicketId")
+                        .IsUnique();
 
                     b.ToTable("Sale");
                 });
@@ -495,8 +496,8 @@ namespace Badge.Migrations
                         .IsRequired();
 
                     b.HasOne("Badge.Models.Ticket", "Ticket")
-                        .WithMany()
-                        .HasForeignKey("TicketId")
+                        .WithOne("Sale")
+                        .HasForeignKey("Badge.Models.Sale", "TicketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -608,6 +609,9 @@ namespace Badge.Migrations
 
             modelBuilder.Entity("Badge.Models.Ticket", b =>
                 {
+                    b.Navigation("Sale")
+                        .IsRequired();
+
                     b.Navigation("TicketGroupAssign")
                         .IsRequired();
 

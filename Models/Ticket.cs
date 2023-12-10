@@ -10,12 +10,12 @@ namespace Badge.Models
         public string Id { get; set; }
 
         [InverseProperty(nameof(TicketGroupAssign.Ticket))]
-        public TicketGroupAssign TicketGroupAssign { get; set; }
+        public TicketGroupAssign? TicketGroupAssign { get; set; }
 
         [InverseProperty(nameof(TicketMemberAssign.Ticket))]
-        public TicketMemberAssign TicketMemberAssign { get; set; }
+        public TicketMemberAssign? TicketMemberAssign { get; set; }
 
         [InverseProperty(nameof(Sale.Ticket))]
-        public Sale Sale { get; set; }
+        public Sale? Sale { get; set; }
     }
 }

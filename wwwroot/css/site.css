@@ -336,6 +336,18 @@ body .button {
     color:white;
 }
 
-th {
-    border:0px;
+.list-th {
+    height:100%;
+    background-color:green;
+    
+}
+.list-td{
+    padding-top:40px;
+    height:100%;
+}
+.list-tr {
+
+}
+.list-tr td{
+    padding-top: 10px;
 }

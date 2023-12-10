@@ -85,7 +85,7 @@
                 @Html.DisplayFor(modelItem => item.PaymentCollected)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SalesDate)
+                @item.SalesDate.ToShortDateString()
             </td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Rediger</a> |

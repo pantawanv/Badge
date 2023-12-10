@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Badge.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,6 +32,7 @@ namespace Badge.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AppUImageData = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -228,8 +229,8 @@ namespace Badge.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     GroupId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -239,6 +240,30 @@ namespace Badge.Migrations
                         name: "FK_Member_Group_GroupId",
                         column: x => x.GroupId,
                         principalTable: "Group",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TicketGroupAssigns",
+                columns: table => new
+                {
+                    TicketId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    GroupId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TicketGroupAssigns", x => new { x.TicketId, x.GroupId });
+                    table.ForeignKey(
+                        name: "FK_TicketGroupAssigns_Group_GroupId",
+                        column: x => x.GroupId,
+                        principalTable: "Group",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TicketGroupAssigns_Ticket_TicketId",
+                        column: x => x.TicketId,
+                        principalTable: "Ticket",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -295,6 +320,30 @@ namespace Badge.Migrations
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Sale_Ticket_TicketId",
+                        column: x => x.TicketId,
+                        principalTable: "Ticket",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TicketMemberAssigns",
+                columns: table => new
+                {
+                    TicketId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    MemberId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TicketMemberAssigns", x => new { x.TicketId, x.MemberId });
+                    table.ForeignKey(
+                        name: "FK_TicketMemberAssigns_Member_MemberId",
+                        column: x => x.MemberId,
+                        principalTable: "Member",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TicketMemberAssigns_Ticket_TicketId",
                         column: x => x.TicketId,
                         principalTable: "Ticket",
                         principalColumn: "Id",
@@ -373,7 +422,30 @@ namespace Badge.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Sale_TicketId",
                 table: "Sale",
-                column: "TicketId");
+                column: "TicketId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TicketGroupAssigns_GroupId",
+                table: "TicketGroupAssigns",
+                column: "GroupId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TicketGroupAssigns_TicketId",
+                table: "TicketGroupAssigns",
+                column: "TicketId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TicketMemberAssigns_MemberId",
+                table: "TicketMemberAssigns",
+                column: "MemberId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TicketMemberAssigns_TicketId",
+                table: "TicketMemberAssigns",
+                column: "TicketId",
+                unique: true);
         }
 
         /// <inheritdoc />
@@ -399,6 +471,12 @@ namespace Badge.Migrations
 
             migrationBuilder.DropTable(
                 name: "Sale");
+
+            migrationBuilder.DropTable(
+                name: "TicketGroupAssigns");
+
+            migrationBuilder.DropTable(
+                name: "TicketMemberAssigns");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

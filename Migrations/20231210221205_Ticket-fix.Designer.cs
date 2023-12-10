@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Badge.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231202225825_TicketAssigns")]
-    partial class TicketAssigns
+    [Migration("20231210221205_Ticket-fix")]
+    partial class Ticketfix
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.14")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -32,6 +32,9 @@ namespace Badge.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
+
+                    b.Property<string>("AppUImageData")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -248,7 +251,8 @@ namespace Badge.Migrations
 
                     b.HasIndex("SellerId");
 
-                    b.HasIndex("TicketId");
+                    b.HasIndex("TicketId")
+                        .IsUnique();
 
                     b.ToTable("Sale");
                 });
@@ -275,6 +279,9 @@ namespace Badge.Migrations
 
                     b.HasIndex("GroupId");
 
+                    b.HasIndex("TicketId")
+                        .IsUnique();
+
                     b.ToTable("TicketGroupAssigns");
                 });
 
@@ -289,6 +296,9 @@ namespace Badge.Migrations
                     b.HasKey("TicketId", "MemberId");
 
                     b.HasIndex("MemberId");
+
+                    b.HasIndex("TicketId")
+                        .IsUnique();
 
                     b.ToTable("TicketMemberAssigns");
                 });
@@ -452,7 +462,7 @@ namespace Badge.Migrations
             modelBuilder.Entity("Badge.Models.Member", b =>
                 {
                     b.HasOne("Badge.Models.Group", "Group")
-                        .WithMany()
+                        .WithMany("Members")
                         .HasForeignKey("GroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -486,8 +496,8 @@ namespace Badge.Migrations
                         .IsRequired();
 
                     b.HasOne("Badge.Models.Ticket", "Ticket")
-                        .WithMany()
-                        .HasForeignKey("TicketId")
+                        .WithOne("Sale")
+                        .HasForeignKey("Badge.Models.Sale", "TicketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -507,8 +517,8 @@ namespace Badge.Migrations
                         .IsRequired();
 
                     b.HasOne("Badge.Models.Ticket", "Ticket")
-                        .WithMany()
-                        .HasForeignKey("TicketId")
+                        .WithOne("TicketGroupAssign")
+                        .HasForeignKey("Badge.Models.TicketGroupAssign", "TicketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -526,8 +536,8 @@ namespace Badge.Migrations
                         .IsRequired();
 
                     b.HasOne("Badge.Models.Ticket", "Ticket")
-                        .WithMany()
-                        .HasForeignKey("TicketId")
+                        .WithOne("TicketMemberAssign")
+                        .HasForeignKey("Badge.Models.TicketMemberAssign", "TicketId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -587,9 +597,23 @@ namespace Badge.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Badge.Models.Group", b =>
+                {
+                    b.Navigation("Members");
+                });
+
             modelBuilder.Entity("Badge.Models.Member", b =>
                 {
                     b.Navigation("Sales");
+                });
+
+            modelBuilder.Entity("Badge.Models.Ticket", b =>
+                {
+                    b.Navigation("Sale");
+
+                    b.Navigation("TicketGroupAssign");
+
+                    b.Navigation("TicketMemberAssign");
                 });
 #pragma warning restore 612, 618
         }
