@@ -20,6 +20,7 @@ namespace Badge.Pages.Administration.TicketAdmin
         public string TicketSort { get; set; }
         public string GroupNameSort { get; set; }
         public string MemberNameSort { get; set; }
+        public string SoldSort { get; set; }
         public string CurrentFilter { get; set; }
         public string CurrentSort { get; set; }
 
@@ -33,6 +34,7 @@ namespace Badge.Pages.Administration.TicketAdmin
             TicketSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("id_asc") ? "id_desc" : "id_asc";
             GroupNameSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("group_asc") ? "group_desc" : "group_asc";
             MemberNameSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("member_asc") ? "member_desc" : "member_asc";
+            SoldSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("sold_asc") ? "sold_desc" : "sold_asc"; 
 
 
             if (searchString != null)
@@ -73,6 +75,12 @@ namespace Badge.Pages.Administration.TicketAdmin
                     break;
                 case "member_asc":
                     ticketsIQ = ticketsIQ.OrderBy(t => t.TicketMemberAssign.Member.FName);
+                    break;
+                case "sold_desc":
+                    ticketsIQ = ticketsIQ.OrderByDescending(t => t.Sale != null);
+                    break;
+                case "sold_asc":
+                    ticketsIQ= ticketsIQ.OrderBy(t => t.Sale != null);
                     break;
                 default:
                     ticketsIQ = ticketsIQ.OrderBy(t => t.Id);
