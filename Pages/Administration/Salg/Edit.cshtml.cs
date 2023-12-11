@@ -33,7 +33,7 @@ namespace Badge.Pages.Administration.SalesAdmin
             }
             Sale = sale;
             ViewData["ChannelId"] = new SelectList(_context.Channels, "Id", "Name");
-            ViewData["SellerId"] = new SelectList(_context.Members, "Id", "Id");
+            ViewData["SellerId"] = new SelectList(_context.Members, "Id", "FullName");
             ViewData["TicketId"] = new SelectList(_context.Tickets, "Id", "Id");
             return Page();
         }
