@@ -58,7 +58,7 @@ namespace Badge.Pages.Administration.GroupAdmin
             {
                 groupsIQ = groupsIQ.Where(g => g.Name.Contains(searchString)
                 || g.GroupType.Name.Contains(searchString)
-                || (g.Leader.FName + " " + g.Leader.LName + " ").Contains(searchString));
+                || (g.Leader.FName + " " + g.Leader.LName).Contains(searchString));
 
               
             }
