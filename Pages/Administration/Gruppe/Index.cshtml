@@ -56,7 +56,7 @@
         <thead>
             <index-tr>
                 <th>
-                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.NameSort" asp-route-view="">
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.NameSort" asp-route-myGroups="@Model.MyGroups">
                     <div class="srt-container">
                         <div class="srthead-container">
                             @Html.DisplayNameFor(model => model.Groups[0].Name)
@@ -85,7 +85,7 @@
                 </a>
                 </th>
                 <th>
-                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.TypeSort" asp-route-view="">
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.TypeSort" asp-route-myGroups="@Model.MyGroups">
                     <div class="srt-container">
                         <div class="srthead-container">
                             @Html.DisplayNameFor(model => model.Groups[0].GroupType.Name)
@@ -114,7 +114,7 @@
                 </a>
                 </th>
                 <th>
-                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.LeaderSort" asp-route-view="">
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.LeaderSort" asp-route-myGroups="@Model.MyGroups">
                     <div class="srt-container">
                         <div class="srthead-container">
                             @Html.DisplayNameFor(model => model.Groups[0].Leader)
