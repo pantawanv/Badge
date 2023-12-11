@@ -54,7 +54,7 @@ namespace Badge.Pages.Administration.TicketAdmin
             if (!String.IsNullOrEmpty(searchString))
             {
                 ticketsIQ = ticketsIQ.Where(t => t.Id.Contains(searchString) || t.TicketGroupAssign.Group.Name.Contains(searchString) 
-                || (t.TicketMemberAssign.Member.FName + " " + t.TicketMemberAssign.Member.LName + " ").Contains(searchString));
+                || (t.TicketMemberAssign.Member.FName + " " + t.TicketMemberAssign.Member.LName).Contains(searchString));
             }
 
             switch (sortOrder)
