@@ -54,8 +54,8 @@ namespace Badge.Pages.Administration.SalesAdmin
             if (!String.IsNullOrEmpty(searchString))
             {
                 salesIQ = salesIQ.Where(s => s.TicketId.Contains(searchString)
-                ||s.Seller.FName.Contains(searchString) || s.Seller.FName.Contains(searchString)
-                );
+                || (s.Seller.FName + " " + s.Seller.LName).Contains(searchString));
+                
             }
 
             switch (sortOrder)
