@@ -30,11 +30,11 @@ namespace Badge.Pages.Administration.SalesAdmin
         {
             CurrentSort = sortOrder;
 
-            TicketSort = String.IsNullOrEmpty(sortOrder) ? "ticket_desc" : "";
-            SellerSort = String.IsNullOrEmpty(sortOrder) ? "seller_desc" : "";
-            ChannelSort = String.IsNullOrEmpty(sortOrder) ? "channel_desc" : "";
+            TicketSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("ticket_asc")? "ticket_desc" : "ticket_asc";
+            SellerSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("seller_asc") ? "seller_desc" : "seller_asc";
+            ChannelSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("channel_asc") ? "channel_desc" : "channel_asc";
             PaymentCollectedSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("paymentCollected_asc") ? "paymentCollected_desc" : "paymentCollected_asc";
-            SalesDateSort = String.IsNullOrEmpty(sortOrder) ? "salesDate_desc" : "";
+            SalesDateSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("salesDate_asc") ? "salesDate_desc" : "salesDate_asc";
 
             if (searchString != null)
             {
@@ -63,11 +63,20 @@ namespace Badge.Pages.Administration.SalesAdmin
                 case "ticket_desc":
                     salesIQ = salesIQ.OrderByDescending(s => s.TicketId);
                     break;
+                case "ticket_asc":
+                    salesIQ = salesIQ.OrderBy(s => s.TicketId);
+                    break;
                 case "seller_desc":
-                    salesIQ = salesIQ.OrderByDescending(s => s.Seller.FullName);
+                    salesIQ = salesIQ.OrderByDescending(s => s.Seller.FName);
+                    break;
+                case "seller_asc":
+                    salesIQ = salesIQ.OrderBy(s => s.Seller.FName);
                     break;
                 case "channel_desc":
                     salesIQ = salesIQ.OrderByDescending(s => s.Channel);
+                    break;
+                case "channel_asc":
+                    salesIQ = salesIQ.OrderBy(s => s.Channel);
                     break;
                 case "paymentCollected_desc":
                     salesIQ = salesIQ.OrderByDescending(s => s.PaymentCollected);
@@ -77,6 +86,9 @@ namespace Badge.Pages.Administration.SalesAdmin
                     break;
                 case "salesDate_desc":
                     salesIQ = salesIQ.OrderByDescending(s => s.SalesDate);
+                    break;
+                case "salesDate_asc":
+                    salesIQ = salesIQ.OrderBy(s => s.SalesDate);
                     break;
                 default:
                     salesIQ = salesIQ.OrderBy(s => s.Ticket);
