@@ -39,7 +39,7 @@
         <tr>
             <th></th>
             <th>
-                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.TicketSort" asp-route-view="">
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.TicketSort" asp-route-searchString="@Model.CurrentFilter">
                     <div class="srt-container">
                         <div class="srthead-container">
                             @Html.DisplayNameFor(model => model.Tickets[0].Id)
@@ -68,7 +68,7 @@
                 </a>
             </th>
             <th>
-                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.GroupNameSort" asp-route-view="">
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.GroupNameSort" asp-route-searchString="@Model.CurrentFilter">
                     <div class="srt-container">
                         <div class="srthead-container">
                             Gruppe
@@ -97,7 +97,7 @@
                 </a>
             </th>
             <th>
-                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.MemberNameSort" asp-route-view="">
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.MemberNameSort" asp-route-searchString="@Model.CurrentFilter">
                     <div class="srt-container">
                         <div class="srthead-container">
                             Medlem
@@ -126,7 +126,7 @@
                 </a>
             </th>
             <th>
-                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.SoldSort" asp-route-view="">
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.SoldSort" asp-route-searchString="@Model.CurrentFilter">
                     <div class="srt-container">
                         <div class="srthead-container">
                             Solgt

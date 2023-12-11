@@ -15,10 +15,10 @@ namespace Badge.Models
         [DisplayName("Lodseddel")]
         public Ticket Ticket { get; set; }
         [DisplayName("Sælger Id")]
-        public int SellerId { get; set; }
+        public int? SellerId { get; set; }
         [ForeignKey(nameof(SellerId))]
         [DisplayName("Sælger")]
-        public Member Seller { get; set; }
+        public Member? Seller { get; set; }
         [DisplayName("Betalingskanal Id")]
         public int ChannelId { get; set; }
         [ForeignKey(nameof(ChannelId))]
