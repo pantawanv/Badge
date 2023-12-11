@@ -26,8 +26,9 @@ namespace Badge.Pages.Administration.MemberAdmin
         public PaginatedList<Member> Members { get; set; }
 
 
-        public async Task OnGetAsync(string sortOrder, string CurrenFilter, string searchString, int? pageIndex)
+        public async Task OnGetAsync(string sortOrder, string searchString, int? pageIndex)
         {
+            CurrentSort = sortOrder;
             FNameSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("FName_asc") ? "FName_desc" : "FName_asc";
             LNameSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("LName_asc") ? "LName_desc" : "LName_asc";
             GroupSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("Group_asc") ? "Group_desc" : "Group_asc";
@@ -39,10 +40,10 @@ namespace Badge.Pages.Administration.MemberAdmin
             }
             else
             {
-                searchString = CurrenFilter;
+                searchString = CurrentFilter;
             }
 
-            CurrenFilter = searchString;
+            CurrentFilter = searchString;
 
             IQueryable<Member> memberIQ = from m in _context.Members
                                           select m;
