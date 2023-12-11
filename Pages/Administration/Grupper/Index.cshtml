@@ -150,16 +150,16 @@
             @foreach (var item in Model.Groups)
             {
                 <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.GroupType.Name)
-                    </td>
-                    <td>
-                        <a asp-page="/Administration/User/Details" asp-route-id="@item.Leader.Id">@Html.DisplayFor(modelItem => item.Leader.FullName)</a>
-                    </td>
-                    <td style="width:100px;">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GroupType.Name)
+                </td>
+                <td>
+                    <a asp-page="/Administration/User/Details" asp-route-id="@item.Leader.Id">@Html.DisplayFor(modelItem => item.Leader.FullName)</a>
+                </td>
+                <td style="width:100px;">
                     <div class="dropdwn">
                         <div class="dropdwn-btn">
                             <div class="circle-sm"></div><div class="circle-sm"></div><div class="circle-sm"></div>
@@ -170,8 +170,10 @@
                             <a class="delete" asp-page="./Delete" asp-route-id="@item.Id">Slet</a>
                         </div>
                     </div>
-                    </tdstyle>
+                    </td>
                 </tr>
+   
+                
             }
         </tbody>
     </table>
