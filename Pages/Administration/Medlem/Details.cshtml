@@ -26,9 +26,21 @@
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Member.Group)
         </dt>
+       
         <dd class="col-sm-10">
             <a asp-page="/Administration/Grupper/Details" asp-route-id="@Model.Member.Group.Id">@Html.DisplayFor(model => model.Member.Group.Name)</a>
         </dd>
+         @foreach (var item in Model.Parents)
+        {
+            <dt class="col-sm-2">
+                Forældrenavn
+            </dt>
+            
+            <dd class="col-sm-10">
+                <a asp-page="/Administration/Foraeldre/Details" asp-route-id="@item.Id"> @item.FName</a>  
+            </dd>
+
+        }
     </dl>
 </div>
 <div>
