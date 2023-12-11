@@ -36,7 +36,7 @@
     @if(User.IsInRole("Manager")){
     <div class="col-2" style="margin-right:0; margin-left:auto; padding:0; width:10%;">
         <a asp-page="Create">
-            <button style="margin:auto; margin-right: 0; width:100%;" class="btn btn-primary">Opret</button>
+            <button style="margin:auto; margin-right: 0; width:100%;" class="btn-def">Opret</button>
         </a>
     </div>
     }
@@ -50,7 +50,7 @@
                     <input name="searchString" value="@Model.CurrentFilter" style="width:100%; height:100%; margin:0; padding: 0; border:none; border-radius: 5px 0 0 5px;" type="text" />
                 </div>
                 <div style="width:10%; height:40px; padding:0 ; margin:0; float:right;">
-                    <input style="width:100%; height:100%; margin:0px; padding: 0; border:none; border-radius:0 5px 5px 0; " type="submit" value="Search" class="btn btn-primary"/>
+                    <input style="width:100%; height:100%; border-radius:0 5px 5px 0;" type="submit" value="Søg" class="btn-def"/>
                 </div>
         </div>
     </form>
@@ -151,7 +151,7 @@
                 <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.PhoneSort" asp-route-view="">
                     <div class="srt-container">
                         <div class="srthead-container">
-                            @Html.DisplayNameFor(model => model.Users[0].PhoneNumber)
+                            Tlf. Nr.
                         </div>
                         <div class="srtarw-container">
                             @if (Model.CurrentSort != null && Model.CurrentSort.Contains("Phone"))
@@ -213,9 +213,16 @@
                     @Html.DisplayFor(modelItem => item.PhoneNumber)
                 </td>
                 <td>
-                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    <div class="dropdwn">
+                        <div class="dropdwn-btn">
+                            <div class="circle-sm"></div><div class="circle-sm"></div><div class="circle-sm"></div>
+                        </div>
+                        <div class="dropdwn-content">
+                            <a asp-page="./Details" asp-route-id="@item.Id">Detaljer</a>
+                            <a asp-page="./Edit" asp-route-id="@item.Id">Rediger</a>
+                            <a class="delete" asp-page="./Delete" asp-route-id="@item.Id">Slet</a>
+                        </div>
+                    </div>
                 </td>
             </tr>
         }
