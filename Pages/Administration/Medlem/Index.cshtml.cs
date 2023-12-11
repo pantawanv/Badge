@@ -52,7 +52,7 @@ namespace Badge.Pages.Administration.MemberAdmin
             if (!String.IsNullOrEmpty(searchString))
             {
                 memberIQ = memberIQ.Where(m => m.FName.Contains(searchString)
-                ||m.LName.Contains(searchString) || m.Group.Name.Contains(searchString));
+                || (m.FName + " " + m.LName + " ").Contains(searchString) || m.Group.Name.Contains(searchString));
             }
 
 

@@ -53,8 +53,10 @@ namespace Badge.Pages.Administration.ParentAdmin
             if (!String.IsNullOrEmpty(searchString))
             {
                 parentsIQ = parentsIQ.Where(p => p.LName.Contains(searchString)
-                || (p.FName + " " + p.LName).Contains(searchString)
-                || p.Phone.Contains(searchString) || p.Email.Contains(searchString));
+                || (p.FName + " " + p.LName + " ").Contains(searchString)
+                || p.Phone.Contains(searchString) || p.Email.Contains(searchString)
+                || (p.Member.FName + " " + p.Member.LName + " ").Contains(searchString)
+                );
 
             }
 

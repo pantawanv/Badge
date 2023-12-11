@@ -36,7 +36,7 @@
     <thead>
         <tr>
             <th>
-                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.TicketSort" asp-route-view="">
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.TicketSort" asp-route-searchString="@Model.CurrentFilter">
                     <div class="srt-container">
                         <div class="srthead-container">
                             @Html.DisplayNameFor(model => model.Sales[0].Ticket)
@@ -65,7 +65,7 @@
                 </a>
             </th>
             <th>
-                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.SellerSort" asp-route-view="">
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.SellerSort" asp-route-searchString="@Model.CurrentFilter">
                     <div class="srt-container">
                         <div class="srthead-container">
                             @Html.DisplayNameFor(model => model.Sales[0].Seller)
@@ -94,7 +94,7 @@
                 </a>
             </th>
             <th>
-                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.ChannelSort" asp-route-view="">
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.ChannelSort" asp-route-searchString="@Model.CurrentFilter">
                     <div class="srt-container">
                         <div class="srthead-container">
                             @Html.DisplayNameFor(model => model.Sales[0].Channel)
@@ -123,7 +123,7 @@
                 </a>
             </th>
             <th>
-                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.PaymentCollectedSort" asp-route-view="">
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.PaymentCollectedSort" asp-route-searchString="@Model.CurrentFilter">
                     <div class="srt-container">
                         <div class="srthead-container">
                             @Html.DisplayNameFor(model => model.Sales[0].PaymentCollected)
@@ -152,7 +152,7 @@
                 </a>
             </th>
             <th>
-                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.SalesDateSort" asp-route-view="">
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.SalesDateSort" asp-route-searchString="@Model.CurrentFilter">
                     <div class="srt-container">
                         <div class="srthead-container">
                             @Html.DisplayNameFor(model => model.Sales[0].SalesDate)

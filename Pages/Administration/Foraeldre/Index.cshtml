@@ -37,7 +37,7 @@
         <tr>
             <th></th>
             <th>
-                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.FNameSort" asp-route-view="">
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.FNameSort" asp-route-searchString="@Model.CurrentFilter">
                     <div class="srt-container">
                         <div class="srthead-container">
                             @Html.DisplayNameFor(model => model.Parents[0].FName)
@@ -66,7 +66,7 @@
                 </a>
             </th>
             <th>
-                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.LNameSort" asp-route-view="">
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.LNameSort" asp-route-searchString="@Model.CurrentFilter">
                     <div class="srt-container">
                         <div class="srthead-container">
                             @Html.DisplayNameFor(model => model.Parents[0].LName)
@@ -95,7 +95,7 @@
                 </a>
             </th>
             <th>
-                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.MemberSort" asp-route-view="">
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.MemberSort" asp-route-searchString="@Model.CurrentFilter">
                     <div class="srt-container">
                         <div class="srthead-container">
                             Barn
@@ -124,7 +124,7 @@
                 </a>
             </th>
             <th>
-                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.PhoneSort" asp-route-view="">
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.PhoneSort" asp-route-searchString="@Model.CurrentFilter">
                     <div class="srt-container">
                         <div class="srthead-container">
                             @Html.DisplayNameFor(model => model.Parents[0].Phone)
@@ -153,7 +153,7 @@
                 </a>
             </th>
             <th>
-                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.EMailSort" asp-route-view="">
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.EMailSort" asp-route-searchString="@Model.CurrentFilter">
                     <div class="srt-container">
                         <div class="srthead-container">
                             @Html.DisplayNameFor(model => model.Parents[0].Email)

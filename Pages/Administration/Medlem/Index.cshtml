@@ -41,7 +41,7 @@
         <tr class="list-tr">
             <th></th>
             <th class="list-th">
-                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.FNameSort" asp-route-view="">
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.FNameSort" asp-route-searchString="@Model.CurrentFilter">
                     <div class="srt-container">
                         <div class="srthead-container">
                             @Html.DisplayNameFor(model => model.Members[0].FName)
@@ -71,7 +71,7 @@
                 
             </th>
             <th>
-                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.LNameSort" asp-route-view="">
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.LNameSort" asp-route-searchString="@Model.CurrentFilter">
                     <div class="srt-container">
                         <div class="srthead-container">
                             @Html.DisplayNameFor(model => model.Members[0].LName)
@@ -100,7 +100,7 @@
                 </a>
             </th>
             <th>
-                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.GroupSort" asp-route-view="">
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.GroupSort" asp-route-searchString="@Model.CurrentFilter">
                     <div class="srt-container">
                         <div class="srthead-container">
                             @Html.DisplayNameFor(model => model.Members[0].Group)
@@ -129,7 +129,7 @@
                 </a>
             </th>
             <th>
-                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.SaleSort" asp-route-view="">
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.SaleSort" asp-route-searchString="@Model.CurrentFilter">
                     <div class="srt-container">
                         Solgte lodsedler
                         <div class="srtarw-container">
