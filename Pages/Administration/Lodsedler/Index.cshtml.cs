@@ -30,7 +30,7 @@ namespace Badge.Pages.Administration.TicketAdmin
         {
             CurrentSort = sortOrder;
 
-            TicketSort = String.IsNullOrEmpty(sortOrder) ? "ticket_desc" : "";
+            TicketSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("id_asc") ? "id_desc" : "id_asc";
             GroupNameSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("group_asc") ? "group_desc" : "group_asc";
             MemberNameSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("member_asc") ? "member_desc" : "member_asc";
 
@@ -56,8 +56,11 @@ namespace Badge.Pages.Administration.TicketAdmin
 
             switch (sortOrder)
             {
-                case "ticket_desc":
+                case "id_desc":
                     ticketsIQ = ticketsIQ.OrderByDescending(t => t.Id);
+                    break;
+                case "id_asc":
+                    ticketsIQ = ticketsIQ.OrderBy(t => t.Id);
                     break;
                 case "group_desc":
                     ticketsIQ = ticketsIQ.OrderByDescending(t => t.TicketGroupAssign.Group.Name);

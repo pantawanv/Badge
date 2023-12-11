@@ -30,11 +30,11 @@ namespace Badge.Pages.Administration.ParentAdmin
         public async Task OnGetAsync(string sortOrder, string currentFilter, string searchString, int? pageIndex)
         {
             CurrentSort = sortOrder;
-            MemberSort = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
-            FNameSort = String.IsNullOrEmpty(sortOrder) ? "FName_desc" : "";
-            LNameSort = String.IsNullOrEmpty(sortOrder) ? "LName_desc" : "";
-            PhoneSort = String.IsNullOrEmpty(sortOrder) ? "Phone_desc" : "";
-            EMailSort = String.IsNullOrEmpty(sortOrder) ? "Email_desc" : "";
+            MemberSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("memberName_asc") ? "memberName_desc" : "memberName_asc";
+            FNameSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("FName_asc") ? "FName_desc" : "FName_asc";
+            LNameSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("LName_asc") ? "LName_desc" : "LName_asc";
+            PhoneSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("Phone_asc") ? "Phone_desc" : "Phone_asc";
+            EMailSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("Email_asc") ? "Email_desc" : "Email_asc";
 
             if (searchString != null)
             {
@@ -62,20 +62,35 @@ namespace Badge.Pages.Administration.ParentAdmin
 
             switch (sortOrder)
             {
-                case "id_desc":
-                    parentsIQ = parentsIQ.OrderByDescending(p => p.Id);
+                case "memberName_desc":
+                    parentsIQ = parentsIQ.OrderByDescending(p => p.Member.FName);
+                    break;
+                case "memberName_asc":
+                    parentsIQ = parentsIQ.OrderBy(p => p.Member.FName);
                     break;
                 case "FName_desc":
                     parentsIQ = parentsIQ.OrderByDescending(p => p.FName);
                     break;
+                case "FName_asc":
+                    parentsIQ = parentsIQ.OrderBy(p => p.FName);
+                    break;
                 case "LName_desc":
                     parentsIQ = parentsIQ.OrderByDescending(p => p.LName);
+                    break;
+                case "LName_asc":
+                    parentsIQ = parentsIQ.OrderBy(p => p.LName);
                     break;
                 case "Phone_desc":
                     parentsIQ = parentsIQ.OrderByDescending(p => p.Phone);
                     break;
+                case "Phone_asc":
+                    parentsIQ = parentsIQ.OrderBy(p => p.Phone);
+                    break;
                 case "Email_desc":
                     parentsIQ = parentsIQ.OrderByDescending(p => p.Email);
+                    break;
+                case "Email_asc":
+                    parentsIQ = parentsIQ.OrderBy(p => p.Email);
                     break;
                 default:
                     parentsIQ = parentsIQ.OrderBy(p => p.FName);

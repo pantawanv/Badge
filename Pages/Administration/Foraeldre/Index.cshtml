@@ -37,33 +37,148 @@
         <tr>
             <th></th>
             <th>
-                <a asp-page="./Index" asp-route-sortOrder="@Model.FNameSort"
-                asp-route-currrentFilter="@Model.CurrentFilter">
-                @Html.DisplayNameFor(model => model.Parents[0].FName)
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.FNameSort" asp-route-view="">
+                    <div class="srt-container">
+                        <div class="srthead-container">
+                            @Html.DisplayNameFor(model => model.Parents[0].FName)
+                        </div>
+                        <div class="srtarw-container">
+                            @if (Model.CurrentSort != null && Model.CurrentSort.Contains("FName"))
+                            {
+                                if (Model.CurrentSort.Contains("asc"))
+                                {
+                                    <div class="srtarw actup"></div>
+                                    <div class="srtarw inactdwn"></div>
+                                }
+                                else
+                                {
+                                    <div class="srtarw inactup"></div>
+                                    <div class="srtarw actdwn"></div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="srtarw inactup"></div>
+                                <div class="srtarw inactdwn"></div>
+                            }
+                        </div>
+                    </div>
                 </a>
             </th>
             <th>
-                <a asp-page="./Index" asp-route-sortOrder="@Model.LNameSort"
-                asp-route-currrentFilter="@Model.CurrentFilter">
-                @Html.DisplayNameFor(model => model.Parents[0].LName)
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.LNameSort" asp-route-view="">
+                    <div class="srt-container">
+                        <div class="srthead-container">
+                            @Html.DisplayNameFor(model => model.Parents[0].LName)
+                        </div>
+                        <div class="srtarw-container">
+                            @if (Model.CurrentSort != null && Model.CurrentSort.Contains("LName"))
+                            {
+                                if (Model.CurrentSort.Contains("asc"))
+                                {
+                                    <div class="srtarw actup"></div>
+                                    <div class="srtarw inactdwn"></div>
+                                }
+                                else
+                                {
+                                    <div class="srtarw inactup"></div>
+                                    <div class="srtarw actdwn"></div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="srtarw inactup"></div>
+                                <div class="srtarw inactdwn"></div>
+                            }
+                        </div>
+                    </div>
                 </a>
             </th>
             <th>
-                <a asp-page="./Index" asp-route-sortOrder="@Model.MemberSort"
-                   asp-route-currentFilter="@Model.CurrentFilter">
-                    Barn
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.MemberSort" asp-route-view="">
+                    <div class="srt-container">
+                        <div class="srthead-container">
+                            Barn
+                        </div>
+                        <div class="srtarw-container">
+                            @if (Model.CurrentSort != null && Model.CurrentSort.Contains("memberName"))
+                            {
+                                if (Model.CurrentSort.Contains("asc"))
+                                {
+                                    <div class="srtarw actup"></div>
+                                    <div class="srtarw inactdwn"></div>
+                                }
+                                else
+                                {
+                                    <div class="srtarw inactup"></div>
+                                    <div class="srtarw actdwn"></div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="srtarw inactup"></div>
+                                <div class="srtarw inactdwn"></div>
+                            }
+                        </div>
+                    </div>
                 </a>
             </th>
             <th>
-                <a asp-page="./Index" asp-route-sortOrder="@Model.PhoneSort"
-                asp-route-currrentFilter="@Model.CurrentFilter">
-                @Html.DisplayNameFor(model => model.Parents[0].Phone)
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.PhoneSort" asp-route-view="">
+                    <div class="srt-container">
+                        <div class="srthead-container">
+                            @Html.DisplayNameFor(model => model.Parents[0].Phone)
+                        </div>
+                        <div class="srtarw-container">
+                            @if (Model.CurrentSort != null && Model.CurrentSort.Contains("Phone"))
+                            {
+                                if (Model.CurrentSort.Contains("asc"))
+                                {
+                                    <div class="srtarw actup"></div>
+                                    <div class="srtarw inactdwn"></div>
+                                }
+                                else
+                                {
+                                    <div class="srtarw inactup"></div>
+                                    <div class="srtarw actdwn"></div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="srtarw inactup"></div>
+                                <div class="srtarw inactdwn"></div>
+                            }
+                        </div>
+                    </div>
                 </a>
             </th>
             <th>
-                <a asp-page="./Index" asp-route-sortOrder="@Model.EMailSort"
-                asp-route-currrentFilter="@Model.CurrentFilter">
-                @Html.DisplayNameFor(model => model.Parents[0].Email)
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.EMailSort" asp-route-view="">
+                    <div class="srt-container">
+                        <div class="srthead-container">
+                            @Html.DisplayNameFor(model => model.Parents[0].Email)
+                        </div>
+                        <div class="srtarw-container">
+                            @if (Model.CurrentSort != null && Model.CurrentSort.Contains("Email"))
+                            {
+                                if (Model.CurrentSort.Contains("asc"))
+                                {
+                                    <div class="srtarw actup"></div>
+                                    <div class="srtarw inactdwn"></div>
+                                }
+                                else
+                                {
+                                    <div class="srtarw inactup"></div>
+                                    <div class="srtarw actdwn"></div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="srtarw inactup"></div>
+                                <div class="srtarw inactdwn"></div>
+                            }
+                        </div>
+                    </div>
                 </a>
             </th>
             <th></th>

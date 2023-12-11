@@ -17,9 +17,9 @@ namespace Badge.Pages.Administration.GroupAdmin
             Configuration = configuration;
         }
 
-        public string GroupNameSort { get; set; }
-        public string GroupIdSort { get; set; }
-        public string GroupLeaderSort { get; set; }
+        public string NameSort { get; set; }
+        public string TypeSort { get; set; }
+        public string LeaderSort { get; set; }
         public string CurrentFilter { get; set; }
         public string CurrentSort { get; set; }
 
@@ -31,9 +31,9 @@ namespace Badge.Pages.Administration.GroupAdmin
         public async Task OnGetAsync(string sortOrder, string CurrentFilter, string searchString, int? pageIndex, bool myGroups)
         {
             CurrentSort = sortOrder;
-            GroupNameSort = String.IsNullOrEmpty(sortOrder) ? "groupName_desc" : "";
-            GroupIdSort = String.IsNullOrEmpty(sortOrder) ? "groupId_desc" : "";
-            GroupLeaderSort = String.IsNullOrEmpty(sortOrder) ? "groupLeader_desc" : "";
+            NameSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("Name_asc") ? "Name_desc" : "Name_asc";
+            TypeSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("Type_asc") ? "Type_desc" : "Type_asc";
+            LeaderSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("Leader_asc") ? "Leader_desc" : "Leader_asc";
             MyGroups = myGroups;
             if (searchString != null)
             {
@@ -64,14 +64,23 @@ namespace Badge.Pages.Administration.GroupAdmin
 
             switch (sortOrder)
             {
-                case "groupName_desc":
+                case "Name_desc":
                     groupsIQ = groupsIQ.OrderByDescending(g => g.Name);
                     break;
-                case "groupId_desc":
-                    groupsIQ = groupsIQ.OrderByDescending(g => g.GroupTypeId);
+                case "Name_asc":
+                    groupsIQ = groupsIQ.OrderBy(g => g.Name);
                     break;
-                case "groupLeader_desc":
-                    groupsIQ = groupsIQ.OrderByDescending(g => g.LeaderId);
+                case "Type_desc":
+                    groupsIQ = groupsIQ.OrderByDescending(g => g.GroupType.Name);
+                    break;
+                case "Type_asc":
+                    groupsIQ = groupsIQ.OrderBy(g => g.GroupType.Name);
+                    break;
+                case "Leader_desc":
+                    groupsIQ = groupsIQ.OrderByDescending(g => g.Leader.FName);
+                    break;
+                case "Leader_asc":
+                    groupsIQ = groupsIQ.OrderBy(g => g.Leader.FName);
                     break;
                 default:
                     groupsIQ = groupsIQ.OrderBy(g => g.Name);

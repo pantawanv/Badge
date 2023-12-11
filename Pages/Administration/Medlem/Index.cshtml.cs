@@ -28,10 +28,10 @@ namespace Badge.Pages.Administration.MemberAdmin
 
         public async Task OnGetAsync(string sortOrder, string CurrenFilter, string searchString, int? pageIndex)
         {
-            FNameSort = String.IsNullOrEmpty(sortOrder) ? "FName_desc" : "";
-            LNameSort = String.IsNullOrEmpty(sortOrder) ? "LName_desc" : "";
-            GroupSort = String.IsNullOrEmpty(sortOrder) ? "Group_desc" : "";
-            SaleSort = String.IsNullOrEmpty(sortOrder) ? "Sale_desc" : "";
+            FNameSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("FName_asc") ? "FName_desc" : "FName_asc";
+            LNameSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("LName_asc") ? "LName_desc" : "LName_asc";
+            GroupSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("Group_asc") ? "Group_desc" : "Group_asc";
+            SaleSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("Sale_asc") ? "Sale_desc" : "Sale_asc";
 
             if (searchString != null)
             {
@@ -61,14 +61,26 @@ namespace Badge.Pages.Administration.MemberAdmin
                 case "FName_desc":
                     memberIQ = memberIQ.OrderByDescending(m => m.FName);
                     break;
+                case "FName_asc":
+                    memberIQ = memberIQ.OrderBy(m => m.FName);
+                    break;
                 case "LName_desc":
                     memberIQ = memberIQ.OrderByDescending(m => m.LName);
+                    break;
+                case "LName_asc":
+                    memberIQ = memberIQ.OrderBy(m => m.LName);
                     break;
                 case "Group_desc":
                     memberIQ = memberIQ.OrderByDescending(m => m.Group);
                     break;
+                case "Group_asc":
+                    memberIQ = memberIQ.OrderBy(m => m.Group);
+                    break;
                 case "Sale_desc":
                     memberIQ = memberIQ.OrderByDescending(m => m.Sales.Count);
+                    break;
+                case "Sale_asc":
+                    memberIQ = memberIQ.OrderBy(m => m.Sales.Count);
                     break;
                 default:
                     memberIQ = memberIQ.OrderBy(m => m.Sales.Count);
