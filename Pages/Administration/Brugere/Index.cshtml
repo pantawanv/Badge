@@ -29,9 +29,21 @@
     </div>
 </div>
 
-<div class="row" style="width:100%; padding:0; margin:0;">
+<div class="row" style="width:100%; padding:0; margin:0; margin-bottom:20px;">
     <div class="col-7">
-        <h1>Ledere</h1>
+        @switch (Model.View)
+        {
+            case "leader":
+                <h1>Alle ledere</h1>
+                break;
+            case "manager":
+                <h1>Alle bestyrere</h1>
+                break;
+            default:
+                <h1>Alle brugere</h1>
+                break;
+        }
+        
     </div>
     @if(User.IsInRole("Manager")){
     <div class="col-2" style="margin-right:0; margin-left:auto; padding:0; width:10%;">
@@ -56,7 +68,7 @@
     </form>
 </div>
 
-<table class="index-table">
+<table>
     <thead>
         <tr class="index-tr">
             <th></th>
@@ -182,11 +194,7 @@
     <tbody>
         @foreach (var item in Model.Users)
         {
-                
-                
-            
-
-            <tr>
+            <tr class="index-tr">
                 <td>
                     @if (item.AppUImageData != null)
                     {
@@ -212,7 +220,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.PhoneNumber)
                 </td>
-                <td>
+                <td style="width:100px;">
                     <div class="dropdwn">
                         <div class="dropdwn-btn">
                             <div class="circle-sm"></div><div class="circle-sm"></div><div class="circle-sm"></div>

@@ -36,6 +36,7 @@ a {
     text-decoration: none;
     font-weight:500;
     color:black;
+
 }
 
 p{
@@ -395,14 +396,14 @@ body .button {
 
 .srt-container {
     display:flex;
-    padding:10px;
+    padding-top:10px;
+    padding-bottom:10px;
     margin:0;
     width:fit-content;
 }
 
 .srthead-container {
     height:30px;
-
 }
 
 .srtarw-container {
@@ -430,19 +431,14 @@ body .button {
         background-image: url('/images/arw-inactdown.svg');
     }
 
-.index-table {
+table {
     width:100%;
 }
 
-.index-tr {
-    width: 100%;
-    margin:0;
-    padding:0;
+td {
+    padding-bottom:10px;
 }
-th {
-    padding:0;
-    margin:0;
-}
+
 
 .dropdwn {
     position: relative;

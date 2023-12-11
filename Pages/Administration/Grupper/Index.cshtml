@@ -52,9 +52,9 @@
     </div>
 
 
-    <table class="table">
+    <table>
         <thead>
-            <index-tr>
+            <tr>
                 <th>
                 <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.NameSort" asp-route-myGroups="@Model.MyGroups">
                     <div class="srt-container">
@@ -84,6 +84,7 @@
                     </div>
                 </a>
                 </th>
+
                 <th>
                 <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.TypeSort" asp-route-myGroups="@Model.MyGroups">
                     <div class="srt-container">
@@ -113,7 +114,7 @@
                     </div>
                 </a>
                 </th>
-                <th>
+                <th >
                 <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.LeaderSort" asp-route-myGroups="@Model.MyGroups">
                     <div class="srt-container">
                         <div class="srthead-container">
@@ -143,7 +144,7 @@
                 </a>
                 </th>
                 <th></th>
-            </index-tr>
+            </tr>
         </thead>
         <tbody>
             @foreach (var item in Model.Groups)
@@ -158,11 +159,18 @@
                     <td>
                         <a asp-page="/Administration/User/Details" asp-route-id="@item.Leader.Id">@Html.DisplayFor(modelItem => item.Leader.FullName)</a>
                     </td>
-                    <td>
-                        <a asp-page="./Edit" asp-route-id="@item.Id">Rediger</a> |
-                        <a asp-page="./Details" asp-route-id="@item.Id">Detaljer</a> |
-                        <a asp-page="./Delete" asp-route-id="@item.Id">Slet</a>
-                    </td>
+                    <td style="width:100px;">
+                    <div class="dropdwn">
+                        <div class="dropdwn-btn">
+                            <div class="circle-sm"></div><div class="circle-sm"></div><div class="circle-sm"></div>
+                        </div>
+                        <div class="dropdwn-content">
+                            <a asp-page="./Details" asp-route-id="@item.Id">Detaljer</a>
+                            <a asp-page="./Edit" asp-route-id="@item.Id">Rediger</a>
+                            <a class="delete" asp-page="./Delete" asp-route-id="@item.Id">Slet</a>
+                        </div>
+                    </div>
+                    </tdstyle>
                 </tr>
             }
         </tbody>
