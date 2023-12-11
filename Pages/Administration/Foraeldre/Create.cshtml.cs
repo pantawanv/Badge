@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Badge.Data;
+using Badge.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Badge.Data;
-using Badge.Models;
 
 namespace Badge.Pages.Administration.ParentAdmin
 {
@@ -21,13 +17,13 @@ namespace Badge.Pages.Administration.ParentAdmin
 
         public IActionResult OnGet()
         {
-        ViewData["MemberId"] = new SelectList(_context.Members, "Id", "FName");
+            ViewData["MemberId"] = new SelectList(_context.Members, "Id", "FName");
             return Page();
         }
 
         [BindProperty]
         public Parent Parent { get; set; } = default!;
-        
+
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()

@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Badge.Data;
+using Badge.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Badge.Data;
-using Badge.Models;
 
 namespace Badge.Pages.Administration.SalesAdmin
 {
@@ -19,7 +15,7 @@ namespace Badge.Pages.Administration.SalesAdmin
             _context = context;
         }
 
-      public Sale Sale { get; set; } = default!; 
+        public Sale Sale { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -33,7 +29,7 @@ namespace Badge.Pages.Administration.SalesAdmin
             {
                 return NotFound();
             }
-            else 
+            else
             {
                 Sale = sale;
             }

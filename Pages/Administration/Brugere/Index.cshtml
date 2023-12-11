@@ -56,25 +56,133 @@
     </form>
 </div>
 
-<table class="table">
+<table class="index-table">
     <thead>
-        <tr>
+        <tr class="index-tr">
             <th></th>
             <th>
-                <a asp-page="./Index" asp-route-sortOrder="@Model.FNameSort" asp-route-view="">
-                    @Html.DisplayNameFor(model => model.Users[0].FName)
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.FNameSort" asp-route-view="">
+                <div class="srt-container">
+                    <div class="srthead-container">
+                            @Html.DisplayNameFor(model => model.Users[0].FName)
+                    </div>
+                    <div class="srtarw-container">
+                        @if (Model.CurrentSort != null) {
+                            if (Model.CurrentSort.Contains("FName")){
+                                if (Model.CurrentSort.Contains("asc"))
+                                {
+                                    <div class="srtarw actup"></div>
+                                    <div class="srtarw inactdwn"></div>
+                                }
+                                else
+                                {
+                                   <div class="srtarw inactup"></div>
+                                   <div class="srtarw actdwn"></div>
+                                }
+                            }else
+                            {
+                                <div class="srtarw inactup"></div>
+                                <div class="srtarw inactdwn"></div>
+                            }
+                            }
+                            else
+                            {
+                                <div class="srtarw inactup"></div>
+                                <div class="srtarw inactdwn"></div>
+                            }
+                        
+                    </div>
+                </div>
                 </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Users[0].LName)
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.LNameSort" asp-route-view="">
+                    <div class="srt-container">
+                        <div class="srthead-container">
+                            @Html.DisplayNameFor(model => model.Users[0].LName)
+                        </div>
+                        <div class="srtarw-container">
+                            @if (Model.CurrentSort != null && Model.CurrentSort.Contains("LName"))
+                            {
+                                if (Model.CurrentSort.Contains("asc"))
+                                {
+                                    <div class="srtarw actup"></div>
+                                    <div class="srtarw inactdwn"></div>
+                                }
+                                else
+                                {
+                                    <div class="srtarw inactup"></div>
+                                    <div class="srtarw actdwn"></div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="srtarw inactup"></div>
+                                <div class="srtarw inactdwn"></div>
+                            }
+                        </div>
+                    </div>
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Users[0].Email)
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.EMailSort" asp-route-view="">
+                    <div class="srt-container">
+                        <div class="srthead-container">
+                            @Html.DisplayNameFor(model => model.Users[0].Email)
+                        </div>
+                        <div class="srtarw-container">
+                            @if (Model.CurrentSort != null && Model.CurrentSort.Contains("Email"))
+                            {
+                                if (Model.CurrentSort.Contains("asc"))
+                                {
+                                    <div class="srtarw actup"></div>
+                                    <div class="srtarw inactdwn"></div>
+                                }
+                                else
+                                {
+                                    <div class="srtarw inactup"></div>
+                                    <div class="srtarw actdwn"></div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="srtarw inactup"></div>
+                                <div class="srtarw inactdwn"></div>
+                            }
+                        </div>
+                    </div>
+                </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Users[0].PhoneNumber)
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.PhoneSort" asp-route-view="">
+                    <div class="srt-container">
+                        <div class="srthead-container">
+                            @Html.DisplayNameFor(model => model.Users[0].PhoneNumber)
+                        </div>
+                        <div class="srtarw-container">
+                            @if (Model.CurrentSort != null && Model.CurrentSort.Contains("Phone"))
+                            {
+                                if (Model.CurrentSort.Contains("asc"))
+                                {
+                                    <div class="srtarw actup"></div>
+                                    <div class="srtarw inactdwn"></div>
+                                }
+                                else
+                                {
+                                    <div class="srtarw inactup"></div>
+                                    <div class="srtarw actdwn"></div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="srtarw inactup"></div>
+                                <div class="srtarw inactdwn"></div>
+                            }
+                        </div>
+                    </div>
+                </a>
             </th>
-            <th></th>
+            <th width="100px;"></th>
         </tr>
     </thead>
     <tbody>

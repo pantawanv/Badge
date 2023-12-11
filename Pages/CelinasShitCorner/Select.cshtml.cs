@@ -21,7 +21,7 @@ namespace Badge.Pages.CelinasShitCorner
             var members = from m in _context.Members select m;
             selectedProducts = selectedProducts ?? new int[0];
             Members = await members.Include(m => m.Group).ToListAsync();
-            var select = from m in Members where (selectedProducts.Contains(m.Id))select m;
+            var select = from m in Members where (selectedProducts.Contains(m.Id)) select m;
             SelectedProducts = select.ToList();
             return Page();
         }

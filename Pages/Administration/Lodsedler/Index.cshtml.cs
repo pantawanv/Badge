@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Badge.Data;
+using Badge.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Badge.Data;
-using Badge.Models;
 
 namespace Badge.Pages.Administration.TicketAdmin
 {
@@ -28,10 +23,10 @@ namespace Badge.Pages.Administration.TicketAdmin
         public string CurrentFilter { get; set; }
         public string CurrentSort { get; set; }
 
-        public PaginatedList<Ticket> Tickets { get;set; } 
+        public PaginatedList<Ticket> Tickets { get; set; }
         public IQueryable<Sale> Sales { get; set; }
 
-        public async Task OnGetAsync(string sortOrder,string searchString, int? pageIndex)
+        public async Task OnGetAsync(string sortOrder, string searchString, int? pageIndex)
         {
             CurrentSort = sortOrder;
 
@@ -42,7 +37,7 @@ namespace Badge.Pages.Administration.TicketAdmin
 
             if (searchString != null)
             {
-                pageIndex = 1; 
+                pageIndex = 1;
             }
             else
             {
@@ -54,8 +49,8 @@ namespace Badge.Pages.Administration.TicketAdmin
             IQueryable<Ticket> ticketsIQ = from t in _context.Tickets
                                            select t;
 
-            if(!String.IsNullOrEmpty(searchString)) 
-            { 
+            if (!String.IsNullOrEmpty(searchString))
+            {
                 ticketsIQ = ticketsIQ.Where(t => t.Id.Contains(searchString) || t.TicketGroupAssign.Group.Name.Contains(searchString) || t.TicketMemberAssign.Member.FName.Contains(searchString) || t.TicketMemberAssign.Member.LName.Contains(searchString));
             }
 
@@ -85,7 +80,7 @@ namespace Badge.Pages.Administration.TicketAdmin
             var sales = from s in _context.Sales select s;
             Sales = sales.Include(s => s.Ticket);
             Tickets = await PaginatedList<Ticket>.CreateAsync(ticketsIQ.AsNoTracking().Include(t => t.TicketGroupAssign).ThenInclude(t => t.Group).Include(t => t.TicketMemberAssign).ThenInclude(t => t.Member), pageIndex ?? 1, pageSize);
-          
+
         }
     }
 }

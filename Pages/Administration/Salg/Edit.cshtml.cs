@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Badge.Data;
+using Badge.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Badge.Data;
-using Badge.Models;
 
 namespace Badge.Pages.Administration.SalesAdmin
 {
@@ -30,15 +26,15 @@ namespace Badge.Pages.Administration.SalesAdmin
                 return NotFound();
             }
 
-            var sale =  await _context.Sales.FirstOrDefaultAsync(m => m.Id == id);
+            var sale = await _context.Sales.FirstOrDefaultAsync(m => m.Id == id);
             if (sale == null)
             {
                 return NotFound();
             }
             Sale = sale;
-           ViewData["ChannelId"] = new SelectList(_context.Channels, "Id", "Name");
-           ViewData["SellerId"] = new SelectList(_context.Members, "Id", "Id");
-           ViewData["TicketId"] = new SelectList(_context.Tickets, "Id", "Id");
+            ViewData["ChannelId"] = new SelectList(_context.Channels, "Id", "Name");
+            ViewData["SellerId"] = new SelectList(_context.Members, "Id", "Id");
+            ViewData["TicketId"] = new SelectList(_context.Tickets, "Id", "Id");
             return Page();
         }
 
@@ -74,7 +70,7 @@ namespace Badge.Pages.Administration.SalesAdmin
 
         private bool SaleExists(int id)
         {
-          return (_context.Sales?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Sales?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

@@ -82,8 +82,14 @@
                 @Html.DisplayFor(modelItem => item.Channel.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.PaymentCollected)
-            </td>
+                    @if (item.PaymentCollected)
+                    {
+                        <div class="note-block note-green">Betalt</div>
+                    } else
+                    {
+                        <div class="note-block note-red">Ikke betalt</div>
+                    }
+                </td>
             <td>
                 @item.SalesDate.ToShortDateString()
             </td>

@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Badge.Pages.CelinasShitCorner
@@ -9,20 +8,21 @@ namespace Badge.Pages.CelinasShitCorner
         ticketitem one = new ticketitem("1", null);
         ticketitem two = new ticketitem("2", null);
 
-        public dragdropModel() {
+        public dragdropModel()
+        {
             Ids= new List<ticketitem>();
             Ids.Add(one);
             Ids.Add(two);
         }
 
         public async Task OnGetAsync()
-        {   
-            
+        {
+
         }
 
         public void dropGreen(string item)
         {
-            ticketitem Item = Ids.FirstOrDefault(i => i.id == item );
+            ticketitem Item = Ids.FirstOrDefault(i => i.id == item);
             Item.title = "green";
         }
 
@@ -32,7 +32,7 @@ namespace Badge.Pages.CelinasShitCorner
             Item.title = "blue";
         }
 
-        
+
     }
 
     public class ticketitem

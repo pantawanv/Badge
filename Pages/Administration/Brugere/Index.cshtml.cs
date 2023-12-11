@@ -1,7 +1,6 @@
 using Badge.Areas.Identity.Data;
 using Badge.Data;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
@@ -22,19 +21,19 @@ namespace Badge.Pages.Administration.User
         public string FNameSort { get; set; }
         public string LNameSort { get; set; }
         public string EMailSort { get; set; }
-        public string PhoneSort {  get; set; }
+        public string PhoneSort { get; set; }
         public string CurrentFilter { get; set; }
         public string CurrentSort { get; set; }
-        public string View {  get; set; }
-        public PaginatedList<ApplicationUser> Users { get; set; } 
+        public string View { get; set; }
+        public PaginatedList<ApplicationUser> Users { get; set; }
 
-        public async Task OnGetAsync(string searchString, string? view, string sortOrder, string currrenFilter, int? pageIndex)
+        public async Task OnGetAsync(string searchString, string? view, string sortOrder, string currrentFilter, int? pageIndex)
         {
             CurrentSort = sortOrder;
             FNameSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("FName_asc") ? "FName_desc" : "FName_asc";
-            LNameSort = String.IsNullOrEmpty(sortOrder) ? "LName_desc" : "";
-            PhoneSort = String.IsNullOrEmpty(sortOrder) ? "Phone_desc" : "";
-            EMailSort = String.IsNullOrEmpty(sortOrder) ? "Email_desc" : "";
+            LNameSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("LName_asc") ? "LName_desc" : "LName_asc";
+            PhoneSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("Phone_asc") ? "Phone_desc" : "Phone_asc";
+            EMailSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("Email_asc") ? "Email_desc" : "Email_asc";
 
             string leaderId = _roleManager.Roles.First(r => r.Name == "Leader").Id;
             string managerId = _roleManager.Roles.First(r => r.Name == "Manager").Id;
@@ -47,7 +46,7 @@ namespace Badge.Pages.Administration.User
             }
             else
             {
-                searchString = currrenFilter;
+                searchString = currrentFilter;
             }
 
             CurrentFilter = searchString;
@@ -90,14 +89,24 @@ namespace Badge.Pages.Administration.User
                     case "LName_desc":
                         UserIQ = UserIQ.OrderByDescending(u => u.LName);
                         break;
+                    case "LName_asc":
+                        UserIQ = UserIQ.OrderBy(u => u.LName);
+                        break;
                     case "Phone_desc":
                         UserIQ = UserIQ.OrderByDescending(u => u.PhoneNumber);
                         break;
-                    case "EMail_desc":
+                    case "Phone_asc":
+                        UserIQ = UserIQ.OrderBy(u => u.PhoneNumber);
+                        break;
+                    case "Email_desc":
                         UserIQ = UserIQ.OrderByDescending(u => u.Email);
                         break;
+                    case "Email_asc":
+                        UserIQ = UserIQ.OrderBy(u => u.Email);
+                        break;
                     default:
-                        UserIQ = UserIQ.OrderByDescending(u => u.FName);
+                        CurrentSort = "FName_asc";
+                        UserIQ = UserIQ.OrderBy(u => u.FName);
                         break;
                 }
 

@@ -10,7 +10,7 @@ namespace Badge.Models
         [Required]
         public string TicketId { get; set; }
         [ForeignKey(nameof(TicketId))]
-        public Ticket Ticket { get; set;}
+        public Ticket Ticket { get; set; }
         [Required]
         public int GroupId { get; set; }
         [ForeignKey(nameof(GroupId))]

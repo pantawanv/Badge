@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Badge.Data;
+using Badge.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Badge.Data;
-using Badge.Models;
 
 namespace Badge.Pages.Administration.SalesAdmin
 {
@@ -21,15 +17,15 @@ namespace Badge.Pages.Administration.SalesAdmin
 
         public IActionResult OnGet()
         {
-        ViewData["ChannelId"] = new SelectList(_context.Channels, "Id", "Name");
-        ViewData["SellerId"] = new SelectList(_context.Members, "Id", "FullName");
+            ViewData["ChannelId"] = new SelectList(_context.Channels, "Id", "Name");
+            ViewData["SellerId"] = new SelectList(_context.Members, "Id", "FullName");
             ViewData["TicketId"] = new SelectList(from t in _context.Tickets where (from s in _context.Sales where s.TicketId == t.Id select s).Any() == false select t, "Id", "Id");
             return Page();
         }
 
         [BindProperty]
         public Sale Sale { get; set; } = default!;
-        
+
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()

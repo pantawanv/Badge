@@ -28,6 +28,6 @@ namespace Badge.Models
         public bool PaymentCollected { get; set; }
         [DisplayName("Salgsdato")]
         public DateTime SalesDate { get; set; }
-        
+
     }
 }

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Badge.Data;
+using Badge.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Badge.Data;
-using Badge.Models;
 
 namespace Badge.Pages.Administration.ParentAdmin
 {
@@ -30,13 +26,13 @@ namespace Badge.Pages.Administration.ParentAdmin
                 return NotFound();
             }
 
-            var parent =  await _context.Parents.FirstOrDefaultAsync(m => m.Id == id);
+            var parent = await _context.Parents.FirstOrDefaultAsync(m => m.Id == id);
             if (parent == null)
             {
                 return NotFound();
             }
             Parent = parent;
-           ViewData["MemberId"] = new SelectList(_context.Members, "Id", "Id");
+            ViewData["MemberId"] = new SelectList(_context.Members, "Id", "Id");
             return Page();
         }
 
@@ -72,7 +68,7 @@ namespace Badge.Pages.Administration.ParentAdmin
 
         private bool ParentExists(int id)
         {
-          return (_context.Parents?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Parents?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

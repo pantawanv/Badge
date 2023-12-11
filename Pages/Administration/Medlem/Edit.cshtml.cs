@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Badge.Data;
+using Badge.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Badge.Data;
-using Badge.Models;
 
 namespace Badge.Pages.Administration.MemberAdmin
 {
@@ -30,13 +26,13 @@ namespace Badge.Pages.Administration.MemberAdmin
                 return NotFound();
             }
 
-            var member =  await _context.Members.FirstOrDefaultAsync(m => m.Id == id);
+            var member = await _context.Members.FirstOrDefaultAsync(m => m.Id == id);
             if (member == null)
             {
                 return NotFound();
             }
             Member = member;
-           ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name");
+            ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name");
             return Page();
         }
 
@@ -72,7 +68,7 @@ namespace Badge.Pages.Administration.MemberAdmin
 
         private bool MemberExists(int id)
         {
-          return (_context.Members?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Members?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

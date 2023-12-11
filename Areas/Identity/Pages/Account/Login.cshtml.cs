@@ -2,15 +2,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System.ComponentModel.DataAnnotations;
-
+using Badge.Areas.Identity.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-
-using Badge.Areas.Identity.Data;
+using System.ComponentModel.DataAnnotations;
 
 namespace Badge.Areas.Identity.Pages.Account
 {
@@ -49,7 +46,7 @@ namespace Badge.Areas.Identity.Pages.Account
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
-  
+
             [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
         }

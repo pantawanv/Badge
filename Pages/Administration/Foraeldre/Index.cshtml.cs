@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Badge.Data;
+using Badge.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Badge.Data;
-using Badge.Models;
-using System.Text.RegularExpressions;
 
 namespace Badge.Pages.Administration.ParentAdmin
 {
@@ -19,7 +13,7 @@ namespace Badge.Pages.Administration.ParentAdmin
         public IndexModel(ApplicationDbContext context, IConfiguration configuration)
         {
             _context = context;
-            Configuration = configuration;  
+            Configuration = configuration;
         }
 
         public string MemberSort { get; set; }
@@ -29,7 +23,7 @@ namespace Badge.Pages.Administration.ParentAdmin
         public string EMailSort { get; set; }
         public string CurrentFilter { get; set; }
         public string CurrentSort { get; set; }
-       
+
 
         public PaginatedList<Parent> Parents { get; set; }
 
@@ -56,7 +50,7 @@ namespace Badge.Pages.Administration.ParentAdmin
             IQueryable<Parent> parentsIQ = from p in _context.Parents
                                            select p;
 
-            if (!String.IsNullOrEmpty(searchString) )
+            if (!String.IsNullOrEmpty(searchString))
             {
                 parentsIQ = parentsIQ.Where(p => p.LName.Contains(searchString)
                 || p.FName.Contains(searchString) || p.Member.FullName.Contains(searchString)|| p.LName.Contains(searchString)
@@ -94,7 +88,7 @@ namespace Badge.Pages.Administration.ParentAdmin
             Parents = await PaginatedList<Parent>.CreateAsync(parentsIQ.AsNoTracking()
                 .Include(p => p.Member), pageIndex ?? 1, pageSize);
 
-           
+
 
         }
     }

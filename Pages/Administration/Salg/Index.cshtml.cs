@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Badge.Data;
+using Badge.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Badge.Data;
-using Badge.Models;
 
 namespace Badge.Pages.Administration.SalesAdmin
 {
@@ -29,11 +24,11 @@ namespace Badge.Pages.Administration.SalesAdmin
         public string CurrentFilter { get; set; }
         public string CurrentSort { get; set; }
 
-        public PaginatedList<Sale> Sales{ get;set; } 
+        public PaginatedList<Sale> Sales { get; set; }
 
-        public async Task OnGetAsync(string  sortOrder, string currentFilter, string searchString, int? pageIndex)
+        public async Task OnGetAsync(string sortOrder, string currentFilter, string searchString, int? pageIndex)
         {
-           CurrentSort = sortOrder;
+            CurrentSort = sortOrder;
 
             TicketSort = String.IsNullOrEmpty(sortOrder) ? "ticket_desc" : "";
             SellerSort = String.IsNullOrEmpty(sortOrder) ? "seller_desc" : "";
@@ -41,9 +36,9 @@ namespace Badge.Pages.Administration.SalesAdmin
             PaymentCollectedSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("paymentCollected_asc") ? "paymentCollected_desc" : "paymentCollected_asc";
             SalesDateSort = String.IsNullOrEmpty(sortOrder) ? "salesDate_desc" : "";
 
-            if(searchString != null)
+            if (searchString != null)
             {
-                pageIndex = 1; 
+                pageIndex = 1;
             }
             else
             {
@@ -54,7 +49,7 @@ namespace Badge.Pages.Administration.SalesAdmin
 
 
             IQueryable<Sale> salesIQ = from s in _context.Sales
-                                        select s;
+                                       select s;
 
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -83,7 +78,7 @@ namespace Badge.Pages.Administration.SalesAdmin
                 case "salesDate_desc":
                     salesIQ = salesIQ.OrderByDescending(s => s.SalesDate);
                     break;
-                default: 
+                default:
                     salesIQ = salesIQ.OrderBy(s => s.Ticket);
                     break;
             }
@@ -97,7 +92,7 @@ namespace Badge.Pages.Administration.SalesAdmin
 
 
 
-         
+
         }
     }
 }

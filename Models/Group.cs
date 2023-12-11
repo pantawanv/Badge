@@ -1,7 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
+﻿using Badge.Areas.Identity.Data;
 using System.ComponentModel;
-using Badge.Areas.Identity.Data;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Badge.Models
 {
@@ -13,7 +13,7 @@ namespace Badge.Models
         [Required]
         [StringLength(50)]
         [DisplayName("Gruppe")]
-       
+
         public string Name { get; set; }
         [DisplayName("Gruppetype")]
         public int GroupTypeId { get; set; }
@@ -24,11 +24,11 @@ namespace Badge.Models
         public string LeaderId { get; set; }
         [ForeignKey(nameof(LeaderId))]
         [DisplayName("Leder")]
-        public ApplicationUser Leader { get; set;}
+        public ApplicationUser Leader { get; set; }
 
         [InverseProperty(nameof(Member.Group))]
         public virtual ICollection<Member> Members { get; set; }
-        
+
 
     }
 }

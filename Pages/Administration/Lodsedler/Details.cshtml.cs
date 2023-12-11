@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Badge.Data;
+using Badge.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using Badge.Data;
-using Badge.Models;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 
 namespace Badge.Pages.Administration.TicketAdmin
 {
@@ -38,12 +33,12 @@ namespace Badge.Pages.Administration.TicketAdmin
             }
 
             var ticket = await _context.Tickets.FirstOrDefaultAsync(m => m.Id == id);
-            
+
             if (ticket == null)
             {
                 return NotFound();
             }
-            else 
+            else
             {
                 Ticket = ticket;
 
@@ -59,17 +54,17 @@ namespace Badge.Pages.Administration.TicketAdmin
                 {
                     TicketMemberAssign = ticketMemberAssign;
                 }
-                var sale = await _context.Sales.Include(t => t.Seller).ThenInclude(t=>t.Group).Include(t => t.Channel).FirstOrDefaultAsync(t=> t.TicketId == id);
+                var sale = await _context.Sales.Include(t => t.Seller).ThenInclude(t => t.Group).Include(t => t.Channel).FirstOrDefaultAsync(t => t.TicketId == id);
                 if (sale != null)
                 {
                     Sale = sale;
-                    
+
                 }
             }
-            
-            ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name"); 
-            
-            
+
+            ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name");
+
+
             return Page();
         }
 
@@ -77,7 +72,8 @@ namespace Badge.Pages.Administration.TicketAdmin
         {
             TicketGroupAssign ticketGroupAssign = await _context.TicketGroupAssigns.FirstOrDefaultAsync(t => t.TicketId == Ticket.Id);
 
-            if (ticketGroupAssign != null) {
+            if (ticketGroupAssign != null)
+            {
 
                 _context.TicketGroupAssigns.Remove(ticketGroupAssign);
                 _context.SaveChanges();
@@ -111,14 +107,14 @@ namespace Badge.Pages.Administration.TicketAdmin
             else
             {
                 var memberGroupAssign = await _context.TicketMemberAssigns.FirstOrDefaultAsync(t => t.TicketId == Ticket.Id);
-                if(memberGroupAssign == null)
+                if (memberGroupAssign == null)
                 {
                     TicketMemberAssign.TicketId = Ticket.Id;
                     var result = await _context.TicketMemberAssigns.AddAsync(TicketMemberAssign);
                     _context.SaveChanges();
                 }
             }
-            return RedirectToPage("Details", new { id = Ticket.Id});
+            return RedirectToPage("Details", new { id = Ticket.Id });
         }
     }
 }

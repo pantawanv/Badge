@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Badge.Models
 {
@@ -10,7 +10,7 @@ namespace Badge.Models
         [Required]
         public string TicketId { get; set; }
         [ForeignKey(nameof(TicketId))]
-        
+
         public Ticket Ticket { get; set; }
         [Required]
         public int MemberId { get; set; }

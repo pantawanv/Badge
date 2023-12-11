@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Badge.Areas.Identity.Data;
+using Badge.Data;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Badge.Data;
-using Badge.Areas.Identity.Data;
-using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
 namespace Badge.Pages.Administration.Users
@@ -16,7 +16,7 @@ namespace Badge.Pages.Administration.Users
         public EditModel(UserManager<ApplicationUser> userManager,
             ApplicationDbContext context)
         {
-            _userManager = userManager; 
+            _userManager = userManager;
             _context = context;
         }
 
@@ -60,7 +60,7 @@ namespace Badge.Pages.Administration.Users
                 return NotFound();
             }
 
-            var leader =  await _context.Users.FirstOrDefaultAsync(l => l.Id == id);
+            var leader = await _context.Users.FirstOrDefaultAsync(l => l.Id == id);
             if (leader == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");

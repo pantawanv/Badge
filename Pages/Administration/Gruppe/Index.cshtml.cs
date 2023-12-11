@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
-using Badge.Data;
+﻿using Badge.Data;
 using Badge.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 
 namespace Badge.Pages.Administration.GroupAdmin
 {
@@ -22,16 +17,16 @@ namespace Badge.Pages.Administration.GroupAdmin
             Configuration = configuration;
         }
 
-       public string GroupNameSort { get; set; }
-       public string GroupIdSort { get; set; }
-       public string GroupLeaderSort { get; set; }
-       public string CurrentFilter { get; set; }  
-       public string CurrentSort { get; set; }
+        public string GroupNameSort { get; set; }
+        public string GroupIdSort { get; set; }
+        public string GroupLeaderSort { get; set; }
+        public string CurrentFilter { get; set; }
+        public string CurrentSort { get; set; }
 
         public bool MyGroups { get; set; }
-       
 
-        public PaginatedList<Group> Groups { get;set; } 
+
+        public PaginatedList<Group> Groups { get; set; }
 
         public async Task OnGetAsync(string sortOrder, string CurrentFilter, string searchString, int? pageIndex, bool myGroups)
         {
@@ -59,11 +54,11 @@ namespace Badge.Pages.Administration.GroupAdmin
                 groupsIQ = groupsIQ.Where(g => g.LeaderId == User.Identity.GetUserId());
             }
 
-            if(!String.IsNullOrEmpty(searchString))
+            if (!String.IsNullOrEmpty(searchString))
             {
-                groupsIQ = groupsIQ.Where(g => g.Name.Contains(searchString) 
-                || g.GroupType.Name.Contains(searchString) 
-                || g.Leader.FName.Contains(searchString) 
+                groupsIQ = groupsIQ.Where(g => g.Name.Contains(searchString)
+                || g.GroupType.Name.Contains(searchString)
+                || g.Leader.FName.Contains(searchString)
                 || g.Leader.LName.Contains(searchString));
             }
 
@@ -79,9 +74,9 @@ namespace Badge.Pages.Administration.GroupAdmin
                     groupsIQ = groupsIQ.OrderByDescending(g => g.LeaderId);
                     break;
                 default:
-                    groupsIQ = groupsIQ.OrderBy(g =>  g.Name);
+                    groupsIQ = groupsIQ.OrderBy(g => g.Name);
                     break;
-                    
+
             }
 
             var pageSize = Configuration.GetValue("PageSize", 4);
@@ -90,10 +85,10 @@ namespace Badge.Pages.Administration.GroupAdmin
                 .Include(g => g.Leader)
                 , pageIndex ?? 1, pageSize);
 
-           
 
 
-          
+
+
         }
     }
 }

@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Badge.Data;
+using Badge.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Badge.Data;
-using Badge.Models;
-using Badge.Areas.Identity.Data;
-using System.Drawing.Printing;
 
 namespace Badge.Pages.Administration.GroupAdmin
 {
@@ -21,8 +15,8 @@ namespace Badge.Pages.Administration.GroupAdmin
             _context = context;
         }
 
-      public Group Group { get; set; } = default!;
-      public IList<Member> Members { get; set; } = default!;
+        public Group Group { get; set; } = default!;
+        public IList<Member> Members { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -36,7 +30,7 @@ namespace Badge.Pages.Administration.GroupAdmin
             {
                 return NotFound();
             }
-            else 
+            else
             {
                 Group = group;
                 var members = from m in _context.Members where m.GroupId == Group.Id select m;

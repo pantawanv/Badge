@@ -91,7 +91,10 @@
                     <td>
                     @if (Model.Sales.FirstOrDefault(s=>s.TicketId == item.Id) != null)
                     {
-                        <input type="checkbox" checked onclick="return false" />
+                        <div class="note-block note-green">Solgt</div>
+                    }else
+                    {
+                        <div class="note-block note-red">Ikke Solgt</div>
                     }
                 </td>
                 <td>

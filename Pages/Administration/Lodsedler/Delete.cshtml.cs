@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Badge.Data;
+using Badge.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Badge.Data;
-using Badge.Models;
 
 namespace Badge.Pages.Administration.TicketAdmin
 {
@@ -20,7 +16,7 @@ namespace Badge.Pages.Administration.TicketAdmin
         }
 
         [BindProperty]
-      public Ticket Ticket { get; set; } = default!;
+        public Ticket Ticket { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(string id)
         {
@@ -35,7 +31,7 @@ namespace Badge.Pages.Administration.TicketAdmin
             {
                 return NotFound();
             }
-            else 
+            else
             {
                 Ticket = ticket;
             }

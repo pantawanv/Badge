@@ -46,13 +46,13 @@ public class EmailSender : IEmailSender
         // Disable click tracking.
         // See https://sendgrid.com/docs/User_Guide/Settings/tracking.html
 
-        
+
         await smtpClient.SendMailAsync(msg);
 
         //msg.SetClickTracking(false, false);
         //var response = await client.SendEmailAsync(msg);
         //_logger.LogInformation(response.IsSuccessStatusCode
-                               //? $"Email to {toEmail} queued successfully!"
-                               //: $"Failure Email to {toEmail}");
+        //? $"Email to {toEmail} queued successfully!"
+        //: $"Failure Email to {toEmail}");
     }
 }

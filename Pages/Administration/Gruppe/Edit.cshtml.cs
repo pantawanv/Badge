@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using Badge.Data;
+using Badge.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Badge.Data;
-using Badge.Models;
-using Microsoft.AspNetCore.Identity;
 
 namespace Badge.Pages.Administration.GroupAdmin
 {
@@ -31,13 +27,13 @@ namespace Badge.Pages.Administration.GroupAdmin
                 return NotFound();
             }
 
-            var group =  await _context.Groups.FirstOrDefaultAsync(m => m.Id == id);
+            var group = await _context.Groups.FirstOrDefaultAsync(m => m.Id == id);
             if (group == null)
             {
                 return NotFound();
             }
             Group = group;
-           ViewData["GroupTypeId"] = new SelectList(_context.GroupTypes, "Id", "Name");
+            ViewData["GroupTypeId"] = new SelectList(_context.GroupTypes, "Id", "Name");
 
             IdentityRole role = await _context.Roles.FirstAsync(r => r.Name == "Leader");
             string roleid = role.Id;
@@ -79,7 +75,7 @@ namespace Badge.Pages.Administration.GroupAdmin
 
         private bool GroupExists(int id)
         {
-          return (_context.Groups?.Any(e => e.Id == id)).GetValueOrDefault();
+            return (_context.Groups?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

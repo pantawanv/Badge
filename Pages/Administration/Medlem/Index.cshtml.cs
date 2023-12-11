@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Badge.Data;
+using Badge.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Badge.Data;
-using Badge.Models;
-using Microsoft.CodeAnalysis.Operations;
 
 namespace Badge.Pages.Administration.MemberAdmin
 {
@@ -29,19 +23,19 @@ namespace Badge.Pages.Administration.MemberAdmin
         public string CurrentFilter { get; set; }
         public string CurrentSort { get; set; }
 
-        public PaginatedList<Member> Members { get;set; } 
+        public PaginatedList<Member> Members { get; set; }
 
 
-        public async Task OnGetAsync(string sortOrder,string CurrenFilter, string searchString, int? pageIndex)
+        public async Task OnGetAsync(string sortOrder, string CurrenFilter, string searchString, int? pageIndex)
         {
             FNameSort = String.IsNullOrEmpty(sortOrder) ? "FName_desc" : "";
             LNameSort = String.IsNullOrEmpty(sortOrder) ? "LName_desc" : "";
             GroupSort = String.IsNullOrEmpty(sortOrder) ? "Group_desc" : "";
             SaleSort = String.IsNullOrEmpty(sortOrder) ? "Sale_desc" : "";
-           
+
             if (searchString != null)
             {
-                pageIndex = 1; 
+                pageIndex = 1;
             }
             else
             {
@@ -54,12 +48,12 @@ namespace Badge.Pages.Administration.MemberAdmin
                                           select m;
 
 
-            if(!String.IsNullOrEmpty(searchString))
+            if (!String.IsNullOrEmpty(searchString))
             {
                 memberIQ = memberIQ.Where(m => m.FName.Contains(searchString)
                 ||m.LName.Contains(searchString) || m.Group.Name.Contains(searchString));
             }
-            
+
 
 
             switch (sortOrder)
@@ -87,8 +81,8 @@ namespace Badge.Pages.Administration.MemberAdmin
             Members = await PaginatedList<Member>.CreateAsync(memberIQ.AsNoTracking().Include(m => m.Group).Include(m => m.Sales), pageIndex ?? 1, pageSize);
 
 
-           
+
         }
-      
+
     }
 }
