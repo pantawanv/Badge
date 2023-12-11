@@ -32,7 +32,7 @@ namespace Badge.Pages.Administration.ParentAdmin
                 return NotFound();
             }
             Parent = parent;
-            ViewData["MemberId"] = new SelectList(_context.Members, "Id", "Id");
+            ViewData["MemberId"] = new SelectList(_context.Members, "Id", "FullName");
             return Page();
         }
 
