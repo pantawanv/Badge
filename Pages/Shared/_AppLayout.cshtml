@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Badge.Areas.Identity.Data
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -15,9 +19,66 @@
 
 </head>
 <body>
-    <div style="background-color:green; height: 75px; width:100%;"></div>
-    <div>
+    <div class="t-navbar">
+        <div class="t-navbar-item">
+            @if (SignInManager.IsSignedIn(User))
+            {
+                var user = @UserManager.GetUserAsync(User).Result;
+                var rndm = new Random(user.LName.Length*user.FName.Length);
+                int hue = rndm.Next(0, 360);
+                if (user.AppUImageData != null)
+                {
+                    <div class="No-Img">
+                        <img style="width:100%; height:100%;" src="data:image/png;base64,@user.AppUImageData" />
+                    </div>
+                }
+                else
+                {
+                    <div class="No-Img" style="background-color:hsl(@hue, 55%, 60%)">
+                        <p>@user.FName.ToCharArray()[0]@user.LName.ToCharArray()[0]</p>
+                    </div>
+                }
+            }
+        </div>
+        <div class="t-navbar-item right">
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">
+                <div style="height:50px; width:50px;">
+                    <img src="/images/Menu.svg" />
+                </div>
+            </a>
+        </div>
+    </div>
+    <div class="menu" id="menu">
+        <div class="t-navbar-item right">
+            <a href="javascript:void(0);" class="icon" onclick="myFunction()">         
+            <div style="height:50px; width:50px;">
+                <img src="/images/Close.svg" />
+            </div>
+            </a>
+        </div>
+        <div class="menu-list">
+            <a class="menu-list-a" asp-area="" style=" height: 60px; display:block; text-align:center; font-size: 20px;">Hjem</a>
+            <a class="menu-list-a" asp-area="" style=" height: 60px; display:block; text-align:center; font-size: 20px;">Hjem</a>
+            <a asp-page="./Account/Logout" style=" height: 60px; display:block; text-align:center; font-size: 20px;">Log ud</a>
+        </div>
+    </div>
+
+    <div class="app-main">
         @RenderBody()
     </div>
+
+
+    <script>
+        function myFunction() {
+            var x = document.getElementById("menu");
+            if (x.style.display === "block") {
+                x.style.display = "none";
+            } else {
+                x.style.display = "block";
+            }
+        }
+    </script>
 </body>
 </html>
+
+

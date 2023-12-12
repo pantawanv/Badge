@@ -1,6 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Badge
 @using Badge.Data
+@using Microsoft.AspNetCore.Identity
+@using Badge.Areas.Identity.Data
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 @namespace Badge.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor Accessor

@@ -1,3 +1,81 @@
-﻿body {
-    background-color: var(--lighterblue);
+﻿@media only screen and (max-width: 600px) {
+    html {
+        font-size: 16px;
+    }
+
+    .t-navbar {
+        width: 100%!important;
+        padding:0!important;
+        margin: 0!important;
+    }
+
+    .app-main{
+        width:100%!important;
+        margin-top: 100px!important;
+    }
+    .menu {
+       
+        width: 100%!important;
+        height: 100%!important;
+        position: absolute!important;
+        margin: 0!important;
+        z-index: 1;
+        padding-top: 0!important;
+    }
+    }
+   
 }
+
+html {
+    font-size; 14px;
+}
+
+.t-navbar {
+    height: auto;
+    width: 80%;
+    top: 0;
+    position: absolute;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-top: 30px;
+}
+.t-navbar-item {
+    margin: 35px;
+    display: inline-block;
+}
+
+.right {
+    float: right;
+}
+
+.app-main {
+    width:80%;
+    margin-top:150px;
+    margin-left:auto;
+    margin-right:auto;
+    padding: 35px;
+}
+.menu {
+    width: 80%;
+    top: 0;
+    position: absolute;
+    background-color: #E6E5E5;
+    margin-left: 10%;
+    margin-right: 10%;
+    padding-top: 30px;
+    z-index: 1;
+    display:none;
+}
+.menu-list{
+    width: 70%;
+    margin: auto;
+    margin-top: 150px;
+}
+    .menu-list a, .menu-list-a{
+        width: 100%!important;
+        height: 60px!important;
+        display: block!important;
+        text-align: center!important;
+        font-size: 20px!important;
+        font-family: 'Signika';
+    }
