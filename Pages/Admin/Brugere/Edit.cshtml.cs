@@ -34,6 +34,8 @@ namespace Badge.Pages.Admin.UserAdmin
             public string PhoneNumber { get; set; }
             public string FName { get; set; }
             public string LName { get; set; }
+            public string Email { get; set; }
+
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -42,14 +44,17 @@ namespace Badge.Pages.Admin.UserAdmin
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             var fName = user.FName;
             var lName = user.LName;
+            var email = user.Email;
 
             Username = userName;
 
             Input = new InputModel
             {
+                
                 PhoneNumber = phoneNumber,
                 FName = fName,
-                LName = lName
+                LName = lName,
+                Email = email,
             };
         }
 
@@ -81,7 +86,9 @@ namespace Badge.Pages.Admin.UserAdmin
 
             var fName = leader.FName;
             var lName = leader.LName;
-            if (Input.LName!= lName || Input.FName!=fName)
+            var phoneNumber = leader.PhoneNumber;
+            var email = leader.Email;
+            if (Input.LName!= lName || Input.FName!=fName || Input.PhoneNumber !=phoneNumber || Input.Email !=email)
             {
                 if (Input.FName != fName)
                 {
@@ -93,6 +100,15 @@ namespace Badge.Pages.Admin.UserAdmin
                     _context.Users.Find(leader.Id).LName = Input.LName;
 
                 }
+                if (Input.PhoneNumber != phoneNumber)
+                {
+                    _context.Users.Find(leader.Id).PhoneNumber = Input.PhoneNumber;
+                }
+                if (Input.Email != email)
+                {
+                    _context.Users.Find(leader.Id).Email = Input.Email;
+                }
+
                 _context.SaveChanges();
             }
 

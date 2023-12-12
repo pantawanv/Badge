@@ -52,7 +52,7 @@ namespace Badge.Pages.Admin.MemberAdmin
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/Administration/Brugere/Details?id=");
+            returnUrl ??= Url.Content("~/Admin/Medlem/Details?id=");
 
             string email = Member.User.Email;
             string fname = Member.User.FName;

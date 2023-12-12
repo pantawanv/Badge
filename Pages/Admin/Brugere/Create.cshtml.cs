@@ -62,6 +62,7 @@ namespace Badge.Pages.Admin.UserAdmin
         {
             returnUrl ??= Url.Content("~/Admin/Brugere/Details?id=");
 
+            string phone = User.PhoneNumber;
             string email = User.Email;
             string fname = User.FName;
             string lname = User.LName;
@@ -75,6 +76,7 @@ namespace Badge.Pages.Admin.UserAdmin
             await _emailStore.SetEmailAsync(User, email, CancellationToken.None);
             User.FName = fname;
             User.LName = lname;
+            User.PhoneNumber = phone;
             var result = await _userManager.CreateAsync(User, password);
 
             if (result.Succeeded)
