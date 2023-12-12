@@ -10,7 +10,7 @@ namespace Badge.Models
         [Key]
         public int Id { get; set; }
         [DisplayName("Barn")]
-        public int MemberId { get; set; }
+        public string MemberId { get; set; }
         [ForeignKey(nameof(MemberId))]
         [DisplayName("Medlem")]
         public Member Member { get; set; }

@@ -16,10 +16,10 @@ namespace Badge.Pages.CelinasShitCorner
 
         public IList<Member> Members { get; set; }
         public IList<Member> SelectedProducts { get; set; }
-        public async Task<IActionResult> OnGetAsync(int[]? selectedProducts)
+        public async Task<IActionResult> OnGetAsync(string[]? selectedProducts)
         {
             var members = from m in _context.Members select m;
-            selectedProducts = selectedProducts ?? new int[0];
+            selectedProducts = selectedProducts ?? new string[0];
             Members = await members.Include(m => m.Group).ToListAsync();
             var select = from m in Members where (selectedProducts.Contains(m.Id)) select m;
             SelectedProducts = select.ToList();

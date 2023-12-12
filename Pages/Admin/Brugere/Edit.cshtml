@@ -1,0 +1,41 @@
+﻿@page
+@model Badge.Pages.Admin.UserAdmin.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>Edit</h1>
+
+<h4>Bruger</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="form-group">
+                <label class="control-label">Fornavn</label>
+                <input asp-for="Input.FName" class="form-control" />
+                <span asp-validation-for="Input.FName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Efternavn</label>
+                <input asp-for="Input.LName" class="form-control" />
+                <span asp-validation-for="Input.LName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -9,10 +9,10 @@
         <tr>
             <th></th>
             <th>
-                    @Html.DisplayNameFor(model => model.Members[0].FName)
+                    @Html.DisplayNameFor(model => model.Members[0].User.FName)
             </th>
             <th>
-                    @Html.DisplayNameFor(model => model.Members[0].LName)
+                    @Html.DisplayNameFor(model => model.Members[0].User.LName)
             </th>
             <th>
                     @Html.DisplayNameFor(model => model.Members[0].Group)
@@ -39,10 +39,10 @@
                     } />
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FName)
+                        @Html.DisplayFor(modelItem => item.User.FName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.LName)
+                        @Html.DisplayFor(modelItem => item.User.LName)
                 </td>
                 <td>
                     <a asp-page="/Administration/Grupper/Details" asp-route-id="@item.Group.Id">@Html.DisplayFor(modelItem => item.Group.Name)</a>
@@ -78,7 +78,7 @@
     {
         @foreach(var item in Model.SelectedProducts)
         {
-            <p>@item.FName</p>
+            <p>@item.User.FName</p>
         }
     }
 }

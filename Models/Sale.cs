@@ -15,7 +15,7 @@ namespace Badge.Models
         [DisplayName("Lodseddel")]
         public Ticket Ticket { get; set; }
         [DisplayName("Sælger Id")]
-        public int? SellerId { get; set; }
+        public string? SellerId { get; set; }
         [ForeignKey(nameof(SellerId))]
         [DisplayName("Sælger")]
         public Member? Seller { get; set; }

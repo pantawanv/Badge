@@ -13,7 +13,7 @@ namespace Badge.Models
 
         public Ticket Ticket { get; set; }
         [Required]
-        public int MemberId { get; set; }
+        public string MemberId { get; set; }
         [ForeignKey(nameof(MemberId))]
         public Member Member { get; set; }
     }

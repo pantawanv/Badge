@@ -1,0 +1,42 @@
+﻿@page
+@model Badge.Pages.Admin.GroupAdmin.CreateModel
+
+@{
+    ViewData["Title"] = "Opret";
+}
+
+<h1>Opret</h1>
+
+<h4>Gruppe</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Group.Name" class="control-label"></label>
+                <input asp-for="Group.Name" class="form-control" />
+                <span asp-validation-for="Group.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Group.GroupTypeId" class="control-label"></label>
+                <select asp-for="Group.GroupTypeId" class ="form-control" asp-items="ViewBag.GroupTypeId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Group.LeaderId" class="control-label"></label>
+                <select asp-for="Group.LeaderId" class ="form-control" asp-items="ViewBag.LeaderId"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Opret" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Tilbage til liste</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

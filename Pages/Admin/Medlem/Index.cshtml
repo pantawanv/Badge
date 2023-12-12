@@ -1,0 +1,237 @@
+﻿@page
+@model Badge.Pages.Admin.MemberAdmin.IndexModel
+
+@{
+    ViewData["Title"] = "Medlemmer";
+}
+<div class="row" style="width:100%; padding:0; margin:0; margin-bottom:20px;">
+    <div class="col-7">
+        <h1>Medlemmer</h1>
+    </div>
+    @if (User.IsInRole("Manager") || User.IsInRole("Admin"))
+    {
+        <div class="col-2" style="margin-right:0; margin-left:auto; padding:0; width:10%;">
+            <a asp-page="Create">
+                <button style="margin:auto; margin-right: 0; width:100%;" class="btn-def">Opret</button>
+            </a>
+        </div>
+    }
+</div>
+
+
+<div class="row" style="width:100%; padding:0; margin:0; margin-bottom:20px;">
+
+    <form asp-page="./Index" method="get" style="padding:0; margin:0;">
+        <div class="form-actions no color">
+            <p style="padding:0; margin:0;">
+
+                <div style="width:90%; height:40px; padding:0; margin:0;float:left;">
+                    <input name="SearchString" value="@Model.CurrentFilter" style="width:100%; height:100%; margin:0; padding-left: 20px; border:none; border-radius: 5px 0 0 5px;" type="text" name="SearchString" value="" />
+                </div>
+                <div style="width:10%; height:40px; padding:0 ; margin:0; float:right;">
+                    <input style="width:100%; height:100%; margin:0px; border:none; border-radius:0 5px 5px 0; " type="submit" value="Søg" class="btn-def"/>
+                </div>
+            </p>
+        </div>
+    </form>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th></th>
+            <th>
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.FNameSort" asp-route-searchString="@Model.CurrentFilter">
+                    <div class="srt-container">
+                        <div class="srthead-container">
+                            @Html.DisplayNameFor(model => model.Members[0].User.FName)
+                        </div>
+                        <div class="srtarw-container">
+                            @if (Model.CurrentSort != null && Model.CurrentSort.Contains("FName"))
+                            {
+                                if (Model.CurrentSort.Contains("asc"))
+                                {
+                                    <div class="srtarw actup"></div>
+                                    <div class="srtarw inactdwn"></div>
+                                }
+                                else
+                                {
+                                    <div class="srtarw inactup"></div>
+                                    <div class="srtarw actdwn"></div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="srtarw inactup"></div>
+                                <div class="srtarw inactdwn"></div>
+                            }
+                        </div>
+                    </div>
+                </a>
+                
+            </th>
+            <th>
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.LNameSort" asp-route-searchString="@Model.CurrentFilter">
+                    <div class="srt-container">
+                        <div class="srthead-container">
+                            @Html.DisplayNameFor(model => model.Members[0].User.LName)
+                        </div>
+                        <div class="srtarw-container">
+                            @if (Model.CurrentSort != null && Model.CurrentSort.Contains("LName"))
+                            {
+                                if (Model.CurrentSort.Contains("asc"))
+                                {
+                                    <div class="srtarw actup"></div>
+                                    <div class="srtarw inactdwn"></div>
+                                }
+                                else
+                                {
+                                    <div class="srtarw inactup"></div>
+                                    <div class="srtarw actdwn"></div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="srtarw inactup"></div>
+                                <div class="srtarw inactdwn"></div>
+                            }
+                        </div>
+                    </div>
+                </a>
+            </th>
+            <th>
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.GroupSort" asp-route-searchString="@Model.CurrentFilter">
+                    <div class="srt-container">
+                        <div class="srthead-container">
+                            @Html.DisplayNameFor(model => model.Members[0].Group)
+                        </div>
+                        <div class="srtarw-container">
+                            @if (Model.CurrentSort != null && Model.CurrentSort.Contains("Group"))
+                            {
+                                if (Model.CurrentSort.Contains("asc"))
+                                {
+                                    <div class="srtarw actup"></div>
+                                    <div class="srtarw inactdwn"></div>
+                                }
+                                else
+                                {
+                                    <div class="srtarw inactup"></div>
+                                    <div class="srtarw actdwn"></div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="srtarw inactup"></div>
+                                <div class="srtarw inactdwn"></div>
+                            }
+                        </div>
+                    </div>
+                </a>
+            </th>
+            <th>
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.SaleSort" asp-route-searchString="@Model.CurrentFilter">
+                    <div class="srt-container">
+                        Solgte lodsedler
+                        <div class="srtarw-container">
+                            @if (Model.CurrentSort != null && Model.CurrentSort.Contains("Sale"))
+                            {
+                                if (Model.CurrentSort.Contains("asc"))
+                                {
+                                    <div class="srtarw actup"></div>
+                                    <div class="srtarw inactdwn"></div>
+                                }
+                                else
+                                {
+                                    <div class="srtarw inactup"></div>
+                                    <div class="srtarw actdwn"></div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="srtarw inactup"></div>
+                                <div class="srtarw inactdwn"></div>
+                            }
+                        </div>
+                    </div>
+                </a>
+            </th>
+            <th>
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Members) {
+            var rndm = new Random(item.User.LName.Length*item.User.FName.Length);
+            int hue = rndm.Next(0, 360);
+        <tr class="list-tr">
+            <td>
+
+                <div class="No-Img" style="background-color:hsl(@hue, 55%, 60%)">
+                        <p>@item.User.FName.ToCharArray()[0]@item.User.LName.ToCharArray()[0]</p>
+                </div>
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.User.FName)
+            </td>
+            <td>
+                    @Html.DisplayFor(modelItem => item.User.LName)
+            </td>
+            <td>
+                    @if (item.Group != null)
+                    {
+                        <a asp-page="/Administration/Grupper/Details" asp-route-id="@item.Group.Id">@Html.DisplayFor(modelItem => item.Group.Name)
+                        </a>
+                    }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sales.Count)
+            </td>
+            <td style="width:100px;">
+                 <div class="dropdwn">
+                    <div class="dropdwn-btn">
+                        <div class="circle-sm"></div>
+                        <div class="circle-sm"></div>
+                        <div class="circle-sm"></div>
+                        </div>
+                        <div class="dropdwn-content">
+                            <a asp-page="./Details" asp-route-id="@item.Id">Detaljer</a>
+                            <a asp-page="./Edit" asp-route-id="@item.Id">Rediger</a>
+                            <a class="delete" asp-page="./Delete" asp-route-id="@item.Id">Slet</a>
+                        </div>
+                    </div>
+                </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+@{
+    var prevDisabled = !Model.Members.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Members.HasNextPage ? "disabled" : "";
+}
+
+@if (Model.Members.HasPreviousPage)
+{
+    <a asp-page="./Index"
+    asp-route-sortOrder="@Model.CurrentSort"
+    asp-route-pageIndex="@(Model.Members.PageIndex - 1)"
+    asp-route-currentFilter="@Model.CurrentFilter"
+    class="btn btn-primary @prevDisabled">
+        Forrige
+    </a>
+}
+
+@if (Model.Members.HasNextPage)
+{
+
+
+    <a asp-page="./Index"
+    asp-route-sortOrder="@Model.CurrentSort"
+    asp-route-pageIndex="@(Model.Members.PageIndex + 1)"
+    asp-route-currentFilter="@Model.CurrentFilter"
+    class="btn btn-primary @nextDisabled">
+        Næste
+
+    </a>
+}
