@@ -4,39 +4,27 @@
 
 }
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js">
-</script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
-<canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+<body>
 
-<script>
-    var xValues = ["Købt", "Solgt"];
-    var yValues = [@Model.Tickets, @Model.Sales];
-    var barColors = [
-        "#b91d47",
-        "#00aba9",
-        "#2b5797",
-        "#e8c3b9",
-        "#1e7145"
-    ];
+    <div id="myPlot" style="width:100%;max-width:700px"></div>
 
-    new Chart("myChart", {
-        type: "pie",
-        data: {
-            labels: xValues,
-            datasets: [{
-                backgroundColor: barColors,
-                data: yValues
-            }]
-        },
-        options: {
-            title: {
-                display: true,
-                text: "World Wide Wine Production 2018"
-            }
-        }
-    });
-</script>
+    <script>
+        const xArray = ["Købte lodsedler", "Solgte lodsedler"];
+        const yArray = [@Model.Tickets,@Model.Sales];
 
+        const data = [{
+            x: xArray,
+            y: yArray,
+            type: "bar"
+        }];
+
+        const layout = { title: "World Wide Wine Production" };
+
+        Plotly.newPlot("myPlot", data, layout);
+    </script>
+
+</body>
 
 
