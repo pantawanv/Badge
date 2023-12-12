@@ -14,40 +14,21 @@ namespace Badge.Pages.Admin.Statistikker
         {
             _context = context;
         }
-        public IList<Group> Groups { get; set; }
-        public IList<string> Names { get; set; }
-        public IList<Sale> Sales {get; set; }
-        public IList<Ticket> Tickets { get; set; }
+
+        public int Sales {get; set; }
+        public int Tickets { get; set; }
 
         public async Task OnGetAsync()
         {
-            Names = new List<string>();
-
-            Sales = await _context.Sales.ToListAsync();
-            Tickets = await _context.Tickets.ToListAsync();
-
-
-            var groups = await _context.Groups.Include(g => g.Members).ThenInclude(m => m.Sales).ToListAsync();
-
-            foreach (Group g in groups)
+            if (_context.Sales !=  null) 
             {
-                Names.Add(g.Name);
-                int counter = 0;
-
-                foreach (Member m in g.Members)
-                {
-                    int memberSales = m.Sales.Count();
-                    if (memberSales != 0)
-                    {
-                        counter = counter + memberSales;
-                    }
-
-                }
-                //Sales.Add(counter);
-
+                Sales = _context.Sales.Count();
             }
-
-
+            if (_context.Tickets != null)
+            {
+                Tickets = _context.Tickets.Count();
+            }
+           
         }
 
     }
