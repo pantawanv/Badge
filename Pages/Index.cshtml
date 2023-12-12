@@ -5,13 +5,17 @@
 @inject UserManager<ApplicationUser> UserManager
 @{
     ViewData["Title"] = "Home page";
+    Layout = "_IndexLayout";
 }
 
-@if (User.IsInRole("Admin"))
-{
-    <div class="text-center">
-        <h1 class="display-4">Yer an admin, Harry!</h1>
-        <h2>Velkommen, @UserManager.GetUserAsync(User).Result.FName</h2>
+<div style=" width:50%; height:50%; margin:auto;">
+    <div style=" width:800px; margin:auto; margin-top:20%;">
+        <a asp-area="Identity" asp-page="/Account/Login">
+        <div style="background-color:lightsteelblue; height:200px; width:300px; display:inline-block; margin-inline:20px; border-radius:15px;"> <h1 style="text-align:center;margin-top:75px;">Leder login</h1> </div>
+        </a>
+        <a asp-area="Identity" asp-page="/Account/Login">
+            <div style="background-color:lightsteelblue; height:200px; width:300px; display:inline-block; margin-inline:20px; border-radius:15px;"> <h1 style="text-align:center;margin-top:75px;">Medlems login</h1> </div>
+        </a>
     </div>
     
-}
+</div>

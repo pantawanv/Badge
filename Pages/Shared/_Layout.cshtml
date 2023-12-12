@@ -34,8 +34,8 @@
             
                 <div>
                     <ul class="l-nav-container">
-                        <li class="l-nav-item @(Accessor.HttpContext.Request.Path.Value == "/" ? "nav-item-active" : "" )">
-                            <a asp-area="" asp-page="/Index"> Dashboard</a>
+                        <li class="l-nav-item @(Accessor.HttpContext.Request.Path.Value == "/Admin/Index" ? "nav-item-active" : "" )">
+                            <a asp-area="" asp-page="/Admin/Index"> Dashboard</a>
 
                         </li>
                     <li class="l-nav-item @(Accessor.HttpContext.Request.Path.Value == "/Admin/Brugere" ? "nav-item-active" : "" )">
