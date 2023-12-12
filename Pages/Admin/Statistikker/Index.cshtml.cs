@@ -8,23 +8,24 @@ namespace Badge.Pages.Admin.Statistikker
 {
     public class IndexModel : PageModel
     {
+
         private readonly ApplicationDbContext _context;
         public IndexModel(ApplicationDbContext context)
         {
-              _context = context;
+            _context = context;
         }
         public IList<Group> Groups { get; set; }
-        public IList<string> Names { get; set; }   
-        public IList<int> Sales {  get; set; }
-
-        public int G1Salg { get; set; }
-        public int G2Salg { get; set; }
+        public IList<string> Names { get; set; }
+        public IList<Sale> Sales {get; set; }
+        public IList<Ticket> Tickets { get; set; }
 
         public async Task OnGetAsync()
         {
-          Names = new List<string>();
+            Names = new List<string>();
 
-          Sales = new List<int>();
+            Sales = await _context.Sales.ToListAsync();
+            Tickets = await _context.Tickets.ToListAsync();
+
 
             var groups = await _context.Groups.Include(g => g.Members).ThenInclude(m => m.Sales).ToListAsync();
 
@@ -33,7 +34,7 @@ namespace Badge.Pages.Admin.Statistikker
                 Names.Add(g.Name);
                 int counter = 0;
 
-                foreach (Member m in g.Members) 
+                foreach (Member m in g.Members)
                 {
                     int memberSales = m.Sales.Count();
                     if (memberSales != 0)
@@ -42,11 +43,13 @@ namespace Badge.Pages.Admin.Statistikker
                     }
 
                 }
-                Sales.Add(counter);
+                //Sales.Add(counter);
 
             }
 
-           
+
         }
+
     }
+
 }
