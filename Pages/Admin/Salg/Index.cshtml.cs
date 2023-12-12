@@ -99,6 +99,7 @@ namespace Badge.Pages.Admin.SalesAdmin
             Sales = await PaginatedList<Sale>.CreateAsync(salesIQ.AsNoTracking()
                 .Include(s => s.Channel)
                 .Include(s => s.Seller)
+                .ThenInclude(s => s.User)
                 .Include(s => s.Ticket), pageIndex ?? 1, pageSize);
 
 
