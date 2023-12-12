@@ -28,7 +28,7 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.R
 builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AuthorizeFolder("/Admin", "Editor");
-
+    options.Conventions.AuthorizeFolder("/App", "Member");
 });
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
