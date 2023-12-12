@@ -27,7 +27,7 @@
             @Html.DisplayNameFor(model => model.Group.Leader)
         </dt>
         <dd class="col-sm-10">
-            <a asp-page="/Administration/User/LeaderDetails" asp-route-id="@Model.Group.LeaderId">@Html.DisplayFor(model => model.Group.Leader.FName) @Html.DisplayFor(model => model.Group.Leader.LName)</a>
+            <a asp-page="/Admin/Brugere/Details" asp-route-id="@Model.Group.LeaderId">@Html.DisplayFor(model => model.Group.Leader.FName) @Html.DisplayFor(model => model.Group.Leader.LName)</a>
         </dd>
     </dl>
 </div>
@@ -51,7 +51,7 @@
 @foreach (var item in Model.Members) {
         <tr>
             <td>
-                        <a asp-page="/Administration/Medlem/Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.User.FName) @Html.DisplayFor(modelItem => item.User.LName)</a>
+                        <a asp-page="/Admin/Medlem/Details" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.User.FName) @Html.DisplayFor(modelItem => item.User.LName)</a>
             </td>
             <td>
                 @item.Sales.Count.ToString()

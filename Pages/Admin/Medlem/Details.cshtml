@@ -28,7 +28,7 @@
         </dt>
        
         <dd class="col-sm-10">
-            <a asp-page="/Administration/Grupper/Details" asp-route-id="@Model.Member.Group.Id">@Html.DisplayFor(model => model.Member.Group.Name)</a>
+            <a asp-page="/Admin/Grupper/Details" asp-route-id="@Model.Member.Group.Id">@Html.DisplayFor(model => model.Member.Group.Name)</a>
         </dd>
          @foreach (var item in Model.Parents)
         {
@@ -37,7 +37,7 @@
             </dt>
             
             <dd class="col-sm-10">
-                <a asp-page="/Administration/Foraeldre/Details" asp-route-id="@item.Id"> @item.FName</a>  
+                <a asp-page="/Admin/Foraeldre/Details" asp-route-id="@item.Id"> @item.FName @item.LName</a>  
             </dd>
 
         }
