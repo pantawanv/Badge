@@ -201,7 +201,7 @@
                 @Html.DisplayFor(modelItem => item.LName)
             </td>
                 <td>
-                    <a asp-page="/Administration/Medlem/Details" asp-route-id="@item.Member.Id">@Html.DisplayFor(modelItem => item.Member.User.FullName) </a>
+                    <a asp-page="/Admin/Medlem/Details" asp-route-id="@item.Member.Id">@Html.DisplayFor(modelItem => item.Member.User.FullName) </a>
                 </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Phone)

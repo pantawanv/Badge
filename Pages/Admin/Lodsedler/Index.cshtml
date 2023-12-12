@@ -14,8 +14,6 @@
         </a>
     </div>
 </div>
-
-
 <div class="row" style="width:100%; padding:0; margin:0; margin-bottom:20px;">
 
     <form asp-page="./Index" method="get" style="padding:0; margin:0;">
@@ -32,8 +30,6 @@
         </div>
     </form>
 </div>
-
-
 <table>
     <thead>
         <tr>
@@ -173,18 +169,15 @@
                     }
             </td>
             <td>
-                    @if (item.TicketMemberAssign != null)
-                        {
-                        <a asp-page="/Administration/Medlem/Details" asp-route-id="@item.TicketMemberAssign.Member.Id">@item.TicketMemberAssign.Member.User.FullName</a>
-                        
-                        }
-                        else
-                        {
-                         <p>Ikke tildelt
-
-                         </p>
-                        }
-                    </td>
+                @if (item.TicketMemberAssign != null)
+                {
+                    <a asp-page="/Admin/Medlem/Details" asp-route-id="@item.TicketMemberAssign.Member.Id">@item.TicketMemberAssign.Member.User.FullName</a>
+                }
+                else
+                {
+                    <p>Ikke tildelt</p>
+                }
+            </td>
                     <td>
                     @if (Model.Sales.FirstOrDefault(s=>s.TicketId == item.Id) != null)
                     {
