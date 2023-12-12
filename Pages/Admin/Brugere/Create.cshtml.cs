@@ -50,7 +50,7 @@ namespace Badge.Pages.Admin.UserAdmin
 
         public IActionResult OnGet()
         {
-            ViewData["RoleId"] = new SelectList((_context.Roles.Where(r => r.NormalizedName != "ADMIN")), "Id", "Name");
+            ViewData["RoleId"] = new SelectList((_context.Roles.Where(r => r.NormalizedName != "ADMIN" || r.NormalizedName != "MEMBER")), "Id", "Name");
             return Page();
         }
 
@@ -60,7 +60,7 @@ namespace Badge.Pages.Admin.UserAdmin
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/Administration/Brugere/Details?id=");
+            returnUrl ??= Url.Content("~/Admin/Brugere/Details?id=");
 
             string email = User.Email;
             string fname = User.FName;

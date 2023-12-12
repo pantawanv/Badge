@@ -96,7 +96,7 @@ namespace Badge.Pages.Admin.UserAdmin
                 _context.SaveChanges();
             }
 
-            return RedirectToPage("./LeaderIndex");
+            return RedirectToPage("./Index");
         }
     }
 }
