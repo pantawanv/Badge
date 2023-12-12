@@ -29,13 +29,12 @@ namespace Badge.Pages.Admin.UserAdmin
 
         public class InputModel
         {
-            [Phone]
-            [Display(Name = "Phone number")]
-            public string PhoneNumber { get; set; }
             public string FName { get; set; }
             public string LName { get; set; }
             public string Email { get; set; }
-
+            [Phone]
+            [Display(Name = "Telefon nummer")]
+            public string PhoneNumber { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -74,7 +73,6 @@ namespace Badge.Pages.Admin.UserAdmin
             await LoadAsync(leader);
             return Page();
         }
-
 
         public async Task<IActionResult> OnPostAsync(string? id)
         {

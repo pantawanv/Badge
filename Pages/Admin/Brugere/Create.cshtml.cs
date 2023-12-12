@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
@@ -48,9 +49,10 @@ namespace Badge.Pages.Admin.UserAdmin
         public string RoleId { get; set; }
 
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
-            ViewData["RoleId"] = new SelectList((_context.Roles.Where(r => r.NormalizedName != "ADMIN" && r.NormalizedName != "MEMBER")), "Id", "Name");
+            var roles = await _context.Roles.Where(r => r.NormalizedName != "ADMIN" && r.NormalizedName != "MEMBER").ToListAsync(); 
+            ViewData["RoleId"] = new SelectList(roles, "Id", "Name");
             return Page();
         }
 
@@ -60,6 +62,8 @@ namespace Badge.Pages.Admin.UserAdmin
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+
+
             returnUrl ??= Url.Content("~/Admin/Brugere/Details?id=");
 
             string phone = User.PhoneNumber;
@@ -79,6 +83,11 @@ namespace Badge.Pages.Admin.UserAdmin
             User.PhoneNumber = phone;
             var result = await _userManager.CreateAsync(User, password);
 
+            if (!ModelState.IsValid)
+            {
+                RedirectToPage();
+            }
+
             if (result.Succeeded)
             {
                 _logger.LogInformation("User created a new account with password.");
@@ -91,10 +100,7 @@ namespace Badge.Pages.Admin.UserAdmin
                     values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl, password = password },
                     protocol: Request.Scheme); ;
 
-                var roleresult = await _userManager.AddToRoleAsync(User, role);
-
-
-
+                await _userManager.AddToRoleAsync(User, role);
 
                 await _emailSender.SendEmailAsync(email, "Confirm your email",
                     $"Welcome to Badge!<br>Your account info is <br>username: {email}<br>password: {password}<br>Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
@@ -108,7 +114,7 @@ namespace Badge.Pages.Admin.UserAdmin
 
 
             // If we got this far, something failed, redisplay form
-            return Page();
+            return RedirectToPage();
         }
 
         public static string CreateRandomPassword(int PasswordLength)
