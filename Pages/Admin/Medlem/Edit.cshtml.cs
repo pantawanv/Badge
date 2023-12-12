@@ -31,8 +31,9 @@ namespace Badge.Pages.Admin.MemberAdmin
             {
                 return NotFound();
             }
+            var groups = _context.Groups.ToList();
             Member = member;
-            ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name");
+            ViewData["GroupId"] = new SelectList(groups, "Id", "Name");
             return Page();
         }
 
