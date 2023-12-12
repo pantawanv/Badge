@@ -100,6 +100,7 @@ namespace Badge.Pages.Admin.UserAdmin
                     _context.Users.Find(leader.Id).LName = Input.LName;
 
                 }
+
                 if (Input.PhoneNumber != phoneNumber)
                 {
                     _context.Users.Find(leader.Id).PhoneNumber = Input.PhoneNumber;
@@ -109,7 +110,8 @@ namespace Badge.Pages.Admin.UserAdmin
                     _context.Users.Find(leader.Id).Email = Input.Email;
                 }
 
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
+
             }
 
             return RedirectToPage("./Index");

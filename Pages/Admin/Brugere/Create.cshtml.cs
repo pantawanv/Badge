@@ -50,7 +50,7 @@ namespace Badge.Pages.Admin.UserAdmin
 
         public IActionResult OnGet()
         {
-            ViewData["RoleId"] = new SelectList((_context.Roles.Where(r => r.NormalizedName != "ADMIN" || r.NormalizedName != "MEMBER")), "Id", "Name");
+            ViewData["RoleId"] = new SelectList((_context.Roles.Where(r => r.NormalizedName != "ADMIN" && r.NormalizedName != "MEMBER")), "Id", "Name");
             return Page();
         }
 
