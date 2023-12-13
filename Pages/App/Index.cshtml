@@ -9,3 +9,31 @@
 <h2>
     Dine mærker:
 </h2>
+
+<div class="box-full" style="margin-top: 25px; padding:0;">
+    @foreach (var item in Model.Achievements)
+    {
+        <div style="width:90px; height: 90px;display: inline-block; background-color:palegoldenrod; overflow: hidden; text-align:center;">
+            <div>
+                @item.Name
+            </div>
+            @switch (item.AchievementType.Name)
+            {
+                case "Ticket":
+                    if (Model.CheckTicketAchievement(item.Amount))
+                    {
+                        <p>OPNÅET</p>
+                    }
+                    break;
+                case "Channel":
+                    if (Model.CheckChannelAchievement(item.Amount, item.Name))
+                    {
+                        <p>OPNÅET</p>
+                    }
+                    break;
+                default:
+                    break;
+            }
+        </div>
+    }
+</div>
