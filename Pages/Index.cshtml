@@ -8,14 +8,12 @@
     Layout = "_IndexLayout";
 }
 
-<div style=" width:50%; height:50%; margin:auto;">
-    <div style=" width:800px; margin:auto; margin-top:20%;">
-        <a asp-area="Identity" asp-page="/Account/Login">
-        <div style="background-color:lightsteelblue; height:200px; width:300px; display:inline-block; margin-inline:20px; border-radius:15px;"> <h1 style="text-align:center;margin-top:75px;">Leder login</h1> </div>
-        </a>
-        <a asp-area="Identity" asp-page="/Account/Login">
-            <div style="background-color:lightsteelblue; height:200px; width:300px; display:inline-block; margin-inline:20px; border-radius:15px;"> <h1 style="text-align:center;margin-top:75px;">Medlems login</h1> </div>
-        </a>
-    </div>
-    
+<div class="login-container">
+    <a asp-area="Identity" asp-page="/Account/Login">
+        <div class="login-button"> <h1 style="text-align:center;margin-top:75px;">Leder login</h1> </div>
+    </a>
+    <a asp-area="Identity" asp-page="/Account/Login">
+        <div class="login-button"> <h1 style="text-align:center;margin-top:75px;">Medlems login</h1> </div>
+    </a>
 </div>
+        

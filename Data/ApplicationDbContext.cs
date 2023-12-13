@@ -25,5 +25,7 @@ namespace Badge.Data
         public DbSet<Ticket> Tickets { get; set; }
         public DbSet<TicketGroupAssign> TicketGroupAssigns { get; set; }
         public DbSet<TicketMemberAssign> TicketMemberAssigns { get; set; }
+        public DbSet<Achievement> Achievements { get; set; }
+        public DbSet<AchievementType> AchievementTypes { get; set; }
     }
 }
