@@ -2,3 +2,14 @@
 @model Badge.Pages.Admin.IndexModel
 @{
 }
+<div class="box-full index-container">
+    <h3>
+        Hej
+    </h3>
+    <h1>
+        @SignInManager.UserManager.GetUserAsync(User).Result.FName
+    </h1>
+
+    <div class="index-content" style="width:65%; "></div>
+    <div class="index-content" style="width:32%; float:right; "></div>
+</div>

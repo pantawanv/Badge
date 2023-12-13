@@ -1,8 +1,6 @@
 using Badge.Data;
-using Badge.Models;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic;
 
 namespace Badge.Pages.Admin.Statistikker
 {
@@ -15,18 +13,22 @@ namespace Badge.Pages.Admin.Statistikker
             _context = context;
         }
 
-        public int Sales {get; set; }
-        public int Tickets { get; set; }
+        public int SalesTotal {get; set; }
+        public int SalesWeek { get; set; }
+        public int TicketsTotal { get; set; }
 
         public async Task OnGetAsync()
         {
             if (_context.Sales !=  null) 
             {
-                Sales = _context.Sales.Count();
+                SalesTotal = _context.Sales.Count();
+
+                var thisweek = from s in _context.Sales where s.SalesDate <= DateTime.Now && s.SalesDate >= (DateTime.Now.AddDays(-7)) select s;
+                SalesWeek = thisweek.Count();
             }
             if (_context.Tickets != null)
             {
-                Tickets = _context.Tickets.Count();
+                TicketsTotal = _context.Tickets.Count();
             }
            
         }

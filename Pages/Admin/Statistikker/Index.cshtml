@@ -3,29 +3,122 @@
 @{
 
 }
+<div class="tab">
+    <div class="tab-button">
+        <a asp-page="./Index"
+           asp-route-currentFilter="" asp-route-sortOrder="">
+            Fane1
+        </a>
+    </div>
+    <div class="tab-button">
+        <a asp-page="./Index" asp-route-myGroups="true"
+           asp-route-currentFilter="" asp-route-sortOrder="">
+            Fane2
+        </a>
+    </div>
+</div>
 
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<div class="index-content box-full">
+<div class="box-full index-container">
+    <div class="stat-container">
+        <div class="stat-box">
+            <div class="stat-box-inner">
+                <h1>
+                    @Model.SalesTotal
+                </h1>
+                <p>Salg i hele perioden</p>
+            </div>
+        </div>
 
-<body>
+        <div class="stat-box">
+            <div class="stat-box-inner">
+                <div class="stat-box-inner">
+                    <h1>
+                        @Model.SalesWeek
+                    </h1>
+                    <p>Salg denne uge</p>
+                </div>
+            </div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-box-inner">
+                <h1>
+                    @Model.TicketsTotal
+                </h1>
+                <p>Indkøbte lodsedler</p>
+            </div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-box-inner">
+                <h1>
+                    @Model.SalesTotal
+                </h1>
+                <p>Salg i alt</p>
+            </div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-box-inner">
+                <h1>
+                    @Model.SalesTotal
+                </h1>
+                <p>Salg i alt</p>
+            </div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-box-inner">
+                <h1>
+                    @Model.SalesTotal
+                </h1>
+                <p>Salg i alt</p>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="index-content box-full">
+        <div style="width:600px;">
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
+</div>
 
-    <div id="myPlot" style="width:100%;max-width:700px"></div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        const xArray = ["Købte lodsedler", "Solgte lodsedler"];
-        const yArray = [@Model.Tickets,@Model.Sales];
+        const ctx = document.getElementById('myChart');
 
-        const data = [{
-            x: xArray,
-            y: yArray,
-            type: "bar",
-            opacity: 0.5
-        }];
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Købte Lodsedler', 'Solgte lodsedler'],
+                datasets: [{
+                    label: '',
+                    data: [@Model.TicketsTotal, @Model.SalesTotal],
+                    borderWidth: 0
+                }]
 
-        const layout = { title: "Salgsproces" };
+            },
+            options: {
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
 
-        Plotly.newPlot("myPlot", data, layout);
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        grid: {
+                            display: false
+                        }
+                    }
+
+                }
+            }
+        });
     </script>
-
-</body>
 
 

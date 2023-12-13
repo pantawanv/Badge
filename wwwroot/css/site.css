@@ -45,10 +45,12 @@ html, body {
 html {
     font-size: 14px;
     height: 100%;
+    overflow-y:scroll;
 }
 
 body {
     background-color: #E6E5E5;
+
 }
 
 head {
@@ -97,6 +99,7 @@ input[type=submit] {
     width: 90%;
     margin: auto;
     margin-top: 50px;
+    height:fit-content;
 }
 
 .main-container {
@@ -202,7 +205,7 @@ input[type=submit] {
     list-style: none;
     width: 80%;
     margin: auto;
-    margin-bottom: 15px;
+    margin-bottom: 12px;
     border-radius: 7px;
 }
 
@@ -508,4 +511,55 @@ td {
     margin-left:20px;
     margin-right:20px;
     margin-bottom: 50px;
+}
+
+.stat-container {
+    width:fit-content;
+    margin-left:auto;
+    margin-right:auto;
+    align-content:center;
+}
+
+.stat-box {
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+    background-color: var(--lynxwhite);
+    margin-inline: 5px;
+    margin-bottom: 10px;
+    text-align: center;
+    padding: 50px;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: -1px -1px 18px 0px rgba(0,0,0,0.31);
+}
+
+.stat-box-inner {
+    height: 100px;
+    width: 100px;
+}
+.stat-box-inner h1 {
+    padding-top:10px;
+    font-size:40px;
+}
+
+.stat-box-inner p {
+    font-size: 16px;
+    font-family: 'Signika';
+    letter-spacing:.5px;
+    font-weight:200;
+}
+
+.index-content {
+    height: 400px;
+    display: inline-block;
+    background-color: var(--lynxwhite);
+    border-radius: 5px;
+    margin-top: 1.5%;
+    box-shadow: -1px -1px 18px 0px rgba(0,0,0,0.31);
+}
+.index-container {
+    padding: 2%;
+    border-radius: 5px;
+    height:fit-content;
 }
