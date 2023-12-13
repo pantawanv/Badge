@@ -12,30 +12,35 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Signika:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/5af49ac99a.js" crossorigin="anonymous"></script>
-
-
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
 </head>
 <body style="width: 100%; ">
-    <div id="wrap">
+    <div class="t-navbar">
+        <div class="t-navbar-container">
+            <a asp-page="/Index" asp-area=""><img src="/images/logo.png" draggable="false"/>Badge</a>
+
+            <ul class="navbar-right">
+                <li><a>Om Badge</a></li>
+                <li><a>Kontakt</a></li>
+                <li><a asp-page="/Account/login" asp-area="Identity">Login</a></li>
+            </ul>
+        </div>
+    </div>
+    <div id="wrap" style="margin-top: 60px;">
         <main role="main" class="main">
             @RenderBody()
         </main>
+
         <div id="footer-b" >
-            <div class="footer-container col3">
-                <div>
-                    Badge - 2023
-                </div>
-                <div>
-                    Badge - 2023
-                </div>
-                <div>
-                    Badge - 2023
-                </div>
-                
-            </div>
+            <div class="navbar-login"><partial name="_footercontent.cshtml"/></div>
         </div>
     </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>

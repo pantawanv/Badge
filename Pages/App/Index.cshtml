@@ -6,14 +6,16 @@
 <h2>Hej</h2>
 <h1>@UserManager.GetUserAsync(User).Result.FName!</h1>
 <br />
-<h2>
-    Dine mærker:
+<p>Du har solgt @Model.GetSales() ialt. Godt gået!</p>
+
+<h2 style="padding-top: 15px;">
+    Her er dine mærker: 
 </h2>
 
-<div class="box-full" style="margin-top: 25px; padding:0;">
+<div class="achievement-container">
     @foreach (var item in Model.Achievements)
     {
-        <div style="width:90px; height: 90px;display: inline-block; background-color:palegoldenrod; overflow: hidden; text-align:center;">
+        <div class="achievement">
             <div>
                 @item.Name
             </div>
@@ -27,6 +29,12 @@
                     break;
                 case "Channel":
                     if (Model.CheckChannelAchievement(item.Amount, item.Name))
+                    {
+                        <p>OPNÅET</p>
+                    }
+                    break;
+                    case "Group":
+                    if (Model.CheckGroupAchievement(item.Amount))
                     {
                         <p>OPNÅET</p>
                     }

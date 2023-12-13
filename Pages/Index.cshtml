@@ -8,12 +8,16 @@
     Layout = "_IndexLayout";
 }
 
+
+
 <div class="login-container">
-    <a asp-area="Identity" asp-page="/Account/Login">
-        <div class="login-button"> <h1 style="text-align:center;margin-top:75px;">Leder login</h1> </div>
+    <h1>Velkommen til <span>Badge!</span></h1>
+    <h3>Hvordan vil du gerne logge ind?</h3>
+    <a class="login-link" asp-area="Identity" asp-page="/Account/Login" asp-route-usertype="Leader">
+        <div class="login-button"><img src="~/images/Leader.svg"></img><p>Som leder</p></div>
     </a>
-    <a asp-area="Identity" asp-page="/Account/Login">
-        <div class="login-button"> <h1 style="text-align:center;margin-top:75px;">Medlems login</h1> </div>
+    <a class="login-link" asp-area="Identity" asp-page="/Account/Login" asp-route-usertype="Member">
+        <div class="login-button"><img src="~/images/Member.svg"><p>Som medlem</p></div>
     </a>
 </div>
         

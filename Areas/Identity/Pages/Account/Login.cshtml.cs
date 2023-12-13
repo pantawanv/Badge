@@ -51,11 +51,16 @@ namespace Badge.Areas.Identity.Pages.Account
             public bool RememberMe { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public async Task<IActionResult> OnGetAsync(string? usertype, string returnUrl = null)
         {
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
+            }
+
+            if (_signInManager.IsSignedIn(User))
+            {
+                return LocalRedirect(LogInUrl()); 
             }
 
             returnUrl ??= Url.Content("~/");
@@ -65,9 +70,10 @@ namespace Badge.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             ReturnUrl = returnUrl;
+            return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string? usertype, string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
 
@@ -76,21 +82,45 @@ namespace Badge.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
-
-                    if (User.IsInRole("Member")){
-                        return LocalRedirect("~/App/Index");
-                    }
-                    if (User.IsInRole("Admin") || User.IsInRole("Leader") || User.IsInRole("Manager"))
+                    if (usertype != null)
                     {
-                        return LocalRedirect("~/Admin/Index");
+                        if (usertype == "Leader")
+                        {
+                            if (User.IsInRole("Leader") ||  User.IsInRole("Manager") ||  User.IsInRole("Admin"))
+                            {
+                                _logger.LogInformation("User logged in.");
+
+                                   return LocalRedirect("~/Admin/Index");
+                            }
+                            else
+                            {
+                                await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+                                ModelState.AddModelError("NotLeader", string.Empty);
+                                return Page();
+                            }
+                        } else if (usertype == "Member")
+                        {
+                            if (User.IsInRole("Member"))
+                            {
+                                _logger.LogInformation("User logged in.");
+
+
+                                   return LocalRedirect("~/App/Index");
+                            }
+                            else
+                            {
+                                await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
+                                ModelState.AddModelError("NotMember", string.Empty);
+                                return Page();
+                            }
+                        } 
+
                     }
-                }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                    return LocalRedirect(LogInUrl());
+                    
                 }
                 if (result.IsLockedOut)
                 {
@@ -106,6 +136,19 @@ namespace Badge.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             return Page();
+        }
+
+        public string LogInUrl()
+        {
+            if (User.IsInRole("Member"))
+            {
+                return ("~/App/Index");
+            }
+            if (User.IsInRole("Admin") || User.IsInRole("Leader") || User.IsInRole("Manager"))
+            {
+                return ("~/Admin/Index");
+            }
+            return "";
         }
     }
 }

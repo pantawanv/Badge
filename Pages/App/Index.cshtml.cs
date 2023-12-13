@@ -34,7 +34,7 @@ namespace Badge.Pages.App
 
         public bool CheckTicketAchievement (int amount)
         {
-            return amount <= _context.Sales.Where(s => s.SellerId == _userManager.GetUserId(User)).Count();
+            return amount <= _context.Sales.Where(s => s.SellerId == GetMember().Id).Count();
         }
 
         public bool CheckChannelAchievement (int amount, string name)
@@ -42,14 +42,29 @@ namespace Badge.Pages.App
             switch (name) 
             {
                 case "Mobile Pay":
-                    return _context.Sales.Where(s => s.SellerId == _userManager.GetUserId (User) && s.Channel.Name == "Mobile Pay").Count() > 0;
+                    return _context.Sales.Where(s => s.SellerId == GetMember().Id && s.Channel.Name == "Mobile Pay").Count() > 0;
                     break;
                 case "Kontant":
-                    return _context.Sales.Where(s => s.SellerId == _userManager.GetUserId (User) && s.Channel.Name == "Kontakt").Count() > 0;
+                    return _context.Sales.Where(s => s.SellerId == GetMember().Id && s.Channel.Name == "Kontakt").Count() > 0;
                     break;
                     default: return false;
                     break;
             }
+        }
+
+        public bool CheckGroupAchievement (int amount)
+        {
+            return amount <= _context.Sales.Where(s => s.Seller.GroupId == GetMember().GroupId).Count();
+        }
+
+        public Member GetMember()
+        {
+            return _context.Members.FirstOrDefault(m => m.Id == _userManager.GetUserId(User));
+        }
+
+        public int GetSales()
+        {
+            return _context.Sales.Where(s => s.SellerId == GetMember().Id).Count();
         }
     }
 }
