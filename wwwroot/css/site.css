@@ -743,10 +743,133 @@
         background-color: var(--applevalley) !important;
     }
 
-    .col3 {
-        column-count: 3;
-    }
+.col3 {
+    column-count: 3;
+}
+.login-link:hover .login-button{
+    transform:scale(1.01);
+    transition:linear .1s;
+}
 
+.login-link:hover .login-button img{
+    transform: scale(1.03);
+    transition: linear .1s;
+}
+
+.login-button img {
+    height: 80%;
+    width: 80%;
+    margin:auto;
+    margin-bottom:0;
+    margin-top: 10px;
+}
+
+.login-button p {
+    display:block;
+    padding:0;
+    margin-top: -20px;
+    font-size: 18px;
+    font-family: 'Signika';
+    letter-spacing: .5px;
+    font-weight: 600;
+}
+
+.stat-container {
+    width:fit-content;
+    margin-left:auto;
+    margin-right:auto;
+    align-content:center;
+}
+
+.stat-box {
+    width: 200px;
+    height: 200px;
+    display: inline-block;
+    background-color: var(--lynxwhite);
+    margin-inline-end: 5px;
+    text-align: center;
+    padding: 50px;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: -1px -1px 18px 0px rgba(0,0,0,0.31);
+}
+
+.stat-box-inner {
+    height: 100px;
+    width: 100px;
+}
+.stat-box-inner h1 {
+    padding-top:10px;
+    font-size:40px;
+}
+
+.stat-box-inner p {
+    font-size: 16px;
+    font-family: 'Signika';
+    letter-spacing:.5px;
+    font-weight:200;
+}
+
+.index-content {
+    height:fit-content;
+    display: inline-block;
+    background-color: var(--lynxwhite);
+    border-radius: 5px;
+    box-shadow: -1px -1px 18px 0px rgba(0,0,0,0.31);
+    margin-top:20px;
+    overflow: hidden;
+    padding: 25px;
+
+}
+.index-container {
+    padding: 2%;
+    border-radius: 5px;
+    height:fit-content;
+}
+#footer-b {
+    position: absolute;
+    bottom: -50px;
+    height: 500px;
+    width: 100%;
+    background-image: url('/images/Footer.svg') !important;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+    background-position: center top;
+}
+
+.main {
+    height: 70%;
+}
+
+#wrap {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    background-color: #E6E5E5 !important;
+}
+
+.footer-container {
+    width: 80%;
+    height:fit-content;
+    margin-left: auto;
+    margin-right: auto;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+    margin-top:-150px;
+}
+
+.login-container-main {
+    max-width:500px;
+    width:80%;
+    margin-left:auto;
+    margin-right:auto;
+}
+    .login-container-main .logo-container {
+        width: 100px;
+        height: 100px;
+    }
     .login-container {
         width: fit-content;
         max-width: 590px;
