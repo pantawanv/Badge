@@ -27,7 +27,8 @@
                     }
                     else
                     {
-                        <p>Tildelt <a asp-page="/Administration/Grupper/Details" asp-route-id="@Model.TicketGroupAssign.Group.Id">@Model.TicketGroupAssign.Group.Name</a><form method="post" asp-page-handler="DeleteGroupAssign" asp-route-id="@Model.Ticket.Id"><button class="btn btn-primary">Delete</button></form> </p>
+                        <p>Tildelt 
+                            <a asp-page="/Administration/Grupper/Details" asp-route-id="@Model.TicketGroupAssign.Group.Id">@Model.TicketGroupAssign.Group.Name</a><form method="post" asp-page-handler="DeleteGroupAssign" asp-route-id="@Model.Ticket.Id"><button class="btn btn-primary">Delete</button></form> </p>
 
                     }
                 </dd>

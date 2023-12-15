@@ -30,17 +30,39 @@
         </div>
     </form>
 </div>
-<form method="post" asp-page-handler="Delete">
-    @if (Model.SelectedTickets.Any())
+<form method="post" asp-page-handler="Delete"> 
+    @if (Model.CanAssign())
     {
-    
-        <input name="selectecTickets" value="@Model.SelectedTickets" hidden/>
+        foreach (var item in Model.SelectedTickets)
+        {
+            <input name="selectedTickets" value="@item.Id" hidden/>
+        }
         <button >Slet lodsedler</button>
-    
-       
-
-    
     }
+</form>
+
+<form method="post" asp-page-handler="CreateGroupAssign">
+    @if (Model.CanAssignGroup())
+    {
+
+        foreach (var item in Model.SelectedTickets)
+        {
+            <input name="selectedTickets" value="@item.Id" hidden />
+        }
+        <select name="selectedGroup" asp-items="ViewBag.GroupId"></select>
+        <button>Tilddel Gruppe</button>
+    }
+</form>
+<form method="post" asp-page-handler="CreateMemberAssign">
+@if (Model.CanAssingMember())
+{
+    foreach (var item in Model.SelectedTickets)
+    {
+        <input name="selectedTickets" value="@item.Id" hidden />
+    }
+    <select name="selectedMember" asp-items="ViewBag.MemberId"></select>
+    <button>Tilddel Medlem</button>
+}
 </form>
 <form method="get" >
     @if(Model.CurrentFilter != null)

@@ -970,9 +970,9 @@ td {
 #footer-b {
     position: static;
     bottom: 0px;
-    height: 500px;
+    height: 600px;
     width: 100%;
-    background-image: url('/images/Footer.svg') !important;
+    background-image: url('../images/Footer.svg');
     background-repeat: no-repeat !important;
     background-size: cover !important;
     background-position: center top;

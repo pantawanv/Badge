@@ -43,7 +43,7 @@ namespace Badge.Pages.App
                     return _context.Sales.Where(s => s.SellerId == GetMember().Id && s.Channel.Name == "Mobile Pay").Count() > 0;
                     break;
                 case "Kontant":
-                    return _context.Sales.Where(s => s.SellerId == GetMember().Id && s.Channel.Name == "Kontakt").Count() > 0;
+                    return _context.Sales.Where(s => s.SellerId == GetMember().Id && s.Channel.Name == "Kontant").Count() > 0;
                     break;
                 default:
                     return false;
