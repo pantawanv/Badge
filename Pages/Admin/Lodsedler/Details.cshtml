@@ -57,7 +57,13 @@
             <h4>Kvittering</h4>
             <dt>Solgt af</dt>
             <dd>
-                <a asp-page="/Administration/Medlem" asp-route-id="@Model.Sale.SellerId">@Model.Sale.Seller.User.FName</a> - <a asp-page="/Administration/Medlem" asp-route-id="@Model.Sale.Seller.GroupId">@Model.Sale.Seller.Group.Name</a>
+                @if (Model.Sale.Seller != null)
+                {
+                    <a asp-page="/Administration/Medlem" asp-route-id="@Model.Sale.SellerId">@Model.Sale.Seller.User.FName</a>
+                    <span> - </span>
+                    <a asp-page="/Admin/Medlem" asp-route-id="@Model.Sale.Seller.GroupId">@Model.Sale.Seller.Group.Name</a>
+                }
+                
                 </dd>
             <dt>Dato for salg</dt>
             <dd>@Model.Sale.SalesDate.ToShortDateString()</dd>
