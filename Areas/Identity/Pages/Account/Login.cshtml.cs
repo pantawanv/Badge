@@ -39,15 +39,17 @@ namespace Badge.Areas.Identity.Pages.Account
 
             [Required]
             [EmailAddress]
+            [Display(Name ="Mailadresse")]
             public string Email { get; set; }
 
 
             [Required]
             [DataType(DataType.Password)]
+            [Display(Name ="Adgangskode")]
             public string Password { get; set; }
 
 
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Husk mig?")]
             public bool RememberMe { get; set; }
         }
 
@@ -60,7 +62,7 @@ namespace Badge.Areas.Identity.Pages.Account
 
             if (_signInManager.IsSignedIn(User))
             {
-                return LocalRedirect(LogInUrl()); 
+                return LocalRedirect(LogInUrl());
             }
 
             returnUrl ??= Url.Content("~/");
@@ -93,7 +95,7 @@ namespace Badge.Areas.Identity.Pages.Account
                             {
                                 _logger.LogInformation("User logged in.");
 
-                                   return LocalRedirect("~/Admin/Index");
+                                return LocalRedirect("~/Admin/Index");
                             }
                             else
                             {
@@ -101,14 +103,15 @@ namespace Badge.Areas.Identity.Pages.Account
                                 ModelState.AddModelError("NotLeader", string.Empty);
                                 return Page();
                             }
-                        } else if (usertype == "Member")
+                        }
+                        else if (usertype == "Member")
                         {
                             if (User.IsInRole("Member"))
                             {
                                 _logger.LogInformation("User logged in.");
 
 
-                                   return LocalRedirect("~/App/Index");
+                                return LocalRedirect("~/App/Index");
                             }
                             else
                             {
@@ -116,11 +119,11 @@ namespace Badge.Areas.Identity.Pages.Account
                                 ModelState.AddModelError("NotMember", string.Empty);
                                 return Page();
                             }
-                        } 
+                        }
 
                     }
                     return LocalRedirect(LogInUrl());
-                    
+
                 }
                 if (result.IsLockedOut)
                 {

@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Text;
 using System.Text.Encodings.Web;
 
@@ -51,7 +50,7 @@ namespace Badge.Pages.Admin.UserAdmin
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var roles = await _context.Roles.Where(r => r.NormalizedName != "ADMIN" && r.NormalizedName != "MEMBER").ToListAsync(); 
+            var roles = await _context.Roles.Where(r => r.NormalizedName != "ADMIN" && r.NormalizedName != "MEMBER").ToListAsync();
             ViewData["RoleId"] = new SelectList(roles, "Id", "Name");
             return Page();
         }

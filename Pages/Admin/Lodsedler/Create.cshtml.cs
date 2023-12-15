@@ -1,6 +1,5 @@
 ﻿using Badge.Data;
 using Badge.Models;
-using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 

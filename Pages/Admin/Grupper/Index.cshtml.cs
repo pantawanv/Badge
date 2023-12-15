@@ -23,6 +23,8 @@ namespace Badge.Pages.Admin.GroupAdmin
         public string CurrentFilter { get; set; }
         public string CurrentSort { get; set; }
 
+        public string MembersSort { get; set; }
+
         public bool MyGroups { get; set; }
 
 
@@ -34,6 +36,7 @@ namespace Badge.Pages.Admin.GroupAdmin
             NameSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("Name_asc") ? "Name_desc" : "Name_asc";
             TypeSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("Type_asc") ? "Type_desc" : "Type_asc";
             LeaderSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("Leader_asc") ? "Leader_desc" : "Leader_asc";
+            MembersSort = string.IsNullOrEmpty(sortOrder) || sortOrder.Equals("Member_asc") ? "Member_desc" : "Member_asc";
             MyGroups = myGroups;
             if (searchString != null)
             {
@@ -60,7 +63,7 @@ namespace Badge.Pages.Admin.GroupAdmin
                 || g.GroupType.Name.Contains(searchString)
                 || (g.Leader.FName + " " + g.Leader.LName).Contains(searchString));
 
-              
+
             }
 
             switch (sortOrder)
@@ -82,6 +85,12 @@ namespace Badge.Pages.Admin.GroupAdmin
                     break;
                 case "Leader_asc":
                     groupsIQ = groupsIQ.OrderBy(g => g.Leader.FName);
+                    break;
+                case "Member_desc":
+                    groupsIQ = groupsIQ.OrderByDescending(g => g.Members.Count);
+                    break;
+                case "Member_asc":
+                    groupsIQ = groupsIQ.OrderBy(g => g.Members.Count);
                     break;
                 default:
                     groupsIQ = groupsIQ.OrderBy(g => g.Name);

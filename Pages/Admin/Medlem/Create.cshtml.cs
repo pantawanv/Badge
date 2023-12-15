@@ -26,7 +26,7 @@ namespace Badge.Pages.Admin.MemberAdmin
             IUserStore<ApplicationUser> userStore,
             ILogger<CreateModel> logger,
             IEmailSender emailSender,
-            RoleManager<IdentityRole> roleManager, 
+            RoleManager<IdentityRole> roleManager,
             ApplicationDbContext context)
         {
             _userManager = userManager;

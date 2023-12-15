@@ -1,6 +1,5 @@
 using Badge.Data;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.VisualBasic;
 
 namespace Badge.Pages.Admin.Statistikker
 {
@@ -13,13 +12,13 @@ namespace Badge.Pages.Admin.Statistikker
             _context = context;
         }
 
-        public int SalesTotal {get; set; }
+        public int SalesTotal { get; set; }
         public int SalesWeek { get; set; }
         public int TicketsTotal { get; set; }
 
         public async Task OnGetAsync()
         {
-            if (_context.Sales !=  null) 
+            if (_context.Sales !=  null)
             {
                 SalesTotal = _context.Sales.Count();
 
@@ -30,7 +29,7 @@ namespace Badge.Pages.Admin.Statistikker
             {
                 TicketsTotal = _context.Tickets.Count();
             }
-           
+
         }
 
     }

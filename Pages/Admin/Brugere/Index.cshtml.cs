@@ -75,7 +75,7 @@ namespace Badge.Pages.Admin.UserAdmin
                     {
                         UserIQ = from u in UserIQ where (u.FName + " " + u.LName).Contains(CurrentFilter) select u;
 
-                        
+
                     }
                 }
 

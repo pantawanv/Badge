@@ -26,15 +26,15 @@
                 <div class="form-floating mb-3">
                     <input asp-for="Email" class="form-control" placeholder="Skriv venligst din e-mail." disabled />
                     <label asp-for="Email" class="form-label"></label>
-                    <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-link">Send e-mailbekræftelse</button>
+                    <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-link">Send mail-bekræftelse</button>
                 </div>
             }
             <div class="form-floating mb-3">
-                <input asp-for="Input.NewEmail" class="form-control" autocomplete="email" aria-required="true" placeholder="Skriv venligst din e-mail." />
+                <input asp-for="Input.NewEmail" class="form-control" autocomplete="email" aria-required="true" placeholder="Skriv venligst din mailadresse." />
                 <label asp-for="Input.NewEmail" class="form-label"></label>
                 <span asp-validation-for="Input.NewEmail" class="text-danger"></span>
             </div>
-            <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="w-100 btn btn-lg btn-primary">Skift e-mail</button>
+            <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="btn-submit">Skift mailadresse</button>
         </form>
     </div>
 </div>

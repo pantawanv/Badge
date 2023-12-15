@@ -1,4 +1,5 @@
 ﻿@page
+@using Badge.Resources
 @model Badge.Pages.Admin.GroupAdmin.IndexModel
 
 @{
@@ -89,7 +90,7 @@
                 <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.TypeSort" asp-route-myGroups="@Model.MyGroups">
                     <div class="srt-container">
                         <div class="srthead-container">
-                            @Html.DisplayNameFor(model => model.Groups[0].GroupType.Name)
+                            Gruppetype
                         </div>
                         <div class="srtarw-container">
                             @if (Model.CurrentSort != null && Model.CurrentSort.Contains("Type"))
@@ -143,21 +144,61 @@
                     </div>
                 </a>
                 </th>
+            <th>
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.MembersSort" asp-route-myGroups="@Model.MyGroups">
+                    <div class="srt-container">
+                        <div class="srthead-container">
+                            Antal medlemmer
+                        </div>
+                        <div class="srtarw-container">
+                            @if (Model.CurrentSort != null && Model.CurrentSort.Contains("Members"))
+                            {
+                                if (Model.CurrentSort.Contains("asc"))
+                                {
+                                    <div class="srtarw actup"></div>
+                                    <div class="srtarw inactdwn"></div>
+                                }
+                                else
+                                {
+                                    <div class="srtarw inactup"></div>
+                                    <div class="srtarw actdwn"></div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="srtarw inactup"></div>
+                                <div class="srtarw inactdwn"></div>
+                            }
+                        </div>
+                    </div>
+                </a>
+            </th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model.Groups)
             {
-                <tr>
+            var color = ColorResource.ResourceManager.GetString(item.GroupType.Name);
+                
+            <tr id="group-tr">
                 <td>
-                    @Html.DisplayFor(modelItem => item.Name)
+                    <div class="group-marker" style="background-color: @color;">
+                    </div>
+                    <div style="display: inline-block; margin: 10px;">
+                            @Html.DisplayFor(modelItem => item.Name)
+                    </div>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.GroupType.Name)
+                    <div class="note-block" style="background-color:@color; margin-left:0!important;">
+                        @Html.DisplayFor(modelItem => item.GroupType.Name)
+                    </div>
                 </td>
                 <td>
                     <a asp-page="/Admin/Brugere/Details" asp-route-id="@item.Leader.Id">@Html.DisplayFor(modelItem => item.Leader.FullName)</a>
+                </td>
+                <td>
+                    @item.Members.Count()
                 </td>
                 <td style="width:100px;">
                     <div class="dropdwn">
@@ -170,10 +211,10 @@
                             <a class="delete" asp-page="./Delete" asp-route-id="@item.Id">Slet</a>
                         </div>
                     </div>
-                    </td>
-                </tr>
-   
-                
+                </td>
+            </tr>
+            
+                    
             }
         </tbody>
     </table>

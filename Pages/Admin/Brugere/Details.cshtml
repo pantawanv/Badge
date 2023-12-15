@@ -1,6 +1,9 @@
 ﻿@page
+@using Badge.Resources
+
 @model Badge.Pages.Admin.UserAdmin.DetailsModel
 @{
+
     ViewData["Title"] = "Detaljer";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
@@ -9,8 +12,16 @@
 
 <div>
     <div class="box-full flex">
-        <div class="box-half">
+        <div class="box-full">
             <h4>Info</h4>
+            <div style="float:right; margin-top: -50px;">
+                @foreach (var item in Model.Roles)
+                {
+                    string name = TextResource.ResourceManager.GetString(item.Name);
+                    string color = ColorResource.ResourceManager.GetString(item.Name);
+                    <div class="note-block note-green" style="display: inline-block; background-color:@color; text-transform:capitalize!important; margin-inline-end: 5px;">@name</div>
+                }
+            </div>
             <hr />
             <dl class="row">
                 <dt class="col-sm-2">
@@ -39,18 +50,6 @@
                 </dd>
             </dl>
         </div>
-       
-     
-        <div class="box-3rd" style="margin:0px auto; height:100%;">
-            <h4>Systemroller</h4>
-            <hr />
-            @foreach( var item in Model.Roles)
-            {
-                <div>
-                    @Model.User.FName er @item.Name
-                </div>
-            }
-        </div>
     </div>
     <a asp-page="./Index">
         Tilbage til liste
@@ -61,7 +60,7 @@
             <h4>Grupper</h4>
         <hr />
             <div>
-                <table class="table">
+                <table>
                     <thead>
                         <tr>
                             <th>

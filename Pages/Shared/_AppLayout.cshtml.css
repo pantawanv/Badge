@@ -11,8 +11,8 @@
 
     .app-main{
         width:100%!important;
-        margin-top: 100px!important;
         padding:0px;
+        margin-top: 0!important;
     }
     .menu {
        
@@ -50,8 +50,8 @@ html {
 }
 
 .app-main {
+    margin-top: 150px;
     width:80%;
-    margin-top:150px;
     margin-left:auto;
     margin-right:auto;
     padding: 35px;

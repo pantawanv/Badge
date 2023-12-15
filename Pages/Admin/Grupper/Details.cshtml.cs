@@ -34,7 +34,7 @@ namespace Badge.Pages.Admin.GroupAdmin
             {
                 Group = group;
                 var members = from m in _context.Members where m.GroupId == Group.Id select m;
-                Members = await members.AsNoTracking().Include(m => m.Sales).Include(m=>m.User).ToListAsync();
+                Members = await members.AsNoTracking().Include(m => m.Sales).Include(m => m.User).ToListAsync();
 
             }
             return Page();

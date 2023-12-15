@@ -15,6 +15,7 @@ namespace Badge.Models
         public int AchievementTypeId { get; set; }
         [ForeignKey(nameof(AchievementTypeId))]
         public AchievementType AchievementType { get; set; }
+        public string AchievementIcon { get; set; }
 
     }
 }

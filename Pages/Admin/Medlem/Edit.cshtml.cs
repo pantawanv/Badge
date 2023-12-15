@@ -108,7 +108,7 @@ namespace Badge.Pages.Admin.MemberAdmin
                     _context.Members.Find(member.Id).User.Email = Input.Email;
                 }
 
-                if( Input.GroupId != groupId)
+                if (Input.GroupId != groupId)
                 {
                     _context.Members.Find(member.Id).GroupId = Input.GroupId;
                 }

@@ -30,10 +30,35 @@
         </div>
     </form>
 </div>
+<form method="post" asp-page-handler="Delete">
+    @if (Model.SelectedTickets.Any())
+    {
+    
+        <input name="selectecTickets" value="@Model.SelectedTickets" hidden/>
+        <button >Slet lodsedler</button>
+    
+       
+
+    
+    }
+</form>
+<form method="get" >
+    @if(Model.CurrentFilter != null)
+    {
+        <input name="searchString" value="@Model.CurrentFilter" hidden />
+    }
+    @if (Model.CurrentSort != null)
+    {
+        <input name="sortOrder" value="@Model.CurrentSort" hidden />
+    }
+
+
 <table>
     <thead>
         <tr>
-            <th></th>
+            <th>
+                <input type="checkbox" id="selectAll"/>
+            </th>
             <th>
                 <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.TicketSort" asp-route-searchString="@Model.CurrentFilter">
                     <div class="srt-container">
@@ -156,7 +181,15 @@
     <tbody>
 @foreach (var item in Model.Tickets) {
         <tr>
-            <td></td>
+            <td>
+                
+                        <input name="selectedTickets" type="checkbox" onChange="this.form.submit()" title="select ticket" value="@item.Id" @{
+                            if (Model.SelectedTickets.Any(p => p.Id == item.Id))
+                            {
+                                @("checked=checked")
+                            }
+                        } @(Model.Sales.FirstOrDefault(s => s.TicketId == item.Id) != null ? "disabled" : "")/>
+            </td>
             <td>
                     @Html.DisplayFor(modelItem => item.Id)
             </td>
@@ -202,6 +235,7 @@
 }
     </tbody>
 </table>
+</form>
 
 @{
     var prevDisabled = !Model.Tickets.HasPreviousPage ? "disabled" : "";
@@ -229,4 +263,3 @@
 
 </a>
  }
-

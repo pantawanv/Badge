@@ -46,7 +46,7 @@ namespace Badge.Pages.Admin.TicketAdmin
                 if (ticketGroupAssign != null)
                 {
                     TicketGroupAssign = ticketGroupAssign;
-                    var groupMembers = _context.Members.Include(m=>m.User).Where(m=> m.GroupId == ticketGroupAssign.GroupId);
+                    var groupMembers = _context.Members.Include(m => m.User).Where(m => m.GroupId == ticketGroupAssign.GroupId);
                     ViewData["GroupMembers"] = new SelectList(groupMembers, "Id", "User.FullName");
                 }
                 var ticketMemberAssign = await _context.TicketMemberAssigns.Include(t => t.Member).ThenInclude(t => t.User).FirstOrDefaultAsync(t => t.TicketId == id);

@@ -1,7 +1,10 @@
 ﻿using Badge.Data;
 using Badge.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Badge.Pages.Admin.TicketAdmin
 {
@@ -25,16 +28,16 @@ namespace Badge.Pages.Admin.TicketAdmin
         public string CurrentSort { get; set; }
 
         public PaginatedList<Ticket> Tickets { get; set; }
-        public IQueryable<Sale> Sales { get; set; }
-
-        public async Task OnGetAsync(string sortOrder, string searchString, int? pageIndex)
+        public IQueryable<Sale> Sales { get; set; } 
+        public IList<Ticket>? SelectedTickets { get; set; } 
+        public async Task<IActionResult> OnGetAsync(string sortOrder, string searchString, int? pageIndex, string[]? selectedTickets)
         {
-            CurrentSort = sortOrder;
 
+            CurrentSort = sortOrder;
             TicketSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("id_asc") ? "id_desc" : "id_asc";
             GroupNameSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("group_asc") ? "group_desc" : "group_asc";
             MemberNameSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("member_asc") ? "member_desc" : "member_asc";
-            SoldSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("sold_asc") ? "sold_desc" : "sold_asc"; 
+            SoldSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("sold_asc") ? "sold_desc" : "sold_asc";
 
 
             if (searchString != null)
@@ -45,15 +48,13 @@ namespace Badge.Pages.Admin.TicketAdmin
             {
                 searchString = CurrentFilter;
             }
-
             CurrentFilter = searchString;
 
-            IQueryable<Ticket> ticketsIQ = from t in _context.Tickets
-                                           select t;
-
+            IQueryable<Ticket> ticketsIQ = from t in _context.Tickets select t;
+            
             if (!String.IsNullOrEmpty(searchString))
             {
-                ticketsIQ = ticketsIQ.Where(t => t.Id.Contains(searchString) || t.TicketGroupAssign.Group.Name.Contains(searchString) 
+                ticketsIQ = ticketsIQ.Where(t => t.Id.Contains(searchString) || t.TicketGroupAssign.Group.Name.Contains(searchString)
                 || (t.TicketMemberAssign.Member.User.FName + " " + t.TicketMemberAssign.Member.User.LName).Contains(searchString));
             }
 
@@ -87,12 +88,49 @@ namespace Badge.Pages.Admin.TicketAdmin
                     ticketsIQ = ticketsIQ.OrderBy(t => t.Id);
                     break;
             }
+            if(selectedTickets != null)
+            {
+                SelectedTickets = new List<Ticket>();
+                foreach (string id in selectedTickets)
+                {
+                    SelectedTickets.Add(_context.Tickets.FirstOrDefault(t => t.Id == id));
+                }
+            }
+
+            var groups = await _context.Groups.ToListAsync();
+            if (groups != null)
+            {
+                ViewData["GroupId"] = new SelectList(groups, "Id", "Name");
+            }
 
             var pageSize = Configuration.GetValue("PageSize", 4);
             var sales = from s in _context.Sales select s;
             Sales = sales.Include(s => s.Ticket);
-            Tickets = await PaginatedList<Ticket>.CreateAsync(ticketsIQ.AsNoTracking().Include(t => t.TicketGroupAssign).ThenInclude(t => t.Group).Include(t => t.TicketMemberAssign).ThenInclude(t => t.Member).ThenInclude(m=>m.User), pageIndex ?? 1, pageSize);
+            Tickets = await PaginatedList<Ticket>.CreateAsync(ticketsIQ.AsNoTracking().Include(t => t.TicketGroupAssign).ThenInclude(t => t.Group).Include(t => t.TicketMemberAssign).ThenInclude(t => t.Member).ThenInclude(m => m.User), pageIndex ?? 1, pageSize);
+            return Page();
+        }
 
+        public async Task<IActionResult> OnPostDeleteAsync(string[]? selectedTickets)
+        {
+            if (selectedTickets != null)
+            {
+                SelectedTickets = new List<Ticket>();
+                foreach (string id in selectedTickets)
+                {
+                    SelectedTickets.Add(_context.Tickets.FirstOrDefault(t => t.Id == id));
+                }
+            }
+
+            foreach (Ticket ticket in SelectedTickets) 
+            {
+            _context.Tickets.Remove(ticket);
+            }
+            await _context.SaveChangesAsync();
+            return RedirectToPage();
+        }
+        public async Task<IActionResult> OnPostCreateGroupAssignAsync(string[]?selectedTickets)
+        {
+            return RedirectToPage();
         }
     }
 }

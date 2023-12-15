@@ -2,9 +2,7 @@ using Badge.Areas.Identity.Data;
 using Badge.Data;
 using Badge.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
 
 namespace Badge.Pages.App
@@ -32,14 +30,14 @@ namespace Badge.Pages.App
             Achievements = achivements;
         }
 
-        public bool CheckTicketAchievement (int amount)
+        public bool CheckTicketAchievement(int amount)
         {
             return amount <= _context.Sales.Where(s => s.SellerId == GetMember().Id).Count();
         }
 
-        public bool CheckChannelAchievement (int amount, string name)
+        public bool CheckChannelAchievement(int amount, string name)
         {
-            switch (name) 
+            switch (name)
             {
                 case "Mobile Pay":
                     return _context.Sales.Where(s => s.SellerId == GetMember().Id && s.Channel.Name == "Mobile Pay").Count() > 0;
@@ -47,12 +45,13 @@ namespace Badge.Pages.App
                 case "Kontant":
                     return _context.Sales.Where(s => s.SellerId == GetMember().Id && s.Channel.Name == "Kontakt").Count() > 0;
                     break;
-                    default: return false;
+                default:
+                    return false;
                     break;
             }
         }
 
-        public bool CheckGroupAchievement (int amount)
+        public bool CheckGroupAchievement(int amount)
         {
             return amount <= _context.Sales.Where(s => s.Seller.GroupId == GetMember().GroupId).Count();
         }

@@ -1,6 +1,5 @@
 ﻿using Badge.Areas.Identity.Data;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 #nullable disable
@@ -9,7 +8,7 @@ namespace Badge.Models
     [Table("Member")]
     public partial class Member
     {
-        public string Id {  get; set; }
+        public string Id { get; set; }
         [ForeignKey(nameof(Id))]
         public ApplicationUser User { get; set; }
         [DisplayName("Gruppe Id")]
@@ -20,6 +19,6 @@ namespace Badge.Models
 
         [InverseProperty(nameof(Sale.Seller))]
         public virtual ICollection<Sale> Sales { get; set; }
-        
+
     }
 }

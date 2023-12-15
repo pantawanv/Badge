@@ -49,7 +49,7 @@ namespace Badge.Pages.Admin.UserAdmin
 
             Input = new InputModel
             {
-                
+
                 PhoneNumber = phoneNumber,
                 FName = fName,
                 LName = lName,

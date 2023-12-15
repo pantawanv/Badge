@@ -18,7 +18,7 @@ namespace Badge.Pages.Admin.ParentAdmin
 
         public IActionResult OnGet()
         {
-            var members = _context.Members.Include(m=>m.User);
+            var members = _context.Members.Include(m => m.User);
             ViewData["MemberId"] = new SelectList(members, "Id", "User.FullName");
             return Page();
         }

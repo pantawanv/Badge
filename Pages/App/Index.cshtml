@@ -6,7 +6,7 @@
 <h2>Hej</h2>
 <h1>@UserManager.GetUserAsync(User).Result.FName!</h1>
 <br />
-<p>Du har solgt @Model.GetSales() ialt. Godt gået!</p>
+<p>Du har solgt @Model.GetSales() lodsedler ialt. Godt gået!</p>
 
 <h2 style="padding-top: 15px;">
     Her er dine mærker: 
@@ -15,33 +15,35 @@
 <div class="achievement-container">
     @foreach (var item in Model.Achievements)
     {
+        string unlocked = "0";
         <div class="achievement">
-            <div>
-                @item.Name
-            </div>
+            
             @switch (item.AchievementType.Name)
             {
                 case "Ticket":
-                    if (Model.CheckTicketAchievement(item.Amount))
+                    if (!Model.CheckTicketAchievement(item.Amount))
                     {
-                        <p>OPNÅET</p>
+                        unlocked = "1";
                     }
                     break;
                 case "Channel":
-                    if (Model.CheckChannelAchievement(item.Amount, item.Name))
+                    if (!Model.CheckChannelAchievement(item.Amount, item.Name))
                     {
-                        <p>OPNÅET</p>
+                        unlocked = "1";
                     }
                     break;
                     case "Group":
-                    if (Model.CheckGroupAchievement(item.Amount))
+                    if (!Model.CheckGroupAchievement(item.Amount))
                     {
-                        <p>OPNÅET</p>
+                        unlocked = "1";
                     }
                     break;
                 default:
                     break;
             }
+            <div>
+                <img src="/images/@item.AchievementIcon" style="filter:grayscale(@unlocked);" />
+            </div>
         </div>
     }
 </div>

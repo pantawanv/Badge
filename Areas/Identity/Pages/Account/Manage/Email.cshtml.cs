@@ -30,7 +30,7 @@ namespace Badge.Areas.Identity.Pages.Account.Manage
             _emailSender = emailSender;
         }
 
-
+        [Display(Name ="Mailadresse")]
         public string Email { get; set; }
         public bool IsEmailConfirmed { get; set; }
         [TempData]
@@ -41,7 +41,7 @@ namespace Badge.Areas.Identity.Pages.Account.Manage
         {
             [Required]
             [EmailAddress]
-            [Display(Name = "New email")]
+            [Display(Name = "Ny mailadresse")]
             public string NewEmail { get; set; }
         }
 

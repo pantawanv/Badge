@@ -30,7 +30,7 @@ namespace Badge.Pages.Admin.SalesAdmin
         {
             CurrentSort = sortOrder;
 
-            TicketSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("ticket_asc")? "ticket_desc" : "ticket_asc";
+            TicketSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("ticket_asc") ? "ticket_desc" : "ticket_asc";
             SellerSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("seller_asc") ? "seller_desc" : "seller_asc";
             ChannelSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("channel_asc") ? "channel_desc" : "channel_asc";
             PaymentCollectedSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("paymentCollected_asc") ? "paymentCollected_desc" : "paymentCollected_asc";
@@ -55,7 +55,7 @@ namespace Badge.Pages.Admin.SalesAdmin
             {
                 salesIQ = salesIQ.Where(s => s.TicketId.Contains(searchString)
                 || (s.Seller.User.FName + " " + s.Seller.User.LName).Contains(searchString));
-                
+
             }
 
             switch (sortOrder)
