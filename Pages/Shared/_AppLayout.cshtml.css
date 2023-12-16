@@ -58,17 +58,7 @@ body {
     margin-right:auto;
     padding: 35px;
 }
-.menu {
-    width: 80%;
-    top: 0;
-    position: absolute;
-    background-color: #E6E5E5;
-    margin-left: 10%;
-    margin-right: 10%;
-    padding-top: 30px;
-    z-index: 1;
-    display:none;
-}
+
 .menu-list{
     width: 70%;
     margin: auto;
