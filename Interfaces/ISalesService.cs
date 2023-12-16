@@ -15,5 +15,6 @@ namespace Badge.Interfaces
         Task<Ticket> GetTicketAsync(string id);
         List<Channel> GetChannels();
         Task AddSaleAsync(Sale saleToAdd);
+        double GetEstimatedTotalEarnings();
     }
 }

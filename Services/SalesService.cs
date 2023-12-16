@@ -13,6 +13,8 @@ namespace Badge.Services
             _context=context;
         }
 
+        public static double EstimatedEarningsPerTicket = 19.82;
+
         public int GetSalesCount()
         {
             return _context.Sales.Count();
@@ -74,6 +76,11 @@ namespace Badge.Services
             _context.Sales.Add(saleToAdd);
             await _context.SaveChangesAsync();
             return;
+        }
+
+        public double GetEstimatedTotalEarnings()
+        {
+            return EstimatedEarningsPerTicket * GetSalesCount();
         }
 
     }

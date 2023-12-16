@@ -2,6 +2,7 @@
 @using Badge.Interfaces
 @model Badge.Pages.Admin.IndexModel
 @inject ISalesService salesService;
+@inject IMemberService memberService;
 @{
 }
 <div class="box-full index-container">
@@ -11,13 +12,55 @@
     <h1>
         @SignInManager.UserManager.GetUserAsync(User).Result.FName
     </h1>
-
-    <div class="index-content" style="width:65%; "></div>
-    <div class="index-content" style="width:30%; float:right; padding-top: 40px; padding-bottom: 40px;">
-        <div style="width:80%; margin-left:auto; margin-right:auto;">
-            <canvas id="soldPercentage"></canvas>
+    <div class="index-grid">
+        <div class="index-content index-infobox">
+            <div class="index-infobox-inner">
+                <img src="~/images/Icon_Calendar.svg"/>
+            </div>
+            <div class="index-infobox-inner" style="float:right; right:0;">
+                <h4>5 dage tilbage!</h4>
+                <p>Til lodseddelsalget slutter d. xx-xx-xxxx</p>
+            </div>
+            <div class="divider-line-gradient" id="dl1"></div>
+        </div>
+        <div class="index-content index-infobox">
+            <div class="index-infobox-inner">
+                <img style="padding: 5px!important;"src="~/images/Icon_Ticket.svg" />
+            </div>
+            <div class="index-infobox-inner" style="float:right; right:0;">
+                <h4>@salesService.GetSalesCount() lodsedler solgt.</h4>
+                <p>Fortsæt det gode arbejde!</p>
+            </div>
+            <div class="divider-line-gradient" id="dl2"></div>
+        </div>
+        <div class="index-content index-infobox">
+            <div class="index-infobox-inner">
+                <img src="~/images/Icon_Cash.svg" />
+            </div>
+            <div class="index-infobox-inner" style="float:right; right:0;">
+                <h4>@salesService.GetEstimatedTotalEarnings() kr tjent i alt</h4>
+                <p>Baseret på sidste års resultat</p>
+            </div>
+            <div class="divider-line-gradient" id="dl3"></div>
+        </div>
+        <div class="index-content index-infobox">
+            <div class="index-infobox-inner">
+                <img src="~/images/Icon_Members.svg" />
+            </div>
+            <div class="index-infobox-inner" style="float:right; right:0;">
+                <h4>@(salesService.GetSalesCount()/memberService.GetAllMembersAsync().Result.Count()) salg per medlem</h4>
+                <p>Kredsens medlemmer har i gennemsnit solgt @(salesService.GetSalesCount()/memberService.GetAllMembersAsync().Result.Count()) lodder hver!</p>
+            </div>
+            <div class="divider-line-gradient" id="dl4"></div>
+        </div>
+        <div class="index-content" style="grid-area:2  / 1 / span 2 / span 3;"></div>
+        <div class="index-content" style="height:600px;">
+            <div style="width:70%; height:fit-content; margin-left:auto; margin-right:auto;">
+                <canvas id="soldPercentage" height="400" width="200"></canvas>
+            </div>
         </div>
     </div>
+   
 </div>
 <script>
     const ctx = document.getElementById('soldPercentage');
@@ -25,13 +68,16 @@
     new Chart(ctx, {
         type: 'doughnut',
         data: {
-            labels: ['Købte Lodsedler', 'Solgte lodsedler'],
+            labels: ['Ikke solgte lodsedler', 'Solgte lodsedler'],
             datasets: [{
                 label: '',
-                data: [@salesService.GetTicketsCount(), @salesService.GetSalesCount()],
+                data: [@salesService.GetTicketsCount()-@salesService.GetSalesCount(), @salesService.GetSalesCount()],
+                backgroundColor: [
+                    '#94B2CD',
+                    '#5F8CB4',],
                 borderWidth: 2,
-                cutout: 75,
-                radius: 80
+                cutout: 32,
+                radius: 50
             }]
         },
         options: {
@@ -41,7 +87,10 @@
             plugins: {
                 legend: {
                     position: 'bottom',
-                    
+                    title: {
+                        display: true,
+                        padding:10
+                    }
                 }
             },
 
