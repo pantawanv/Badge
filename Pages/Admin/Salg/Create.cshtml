@@ -1,45 +1,79 @@
 ﻿@page
+@using Badge.Interfaces
+@using Badge.Resources
 @model Badge.Pages.Admin.SalesAdmin.CreateModel
-
+@inject ISalesService salesService
 @{
     ViewData["Title"] = "Opret";
+
 }
 
 <h1>Opret</h1>
-
 <h4>Salg</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Sale.TicketId" class="control-label"></label>
-                <select asp-for="Sale.TicketId" class ="form-control" asp-items="ViewBag.TicketId"></select>
+    <h4>Tilgængelige lodsedler</h4>
+    <form method="post">
+        <div class="box-full">
+            <div class="" style="display:inline-block;">
+                @if(Model.SelectedTicket != null)
+                {
+                    <div class="form-group">
+                        <label asp-for="Sale.Ticket"></label>
+                        <select asp-for="Sale.TicketId" class="form-control" asp-items="ViewBag.TicketId"></select>
+                        <span asp-validation-for="Sale.TicketId" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Sale.Seller"></label>
+                    @if (salesService.GetAssignedMemberAsync(Model.SelectedTicket.Id).Result != null)
+                    {
+                        <select asp-for="Sale.SellerId" class="form-control" asp-items="ViewBag.MemberId" disabled></select>
+                    }
+                    else
+                    {
+                        <select asp-for="Sale.SellerId" class="form-control" asp-items="ViewBag.MemberId"></select>
+                    }
+                        <span asp-validation-for="Sale.SellerId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Sale.Channel"></label>
+                        <select asp-for="Sale.ChannelId" class="form-control" asp-items="ViewBag.ChannelId"></select>
+                        <span asp-validation-for="Sale.ChannelId" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Sale.SalesDate"></label>
+                        <input asp-for="Sale.SalesDate" type="date"/>
+                        <span asp-validation-for="Sale.SalesDate" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" />
+                    </div>
+                }
+                
             </div>
-            <div class="form-group">
-                <label asp-for="Sale.SellerId" class="control-label"></label>
-                <select asp-for="Sale.SellerId" class ="form-control" asp-items="ViewBag.SellerId"></select>
+            <div class="tickets-container" style="float:right;">
+                @foreach (var item in Model.Tickets)
+                {
+                    <a asp-route-selected="@item.Id">
+                        <div class="ticket-display">
+                            <b>@item.Id</b><br />
+                            @if (salesService.GetAssignedGroupAsync(item.Id).Result != null)
+                            {
+                                <span style="color:@ColorResource.ResourceManager.GetString(@salesService.GetAssignedGroupAsync(item.Id).Result.GroupType.Name);">@salesService.GetAssignedGroupAsync(item.Id).Result.Name</span>
+                            }<br />
+
+                            @if (salesService.GetAssignedMemberAsync(item.Id).Result != null)
+                            {
+                                <span>@salesService.GetAssignedMemberAsync(item.Id).Result.User.FullName</span>
+                            }
+                        </div>
+                    </a>
+                }
             </div>
-            <div class="form-group">
-                <label asp-for="Sale.ChannelId" class="control-label"></label>
-                <select asp-for="Sale.ChannelId" class ="form-control" asp-items="ViewBag.ChannelId"></select>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="Sale.PaymentCollected" /> @Html.DisplayNameFor(model => model.Sale.PaymentCollected)
-                </label>
-            </div>
-            <div class="form-group">
-                <label asp-for="Sale.SalesDate" class="control-label"></label>
-                <input asp-for="Sale.SalesDate" class="form-control" />
-                <span asp-validation-for="Sale.SalesDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Opret" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+        </div>
+
+
+    </form>
 </div>
 
 <div>
@@ -47,5 +81,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

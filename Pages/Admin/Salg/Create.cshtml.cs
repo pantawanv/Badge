@@ -1,4 +1,5 @@
 ﻿using Badge.Data;
+using Badge.Interfaces;
 using Badge.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -9,32 +10,67 @@ namespace Badge.Pages.Admin.SalesAdmin
 {
     public class CreateModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ISalesService _salesService;  
+        private readonly IMemberService _memberService;
 
-        public CreateModel(ApplicationDbContext context)
+        public CreateModel(ISalesService salesService, IMemberService memberService)
         {
-            _context = context;
+            _salesService = salesService;
+            _memberService = memberService;
         }
 
-        public IActionResult OnGet()
-        {
-            var members = _context.Members.Include(m => m.User).ToList();
-            ViewData["ChannelId"] = new SelectList(_context.Channels, "Id", "Name");
-            ViewData["SellerId"] = new SelectList(members, "Id", "User.FullName");
-            ViewData["TicketId"] = new SelectList(from t in _context.Tickets where (from s in _context.Sales where s.TicketId == t.Id select s).Any() == false select t, "Id", "Id");
-            return Page();
-        }
+        public Ticket SelectedTicket { get; set; }
 
         [BindProperty]
         public Sale Sale { get; set; } = default!;
 
 
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
+        public List<Ticket> Tickets { get; set; }
+        public async Task<IActionResult> OnGetAsync(string? selected)
+        {
+            var tickets = await _salesService.GetAvailableTicketsAsync();
+            if(tickets != null)
+            {
+                Tickets = tickets;
+            }
+
+            if(selected != null)
+            {
+                SelectedTicket = await _salesService.GetTicketAsync(selected);
+                if (SelectedTicket==null)
+                {
+                    return NotFound();
+                }
+                var member = await _salesService.GetAssignedMemberAsync(selected);
+                var group = await _salesService.GetAssignedGroupAsync(selected);
+                if (member == null)
+                {
+                    if( group == null)
+                    {
+                        var members = await _memberService.GetAllMembersAsync();
+                        ViewData["MemberId"] = new SelectList(members, "Id", "User.FullName");
+                    }else
+                    {
+
+                        var members = await _memberService.GetAllMembersOfGroupAsync(group.Id);
+                        ViewData["MemberId"] = new SelectList(members, "Id", "User.FullName");
+                    }
+                } else
+                {
+                    member = await _salesService.GetAssignedMemberAsync(selected);
+                    ViewData["MemberId"] = new SelectList(member.Id, member.User.FullName);
+                }
+                ViewData["TicketId"] =  new SelectList(selected);
+                var channels = _salesService.GetChannels();
+                ViewData["ChannelId"] = new SelectList(channels, "Id", "Name");
+            }
+
+            return Page();
+        }
+
         public async Task<IActionResult> OnPostAsync()
         {
-            _context.Sales.Add(Sale);
-            await _context.SaveChangesAsync();
-
+            await _salesService.AddSaleAsync(Sale);
             return RedirectToPage("./Index");
         }
     }
