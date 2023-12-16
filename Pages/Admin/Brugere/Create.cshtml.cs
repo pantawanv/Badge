@@ -1,5 +1,6 @@
 using Badge.Areas.Identity.Data;
 using Badge.Data;
+using Badge.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -51,7 +52,15 @@ namespace Badge.Pages.Admin.UserAdmin
         public async Task<IActionResult> OnGetAsync()
         {
             var roles = await _context.Roles.Where(r => r.NormalizedName != "ADMIN" && r.NormalizedName != "MEMBER").ToListAsync();
-            ViewData["RoleId"] = new SelectList(roles, "Id", "Name");
+            List<SelectListItem> items = new List<SelectListItem>();
+
+            foreach (var item in roles)
+            {
+                string roleid = item.Id;
+                string rolename = TextResource.ResourceManager.GetString(item.Name);
+                items.Add(new SelectListItem() { Text = rolename, Value = roleid });
+            }
+            ViewData["RoleId"] = items;
             return Page();
         }
 

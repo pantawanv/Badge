@@ -11,7 +11,7 @@
 
     .app-main{
         width:100%!important;
-        padding:0px;
+        padding:0!important;
         margin-top: 0!important;
     }
     .menu {
@@ -31,6 +31,11 @@ html {
     font-size; 14px;
 }
 
+body {
+    margin-top: 0!important;
+    padding-top: 0!important;
+}
+
 .t-navbar {
     height: auto;
     width: 80%;
@@ -40,17 +45,14 @@ html {
     margin-right: 10%;
     padding-top: 30px;
 }
-.t-navbar-item {
-    margin: 35px;
-    display: inline-block;
-}
+
 
 .right {
     float: right;
 }
 
 .app-main {
-    margin-top: 150px;
+    margin-top: 75px;
     width:80%;
     margin-left:auto;
     margin-right:auto;

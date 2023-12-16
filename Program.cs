@@ -1,5 +1,6 @@
 using Badge.Areas.Identity.Data;
 using Badge.Data;
+using Badge.Interfaces;
 using Badge.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -16,6 +17,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddTransient<ISalesService, SalesService>();
+builder.Services.AddTransient<IMemberService, MemberService>();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()

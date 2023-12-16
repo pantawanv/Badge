@@ -1,5 +1,7 @@
 ﻿@page
+@using Badge.Interfaces
 @model Badge.Pages.Admin.IndexModel
+@inject ISalesService salesService;
 @{
 }
 <div class="box-full index-container">
@@ -11,5 +13,48 @@
     </h1>
 
     <div class="index-content" style="width:65%; "></div>
-    <div class="index-content" style="width:32%; float:right; "></div>
+    <div class="index-content" style="width:30%; float:right; padding-top: 40px; padding-bottom: 40px;">
+        <div style="width:80%; margin-left:auto; margin-right:auto;">
+            <canvas id="soldPercentage"></canvas>
+        </div>
+    </div>
 </div>
+<script>
+    const ctx = document.getElementById('soldPercentage');
+
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: ['Købte Lodsedler', 'Solgte lodsedler'],
+            datasets: [{
+                label: '',
+                data: [@salesService.GetTicketsCount(), @salesService.GetSalesCount()],
+                borderWidth: 2,
+                cutout: 75,
+                radius: 80
+            }]
+        },
+        options: {
+            layout: {
+                padding: 10,
+            },
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    
+                }
+            },
+
+            scales: {
+                x: {
+                    display:false,
+
+                },
+                y: {
+                    display:false,
+                }
+
+            }
+        }
+    });
+    </script>

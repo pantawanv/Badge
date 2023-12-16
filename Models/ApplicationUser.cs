@@ -18,6 +18,7 @@ namespace Badge.Areas.Identity.Data
         public string? AppUImageData { get; set; }
 
         [NotMapped]
+        [DisplayName("Navn")]
         public string FullName { get { return FName + " " + LName; } }
 
         [NotMapped]

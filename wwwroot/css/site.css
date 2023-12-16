@@ -251,6 +251,11 @@ html {
     overflow-y: scroll;
 }
 
+form {
+    padding:0!important;
+    margin:0!important;
+}
+
 body {
     background-color: var(--maingrey);
 }
@@ -409,6 +414,12 @@ input[type=submit] {
         margin-left: 20px;
         display: inline-block;
     }
+
+.t-navbar-item {
+    margin: 30px;
+    margin-bottom: 15px;
+    display: inline-block;
+}
 /*Top navbar end*/
 
 /*-----*/
@@ -996,23 +1007,244 @@ td {
 /*Achievements */
 .achievement-container {
     display: grid;
-    grid-template-columns: auto auto auto auto auto auto;
+    grid-template-columns: auto auto auto;
     grid-template-rows: auto auto auto;
     gap: 10px;
     width: fit-content;
     margin-left: auto;
     margin-right: auto;
+
+    padding: 20px;
 }
 
 .achievement {
-    width: 150px;
-    height: 150px;
-    overflow: hidden;
+    width: 125px;
+    height: 125px;
     text-align: center;
+    border-radius:50%;
+    box-shadow: -1px -1px 10px 0px rgba(61, 83, 107, 0.3);
 }
+
+    .achievement:hover {
+        transform: scale(1.05);
+        transition: 1s;
+        z-index: 5;
+    }
 
     .achievement img {
         width: 100%;
         height: 100%;
     }
+
+.achievement-tooltip {
+    width: 110%;;
+    height: 95px;
+    left: -5%;
+    top:105%;
+    display: none;
+    position: absolute;
+    background-color: var(--lynxwhite);
+    box-shadow: -1px -1px 10px 0px rgba(61, 83, 107, 0.3);
+    border-radius: 5px;
+    text-align:center;
+    padding:10px;
+}
+
+    .achievement:hover .achievement-tooltip {
+        display:block;
+    }
 /*Achievements end*/
+
+/*-----*/
+
+/*App Profile */
+.app-profile-container {
+    text-align:center;
+}
+
+.app-profile-container {
+
+}
+
+.app-profile-img {
+    width: 100px;
+    height: 100px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom:20px;
+}
+.app-profile-img h1 {
+    color: white;
+    font-size: 40px;
+    letter-spacing: 3px;
+    padding-top:25px;
+}
+
+.edit-img-btn {
+    height: 40px;
+    width: 40px;
+    background-color: #e8ecf1;
+    position: relative;
+    right: -10px;
+    top: -10px;
+    margin-left: auto;
+    border-radius: 50%;
+    z-index:2;
+}
+
+
+.edit-img:hover .edit-img-list{
+    display:block;
+    animation-name:drop;
+    animation-duration:1s;
+    animation-timing-function: ease-in-out;
+}
+.edit-img:hover .img-edit-a, .img-edit-a button {
+    animation-name: itemdrop !important;
+    animation-duration: 1s;
+}
+
+.edit-img-list {
+    display: none;
+    height: auto;
+    width: 150px;
+    background-color: #e8ecf1;
+    position: relative;
+    left: -55px;
+    padding: 5px;
+    border-radius: 10px;
+    bottom:20px;
+    z-index:-1;
+}
+
+@keyframes drop {
+    0% {
+        width: 40px;
+        height: 40px;
+        left: 0px;
+        bottom:30px;
+        padding: 0px;
+        border-radius: 50%;
+        overflow: hidden;
+        color: transparent;
+    }
+
+    25% {
+        width: 40px;
+        left: 0px;
+        bottom: 30px;
+        padding: 0px;
+        border-radius: 20px;
+        overflow: hidden;
+        color: transparent;
+    }
+
+    50% {
+        height: 100px;
+        width: 40px;
+        padding: 5px;
+        bottom: 20px;
+        left: 0px;
+        overflow: hidden;
+        color: transparent;
+    }
+    75% {
+        height: auto;
+        width: 150px;
+        left: -55px;
+        border-radius: 10px;
+        bottom: 20px;
+    }
+
+}
+
+ @keyframes itemdrop {
+    0% {
+        background-color: transparent;
+        color: transparent;
+        padding: 0;
+        margin: 0;
+        height: fit-content;
+    }
+    25% {
+        background-color: transparent;
+        color: transparent;
+        padding: 0;
+        margin: 0;
+        height: fit-content;
+    }
+    50% {
+        background-color: transparent;
+        color: transparent;
+        padding: 0;
+        margin: 0;
+        height:fit-content;
+    }
+    75% {
+        background-color: transparent;
+        color: transparent;
+        padding: 0;
+        margin: 0;
+    }
+     
+ }
+.img-edit-a  {
+    background-color: none;
+    color: grey;
+    display: block;
+    margin: 10px!important;
+    padding: 5px!important;
+    text-decoration: none;
+    z-index: -1;
+    font-size: 14px;
+    overflow:hidden!important;
+    word-wrap:unset!important;
+    max-height: 35px;
+}
+.img-edit-a button:disabled {
+    background-color: transparent;
+
+}
+
+    .img-edit-a:hover {
+        color:black;
+        display: block;
+        background-color: rgb(from var(--danube-700) r g b / 0.2);
+        border-radius: 3px;
+    }
+
+    .img-edit-a button {
+        padding: 0 !important;
+        margin: 0 !important;
+        background-color: transparent !important;
+        font-size: 14px!important;
+        font-weight:bold;
+    }
+
+.image-input {
+    width: 50%;
+    height: 40px;
+    background-color: white;
+    border-radius: 5px 0px 0px 5px;
+    margin: 0px !important;
+    padding: 0 !important;
+    display: inline-block;
+    padding-inline: 0 !important;
+    padding-block: 0 !important;
+}
+    .image-input::file-selector-button {
+        border:none!important;
+        height:100%;
+        padding-right:0;
+    }
+
+.image-submit {
+    height: 40px;
+    background-color: white;
+    border-radius: 0px 5px 5px 0px;
+    margin: 0px !important;
+    padding: 0 !important;
+    display: inline-block;
+    padding-inline: 0 !important;
+    padding-block:0!important;
+}

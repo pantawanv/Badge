@@ -1,5 +1,7 @@
 ﻿@page
+@using Badge.Interfaces
 @model Badge.Pages.Admin.Statistikker.IndexModel
+@inject ISalesService salesService;
 @{
 
 }
@@ -83,9 +85,6 @@
 
     
 </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <script>
         const ctx = document.getElementById('myChart');
 
@@ -95,10 +94,9 @@
                 labels: ['Købte Lodsedler', 'Solgte lodsedler'],
                 datasets: [{
                     label: '',
-                    data: [@Model.TicketsTotal, @Model.SalesTotal],
+                    data: [@salesService.GetTicketsCount, @salesService.GetSalesCount],
                     borderWidth: 0
                 }]
-
             },
             options: {
                 plugins: {
