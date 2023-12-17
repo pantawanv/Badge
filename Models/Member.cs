@@ -20,5 +20,8 @@ namespace Badge.Models
         [InverseProperty(nameof(Sale.Seller))]
         public virtual ICollection<Sale> Sales { get; set; }
 
+        [InverseProperty(nameof(MemberParent.Member))]
+        public virtual ICollection<MemberParent> Parents { get; set; }
+
     }
 }

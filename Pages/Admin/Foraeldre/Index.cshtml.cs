@@ -54,7 +54,7 @@ namespace Badge.Pages.Admin.ParentAdmin
             {
                 parentsIQ = parentsIQ.Where(p => (p.FName + " " + p.LName).Contains(searchString)
                 || p.Phone.Contains(searchString) || p.Email.Contains(searchString)
-                || (p.Member.User.FName + " " + p.Member.User.LName).Contains(searchString)
+                //|| (p.Member.User.FName + " " + p.Member.User.LName).Contains(searchString)
                 );
 
             }
@@ -62,12 +62,12 @@ namespace Badge.Pages.Admin.ParentAdmin
 
             switch (sortOrder)
             {
-                case "memberName_desc":
-                    parentsIQ = parentsIQ.OrderByDescending(p => p.Member.User.FName);
-                    break;
-                case "memberName_asc":
-                    parentsIQ = parentsIQ.OrderBy(p => p.Member.User.FName);
-                    break;
+                //case "memberName_desc":
+                //    //parentsIQ = parentsIQ.OrderByDescending(p => p.Member.User.FName);
+                //    break;
+                //case "memberName_asc":
+                //    parentsIQ = parentsIQ.OrderBy(p => p.Member.User.FName);
+                //    break;
                 case "FName_desc":
                     parentsIQ = parentsIQ.OrderByDescending(p => p.FName);
                     break;
@@ -101,7 +101,7 @@ namespace Badge.Pages.Admin.ParentAdmin
 
             var pageSize = Configuration.GetValue("PageSize", 4);
             Parents = await PaginatedList<Parent>.CreateAsync(parentsIQ.AsNoTracking()
-                .Include(p => p.Member).ThenInclude(m => m.User), pageIndex ?? 1, pageSize);
+                /*.Include(p => p.Member).ThenInclude(m => m.User)*/, pageIndex ?? 1, pageSize);
 
 
 

@@ -24,16 +24,16 @@ namespace Badge.Pages.Admin.MemberAdmin
             {
                 return NotFound();
             }
-            var parents = from p in _context.Parents where p.MemberId == id select p;
+            //var parents = from p in _context.Parents where p.MemberId == id select p;
 
-            if (parents == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                Parents = await parents.ToListAsync();
-            }
+            //if (parents == null)
+            //{
+            //    return NotFound();
+            //}
+            //else
+            //{
+            //    Parents = await parents.ToListAsync();
+            //}
 
             var member = await _context.Members.Include(m => m.Group).Include(m => m.User).FirstOrDefaultAsync(m => m.Id == id);
             if (member == null)

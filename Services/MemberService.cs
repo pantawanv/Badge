@@ -27,5 +27,16 @@ namespace Badge.Services
         {
             return await _context.Members.Include(m => m.User).Include(m => m.Group).ThenInclude(m => m.GroupType).Include(m => m.Group).ThenInclude(m => m.Leader).Where(m => m.GroupId == id).ToListAsync();
         }
+
+        public async Task<List<Parent>> GetParentsOfMemberAsync(string id)
+        {
+            return await _context.Parents.Where(p => p.Members.Where(m => m.MemberId == id).Any()).ToListAsync();
+        }
+
+        public async Task<List<Member>> GetMembersOfParentsAsync(int id)
+        {
+            var members = _context.MemberParents.Include(m => m.Member).ThenInclude(m => m.User).Where(m => m.ParentId == id);
+            return await members.Select(m => m.Member).ToListAsync();
+        }
     }
 }

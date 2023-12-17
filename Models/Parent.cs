@@ -9,11 +9,6 @@ namespace Badge.Models
     {
         [Key]
         public int Id { get; set; }
-        [DisplayName("Barn")]
-        public string MemberId { get; set; }
-        [ForeignKey(nameof(MemberId))]
-        [DisplayName("Medlem")]
-        public Member Member { get; set; }
         [DisplayName("Fornavn")]
         public string FName { get; set; }
         [DisplayName("Efternavn")]
@@ -22,5 +17,8 @@ namespace Badge.Models
         public string Phone { get; set; }
         [DisplayName("E-mail")]
         public string Email { get; set; }
+
+        [InverseProperty(nameof(MemberParent.Parent))]
+        public virtual ICollection<MemberParent> Members { get; set; }
     }
 }

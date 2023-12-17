@@ -1,5 +1,7 @@
 ﻿@page
+@using Badge.Interfaces
 @model Badge.Pages.Admin.ParentAdmin.DetailsModel
+@inject IMemberService memberService;
 
 @{
     ViewData["Title"] = "Detajler";
@@ -15,8 +17,17 @@
             Barn
         </dt>
         <dd class="col-sm-10">
-            <a asp-page="/Administration/Medlem/Details" asp-route-id="@Model.Parent.Member.Id">@Html.DisplayFor(model => model.Parent.Member.User.FName) @Html.DisplayFor(model => model.Parent.Member.User.LName)</a>
-            
+@*             <a asp-page="/Administration/Medlem/Details" asp-route-id="@Model.Parent.Member.Id">@Html.DisplayFor(model => model.Parent.Member.User.FName) @Html.DisplayFor(model => model.Parent.Member.User.LName)</a>
+ *@         
+
+            @if (Model.Parent.Members != null)
+            {
+                @foreach (var item in Model.Parent.Members)
+                {
+                    @item.Member.User.FName
+                }
+            }
+ 
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Parent.FName)
