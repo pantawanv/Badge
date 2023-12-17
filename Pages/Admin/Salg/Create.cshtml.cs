@@ -1,16 +1,14 @@
-﻿using Badge.Data;
-using Badge.Interfaces;
+﻿using Badge.Interfaces;
 using Badge.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 
 namespace Badge.Pages.Admin.SalesAdmin
 {
     public class CreateModel : PageModel
     {
-        private readonly ISalesService _salesService;  
+        private readonly ISalesService _salesService;
         private readonly IMemberService _memberService;
 
         public CreateModel(ISalesService salesService, IMemberService memberService)
@@ -29,12 +27,12 @@ namespace Badge.Pages.Admin.SalesAdmin
         public async Task<IActionResult> OnGetAsync(string? selected)
         {
             var tickets = await _salesService.GetAvailableTicketsAsync();
-            if(tickets != null)
+            if (tickets != null)
             {
                 Tickets = tickets;
             }
 
-            if(selected != null)
+            if (selected != null)
             {
                 SelectedTicket = await _salesService.GetTicketAsync(selected);
                 if (SelectedTicket==null)
@@ -45,17 +43,19 @@ namespace Badge.Pages.Admin.SalesAdmin
                 var group = await _salesService.GetAssignedGroupAsync(selected);
                 if (member == null)
                 {
-                    if( group == null)
+                    if (group == null)
                     {
                         var members = await _memberService.GetAllMembersAsync();
                         ViewData["MemberId"] = new SelectList(members, "Id", "User.FullName");
-                    }else
+                    }
+                    else
                     {
 
                         var members = await _memberService.GetAllMembersOfGroupAsync(group.Id);
                         ViewData["MemberId"] = new SelectList(members, "Id", "User.FullName");
                     }
-                } else
+                }
+                else
                 {
                     member = await _salesService.GetAssignedMemberAsync(selected);
                     ViewData["MemberId"] = new SelectList(member.Id, member.User.FullName);

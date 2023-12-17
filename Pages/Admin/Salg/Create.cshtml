@@ -9,72 +9,79 @@
 }
 
 <h1>Opret</h1>
-<h4>Salg</h4>
-<div class="row">
-    <h4>Tilgængelige lodsedler</h4>
-    <form method="post">
-        <div class="box-full">
-            <div class="" style="display:inline-block;">
-                @if(Model.SelectedTicket != null)
-                {
-                    <div class="form-group">
-                        <label asp-for="Sale.Ticket"></label>
-                        <select asp-for="Sale.TicketId" class="form-control" asp-items="ViewBag.TicketId"></select>
-                        <span asp-validation-for="Sale.TicketId" class="text-danger"></span>
-                    </div>
+<div class="grid col4" style="grid-template-columns: auto auto auto 25%;">
+    <div class="index-content" style="grid-area: 1 / 1 / span 1 / span 3;">
+        <h4>Opret et salg</h4>
+        <form method="post">
+            <div class="box-full">
+                <div class="" style="display:inline-block;">
 
-                    <div class="form-group">
-                        <label asp-for="Sale.Seller"></label>
-                    @if (salesService.GetAssignedMemberAsync(Model.SelectedTicket.Id).Result != null)
+                    @if (Model.SelectedTicket != null)
                     {
-                        <select asp-for="Sale.SellerId" class="form-control" asp-items="ViewBag.MemberId" disabled></select>
-                    }
-                    else
-                    {
-                        <select asp-for="Sale.SellerId" class="form-control" asp-items="ViewBag.MemberId"></select>
-                    }
-                        <span asp-validation-for="Sale.SellerId" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Sale.Channel"></label>
-                        <select asp-for="Sale.ChannelId" class="form-control" asp-items="ViewBag.ChannelId"></select>
-                        <span asp-validation-for="Sale.ChannelId" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Sale.SalesDate"></label>
-                        <input asp-for="Sale.SalesDate" type="date"/>
-                        <span asp-validation-for="Sale.SalesDate" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" />
-                    </div>
-                }
-                
-            </div>
-            <div class="tickets-container" style="float:right;">
-                @foreach (var item in Model.Tickets)
-                {
-                    <a asp-route-selected="@item.Id">
-                        <div class="ticket-display">
-                            <b>@item.Id</b><br />
-                            @if (salesService.GetAssignedGroupAsync(item.Id).Result != null)
-                            {
-                                <span style="color:@ColorResource.ResourceManager.GetString(@salesService.GetAssignedGroupAsync(item.Id).Result.GroupType.Name);">@salesService.GetAssignedGroupAsync(item.Id).Result.Name</span>
-                            }<br />
-
-                            @if (salesService.GetAssignedMemberAsync(item.Id).Result != null)
-                            {
-                                <span>@salesService.GetAssignedMemberAsync(item.Id).Result.User.FullName</span>
-                            }
+                        <div class="form-group">
+                            <label asp-for="Sale.Ticket"></label>
+                            <select asp-for="Sale.TicketId" class="form-control" asp-items="ViewBag.TicketId"></select>
+                            <span asp-validation-for="Sale.TicketId" class="text-danger"></span>
                         </div>
-                    </a>
-                }
+
+                        <div class="form-group">
+                            <label asp-for="Sale.Seller"></label>
+                            @if (salesService.GetAssignedMemberAsync(Model.SelectedTicket.Id).Result != null)
+                            {
+                                <select asp-for="Sale.SellerId" class="form-control" asp-items="ViewBag.MemberId" disabled></select>
+                            }
+                            else
+                            {
+                                <select asp-for="Sale.SellerId" class="form-control" asp-items="ViewBag.MemberId"></select>
+                            }
+                            <span asp-validation-for="Sale.SellerId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Sale.Channel"></label>
+                            <select asp-for="Sale.ChannelId" class="form-control" asp-items="ViewBag.ChannelId"></select>
+                            <span asp-validation-for="Sale.ChannelId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Sale.SalesDate"></label>
+                            <input asp-for="Sale.SalesDate" type="date" />
+                            <span asp-validation-for="Sale.SalesDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" />
+                        </div>
+                    }
+
+                </div>
             </div>
+
+
+        </form>
+    </div>
+    <div class="index-content" id="sales-ticket-container" style="grid-area:1 / 4;">
+        <div class="grid" style="gap:10px!important; ">
+            <h4>Tilgængelige lodsedler</h4>
+            @foreach (var item in Model.Tickets)
+            {
+                <a asp-route-selected="@item.Id">
+
+                    <div class="ticket-display">
+                        <b>@item.Id</b><br />
+                        @if (salesService.GetAssignedGroupAsync(item.Id).Result != null)
+                        {
+                            <span style="color:@ColorResource.ResourceManager.GetString(@salesService.GetAssignedGroupAsync(item.Id).Result.GroupType.Name);">@salesService.GetAssignedGroupAsync(item.Id).Result.Name</span>
+                        }<br />
+
+                        @if (salesService.GetAssignedMemberAsync(item.Id).Result != null)
+                        {
+                            <span>@salesService.GetAssignedMemberAsync(item.Id).Result.User.FullName</span>
+                        } else {<span>Ikke tildelt et medlem</span>}
+                    </div>
+                </a>
+            }
         </div>
-
-
-    </form>
+    </div>
 </div>
+
 
 <div>
     <a asp-page="Index">Tilbage til liste</a>

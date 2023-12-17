@@ -54,7 +54,7 @@ namespace Badge.Pages.Admin.TicketAdmin
                 {
                     TicketMemberAssign = ticketMemberAssign;
                 }
-                var sale = await _context.Sales.Include(t => t.Seller).ThenInclude(t => t.Group).Include(t => t.Seller).ThenInclude(t=>t.User).Include(t => t.Channel).FirstOrDefaultAsync(t => t.TicketId == id);
+                var sale = await _context.Sales.Include(t => t.Seller).ThenInclude(t => t.Group).Include(t => t.Seller).ThenInclude(t => t.User).Include(t => t.Channel).FirstOrDefaultAsync(t => t.TicketId == id);
                 if (sale != null)
                 {
                     Sale = sale;

@@ -1,6 +1,7 @@
 @media only screen and (max-width: 1700px){
     .index-infobox {
         width: 225px !important;
+        height:auto!important;
     }
     .index-grid {
         grid-template-columns: 225px 225px 225px 225px !important;
@@ -19,20 +20,21 @@
             word-break: break-word!important;
         }
     .index-infobox-inner p, h4 {
-        word-wrap: break-word!important;
 
         padding-block-end: 5px !important;
         padding-block-start: 5px !important;
         padding: 0px !important;
         margin: 0px !important;
         line-height: 1;
-        text-align:justify-all;
+        text-align:left;
     }
         .index-infobox-inner p {
-            height: 40px !important;
+            height:70px!important;
             overflow: hidden;
-            text-align: justify;
-            word-break: break-all !important;
+        }
+        .index-infobox-inner img {
+            height: 75%!important;
+            margin-top: 10px;
         }
 }
 
@@ -87,17 +89,31 @@
         margin-top: 7% !important;
     }
     .index-infobox {
-        width:200px!important;
-        font-size:14px!important;
-        word-wrap:anywhere;
+        width: 200px !important;
+        height: auto !important;
+        margin:5px!important;
+        padding:15px!important;
     }
     .index-infobox-inner img {
-        height:75%!important;
+        height:60%!important;
         width:auto;
+        margin-top:15px!important;
+        margin-right:0px!important;
+    }
+    .index-infobox-inner p {
+        font-size:11px!important;
+        height: 65px!important;
+        word-break:normal!important;
+        word-wrap:normal!important;
+        text-align:left!important;
     }
 
     .index-grid {
         grid-template-columns: 200px 200px 200px 200px !important;
+    }
+
+    .divider-line-gradient{
+        margin-top: -15px!important;
     }
 }
 /*Media Medium screen end*/
@@ -324,7 +340,21 @@
     --danube-purple: #4E3D6B;
 }
 
+.grid {
+    display: grid;
+    gap:50px;
+    padding: 15px;
+    width: 100%;
+}
 
+.col2 {
+    grid-template-columns: auto auto;
+    
+}
+
+.col4 {
+    grid-template-columns: auto auto auto auto;
+}
 
 html, body, head {
     margin: 0;
@@ -345,7 +375,7 @@ form {
 
 body {
     background-color: var(--maingrey);
-}
+    height: 90%;
 
 img {
     -webkit-user-drag: none;
@@ -399,11 +429,10 @@ input[type=submit] {
 }
 
 .main {
-    height: 100%;
     width: 100%;
     margin: auto;
-    overflow:hidden;
-    margin-top: 50px;
+    margin-top: 0px;
+    height:100%;
 }
 
 #wrap {
@@ -415,13 +444,13 @@ input[type=submit] {
 }
 
 .main-container {
-    overflow: hidden;
     margin-top: 50px;
     padding-left: 15%;
     padding-right: 1%;
     width: 90%;
     margin-left:5%;
     margin-bottom: 50px;
+    height:100%;
 }
 
 .rounded-container {
@@ -455,6 +484,21 @@ input[type=submit] {
     border-radius: 25px;
 }
 
+
+.btn-full {
+    width: 100%;
+    display:block;
+    background-color:var(--danube-600);
+    padding:10px;
+    text-align:center;
+    color:white;
+    border-radius:5px;
+    margin-top:5px;
+
+}
+#add-btn-index {
+    background-color:var(--danube-400);
+}
 
 /*-----*/
 
@@ -1432,26 +1476,38 @@ td {
 /*-----*/
 
 /*Sales Admin*/
-.tickets-container {
-    display: grid;
-    grid-template-columns: 30% 30% 30%;
-    grid-auto-rows: 100px;
-    justify-content: center;
-    grid-gap:20px;
-    padding: 40px;
-    height: auto;
-    width: 600px;
-    height:auto;
-    max-height: 600px;
-    background-color: var(--danube-400);
-}
 
 .ticket-display {
-    width: 100%;
-    height:100%;
+    width:100%;
+    height:auto;
     background-color:white;
     font-size:15px;
     font-family: 'Signika';
-    padding: 10px;
+    padding: 20px;
     overflow:hidden;
 }
+
+#sales-ticket-container {
+    height: 500px;
+    width:100%!important;
+    overflow-y:scroll;
+    scrollbar-base-color: transparent;
+    scrollbar-color: red;
+    gap:0px!important;
+
+}
+
+#sales-ticket-container::-webkit-scrollbar {
+    background-color:transparent;
+    width:10px;
+    padding:10px;
+}
+
+    #sales-ticket-container::-webkit-scrollbar-track {
+        
+    }
+
+    #sales-ticket-container::-webkit-scrollbar-thumb {
+        background-color: var(--lighterblue);
+        border-radius: 5px;
+    }

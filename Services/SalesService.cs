@@ -15,6 +15,11 @@ namespace Badge.Services
 
         public static double EstimatedEarningsPerTicket = 19.82;
 
+        public async Task<List<Sale>> GetAllSalesAsync()
+        {
+            return await _context.Sales.ToListAsync();
+        }
+
         public int GetSalesCount()
         {
             return _context.Sales.Count();
@@ -25,7 +30,7 @@ namespace Badge.Services
             return _context.Tickets.Count();
         }
 
-        public async Task<List<Ticket>>GetTicketsAsync()
+        public async Task<List<Ticket>> GetTicketsAsync()
         {
             return await _context.Tickets.ToListAsync();
         }
@@ -39,7 +44,7 @@ namespace Badge.Services
         public async Task<Group>? GetAssignedGroupAsync(string id)
         {
             var groupAssign = (await _context.TicketGroupAssigns.Include(t => t.Group).ThenInclude(t => t.GroupType).SingleOrDefaultAsync(t => t.TicketId == id));
-            if(groupAssign == null)
+            if (groupAssign == null)
             {
                 return null;
             }
@@ -48,8 +53,8 @@ namespace Badge.Services
 
         public async Task<Member>? GetAssignedMemberAsync(string id)
         {
-            var memberAssign = (await _context.TicketMemberAssigns.Include(t => t.Member).ThenInclude(t=>t.User).SingleOrDefaultAsync(t => t.TicketId == id));
-            if(memberAssign == null)
+            var memberAssign = (await _context.TicketMemberAssigns.Include(t => t.Member).ThenInclude(t => t.User).SingleOrDefaultAsync(t => t.TicketId == id));
+            if (memberAssign == null)
             {
                 return null;
             }
@@ -59,7 +64,7 @@ namespace Badge.Services
         public async Task<Ticket>? GetTicketAsync(string id)
         {
             var ticket = await _context.Tickets.FindAsync(id);
-            if(ticket == null)
+            if (ticket == null)
             {
                 return null;
             }
@@ -83,5 +88,13 @@ namespace Badge.Services
             return EstimatedEarningsPerTicket * GetSalesCount();
         }
 
+        public async Task<List<Sale>> GetMembersSalesAsync(String id)
+        {
+            return await _context.Sales.Include(s => s.Channel).Where(s => s.SellerId == id).ToListAsync();
+        }
+        public async Task<List<Sale>> GetGroupSalesAsync(int id)
+        {
+            return await _context.Sales.Include(s => s.Seller).ThenInclude(s=>s.Group).Where(s => s.Seller.Group.Id == id).ToListAsync();
+        }
     }
 }

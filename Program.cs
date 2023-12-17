@@ -31,6 +31,8 @@ builder.Services.AddRazorPages(options =>
 {
     options.Conventions.AuthorizeFolder("/Admin", "Editor");
     options.Conventions.AuthorizeFolder("/App", "Member");
+    options.Conventions.AuthorizePage("/Admin/Grupper/Create", "Manager");
+    options.Conventions.AuthorizePage("/Admin/Brugere/Create", "Manager");
 });
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
@@ -76,8 +78,8 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
-    options.AddPolicy("Manager", policy => policy.RequireRole("Manager"));
-    options.AddPolicy("Leader", policy => policy.RequireRole("Leader"));
+    options.AddPolicy("Manager", policy => policy.RequireRole("Manager", "Admin"));
+    options.AddPolicy("Leader", policy => policy.RequireRole("Leader", "Admin"));
     options.AddPolicy("Member", policy => policy.RequireRole("Member"));
     options.AddPolicy("Editor", policy => policy.RequireRole("Admin", "Manager", "Leader"));
 

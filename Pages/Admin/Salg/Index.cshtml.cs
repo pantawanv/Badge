@@ -1,5 +1,8 @@
-﻿using Badge.Data;
+﻿using Badge.Areas.Identity.Data;
+using Badge.Data;
+using Badge.Interfaces;
 using Badge.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
@@ -7,13 +10,16 @@ namespace Badge.Pages.Admin.SalesAdmin
 {
     public class IndexModel : PageModel
     {
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
+        private readonly ISalesService _salesService;
         private readonly IConfiguration Configuration;
 
-        public IndexModel(ApplicationDbContext context, IConfiguration configuration)
+        public IndexModel(ApplicationDbContext context, IConfiguration configuration, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             Configuration = configuration;
+            _userManager = userManager;
         }
 
         public string TicketSort { get; set; }
@@ -46,10 +52,15 @@ namespace Badge.Pages.Admin.SalesAdmin
             }
 
             CurrentFilter = searchString;
+            IQueryable<Sale> salesIQ = _salesService.GetAllSalesAsync().Result.AsQueryable();
 
+            if (User.IsInRole("Leader") && !User.IsInRole("Manager"))
+            {
+                var user = await _userManager.GetUserAsync(User);
+                
+            }
 
-            IQueryable<Sale> salesIQ = from s in _context.Sales
-                                       select s;
+            
 
             if (!String.IsNullOrEmpty(searchString))
             {

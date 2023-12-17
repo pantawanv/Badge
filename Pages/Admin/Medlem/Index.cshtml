@@ -29,7 +29,7 @@
                     <input name="SearchString" value="@Model.CurrentFilter" style="width:100%; height:100%; margin:0; padding-left: 20px; border:none; border-radius: 5px 0 0 5px;" type="text" name="SearchString" value="" />
                 </div>
                 <div style="width:10%; height:40px; padding:0 ; margin:0; float:right;">
-                    <input style="width:100%; height:100%; margin:0px; border:none; border-radius:0 5px 5px 0; " type="submit" value="Søg" class="btn-def"/>
+                    <input style="width:100%; height:100%; margin:0px; border:none; border-radius:0 5px 5px 0; " type="submit" value="Søg" class="btn-def" />
                 </div>
             </p>
         </div>
@@ -68,7 +68,7 @@
                         </div>
                     </div>
                 </a>
-                
+
             </th>
             <th>
                 <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.LNameSort" asp-route-searchString="@Model.CurrentFilter">
@@ -161,48 +161,53 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Members) {
+        @foreach (var item in Model.Members)
+        {
             var rndm = new Random(item.User.LName.Length*item.User.FName.Length);
             int hue = rndm.Next(0, 360);
-        <tr class="list-tr">
-            <td>
+            <tr class="list-tr">
+                <td>
 
-                <div class="No-Img" style="background-color:hsl(@hue, 55%, 60%)">
+                    <div class="No-Img" style="background-color:hsl(@hue, 55%, 60%)">
                         <p>@item.User.FName.ToCharArray()[0]@item.User.LName.ToCharArray()[0]</p>
-                </div>
-            </td>
-            <td>
+                    </div>
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.User.FName)
-            </td>
-            <td>
+                </td>
+                <td>
                     @Html.DisplayFor(modelItem => item.User.LName)
-            </td>
-            <td>
+                </td>
+                <td>
                     @if (item.Group != null)
                     {
-                        <a asp-page="/Admin/Grupper/Details" asp-route-id="@item.Group.Id">@Html.DisplayFor(modelItem => item.Group.Name)
+                        <a asp-page="/Admin/Grupper/Details" asp-route-id="@item.Group.Id">
+                            @Html.DisplayFor(modelItem => item.Group.Name)
                         </a>
                     }
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Sales.Count)
-            </td>
-            <td style="width:100px;">
-                 <div class="dropdwn">
-                    <div class="dropdwn-btn">
-                        <div class="circle-sm"></div>
-                        <div class="circle-sm"></div>
-                        <div class="circle-sm"></div>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Sales.Count)
+                </td>
+                <td style="width:100px;">
+                    <div class="dropdwn">
+                        <div class="dropdwn-btn">
+                            <div class="circle-sm"></div>
+                            <div class="circle-sm"></div>
+                            <div class="circle-sm"></div>
                         </div>
                         <div class="dropdwn-content">
                             <a asp-page="./Details" asp-route-id="@item.Id">Detaljer</a>
                             <a asp-page="./Edit" asp-route-id="@item.Id">Rediger</a>
-                            <a class="delete" asp-page="./Delete" asp-route-id="@item.Id">Slet</a>
+                            @if (User.IsInRole("Manager") || User.IsInRole("Admin"))
+                            {
+                                <a class="delete" asp-page="./Delete" asp-route-id="@item.Id">Slet</a>
+                            }
                         </div>
                     </div>
                 </td>
-        </tr>
-}
+            </tr>
+        }
     </tbody>
 </table>
 
@@ -214,10 +219,10 @@
 @if (Model.Members.HasPreviousPage)
 {
     <a asp-page="./Index"
-    asp-route-sortOrder="@Model.CurrentSort"
-    asp-route-pageIndex="@(Model.Members.PageIndex - 1)"
-    asp-route-currentFilter="@Model.CurrentFilter"
-    class="btn btn-primary @prevDisabled">
+       asp-route-sortOrder="@Model.CurrentSort"
+       asp-route-pageIndex="@(Model.Members.PageIndex - 1)"
+       asp-route-currentFilter="@Model.CurrentFilter"
+       class="btn btn-primary @prevDisabled">
         Forrige
     </a>
 }
@@ -227,10 +232,10 @@
 
 
     <a asp-page="./Index"
-    asp-route-sortOrder="@Model.CurrentSort"
-    asp-route-pageIndex="@(Model.Members.PageIndex + 1)"
-    asp-route-currentFilter="@Model.CurrentFilter"
-    class="btn btn-primary @nextDisabled">
+       asp-route-sortOrder="@Model.CurrentSort"
+       asp-route-pageIndex="@(Model.Members.PageIndex + 1)"
+       asp-route-currentFilter="@Model.CurrentFilter"
+       class="btn btn-primary @nextDisabled">
         Næste
 
     </a>

@@ -6,12 +6,9 @@ using Badge.Areas.Identity.Data;
 using Badge.Data;
 using Badge.Interfaces;
 using Badge.Models;
-using Badge.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
 
 namespace Badge.Areas.Identity.Pages.AppMember.Manage
 {
@@ -89,7 +86,7 @@ namespace Badge.Areas.Identity.Pages.AppMember.Manage
             var user = await _userManager.GetUserAsync(User);
             if (Input.Image != null)
             {
-                
+
                 user.ImageFile = Input.Image;
                 byte[] bytes = null;
                 using (Stream fs = user.ImageFile.OpenReadStream())

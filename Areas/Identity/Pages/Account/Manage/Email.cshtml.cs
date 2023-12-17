@@ -30,7 +30,7 @@ namespace Badge.Areas.Identity.Pages.Account.Manage
             _emailSender = emailSender;
         }
 
-        [Display(Name ="Mailadresse")]
+        [Display(Name = "Mailadresse")]
         public string Email { get; set; }
         public bool IsEmailConfirmed { get; set; }
         [TempData]

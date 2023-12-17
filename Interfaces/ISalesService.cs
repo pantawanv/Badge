@@ -1,10 +1,10 @@
 ﻿using Badge.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace Badge.Interfaces
 {
     public interface ISalesService
     {
+        Task<List<Sale>> GetAllSalesAsync();
         int GetSalesCount();
         int GetTicketsCount();
 
@@ -16,5 +16,8 @@ namespace Badge.Interfaces
         List<Channel> GetChannels();
         Task AddSaleAsync(Sale saleToAdd);
         double GetEstimatedTotalEarnings();
+        
+        Task<List<Sale>> GetMembersSalesAsync(string id);
+        Task<List<Sale>> GetGroupSalesAsync(int id);
     }
 }

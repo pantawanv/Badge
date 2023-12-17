@@ -1,5 +1,6 @@
 using Badge.Areas.Identity.Data;
 using Badge.Data;
+using Badge.Interfaces;
 using Badge.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -10,14 +11,17 @@ namespace Badge.Pages.App
     public class IndexModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ISalesService _salesService;
+        private readonly IMemberService _memberService;
         private readonly ApplicationDbContext _context;
-        public IndexModel(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
+        public IndexModel(UserManager<ApplicationUser> userManager, ISalesService salesService, IMemberService memberService, SignInManager<ApplicationUser> signInManager,
             ApplicationDbContext context)
         {
             _userManager = userManager;
-            _signInManager = signInManager;
+            _salesService = salesService;
+            _memberService = memberService;
             _context = context;
+
         }
         public IList<Achievement> Achievements { get; set; }
         public async Task OnGetAsync()
@@ -32,38 +36,35 @@ namespace Badge.Pages.App
 
         public bool CheckTicketAchievement(int amount)
         {
-            return amount <= _context.Sales.Where(s => s.SellerId == GetMember().Id).Count();
+            return amount <= GetSales();
         }
 
-        public bool CheckChannelAchievement(int amount, string name)
+        public bool CheckChannelAchievement(string name)
         {
             switch (name)
             {
                 case "Mobile Pay":
-                    return _context.Sales.Where(s => s.SellerId == GetMember().Id && s.Channel.Name == "Mobile Pay").Count() > 0;
-                    break;
+                    return _salesService.GetMembersSalesAsync(GetMember().Id).Result.Where(s=>s.Channel.Name == "Mobile Pay").Count() > 0;
                 case "Kontant":
-                    return _context.Sales.Where(s => s.SellerId == GetMember().Id && s.Channel.Name == "Kontant").Count() > 0;
-                    break;
+                    return _salesService.GetMembersSalesAsync(GetMember().Id).Result.Where(s=>s.Channel.Name == "Kontant").Count() > 0;
                 default:
                     return false;
-                    break;
             }
         }
 
         public bool CheckGroupAchievement(int amount)
         {
-            return amount <= _context.Sales.Where(s => s.Seller.GroupId == GetMember().GroupId).Count();
+            return amount <= _salesService.GetGroupSalesAsync(GetMember().Group.Id).Result.Count();
         }
 
         public Member GetMember()
         {
-            return _context.Members.FirstOrDefault(m => m.Id == _userManager.GetUserId(User));
+            return _memberService.GetMemberAsync(_userManager.GetUserId(User)).Result;
         }
 
         public int GetSales()
         {
-            return _context.Sales.Where(s => s.SellerId == GetMember().Id).Count();
+            return _salesService.GetMembersSalesAsync(GetMember().Id).Result.Count();
         }
     }
 }

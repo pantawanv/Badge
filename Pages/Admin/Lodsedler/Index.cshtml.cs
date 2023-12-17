@@ -4,9 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace Badge.Pages.Admin.TicketAdmin
 {
@@ -96,7 +93,7 @@ namespace Badge.Pages.Admin.TicketAdmin
                 SelectedTickets = new List<Ticket>();
                 foreach (string id in selectedTickets)
                 {
-                    SelectedTickets.Add(_context.Tickets.Include(t => t.TicketGroupAssign).ThenInclude(t => t.Group).ThenInclude(t=>t.Members).ThenInclude(t=>t.User).FirstOrDefault(t => t.Id == id));
+                    SelectedTickets.Add(_context.Tickets.Include(t => t.TicketGroupAssign).ThenInclude(t => t.Group).ThenInclude(t => t.Members).ThenInclude(t => t.User).FirstOrDefault(t => t.Id == id));
                 }
             }
 
@@ -188,18 +185,18 @@ namespace Badge.Pages.Admin.TicketAdmin
                 && SelectedTickets.Where(t => t.TicketMemberAssign != null).Any() == false)
 
             {
-                
+
                 ViewData["MemberId"] = new SelectList(SelectedTickets.ElementAt(0).TicketGroupAssign.Group.Members, "Id", "User.FullName");
                 return true;
 
             }
             return false;
-        
+
         }
 
         public bool CanAssignGroup()
         {
-            return CanAssign() && SelectedTickets.Where(t=>t.TicketGroupAssign != null).Any() == false;
+            return CanAssign() && SelectedTickets.Where(t => t.TicketGroupAssign != null).Any() == false;
         }
 
         public bool CanAssign()

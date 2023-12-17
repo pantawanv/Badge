@@ -30,14 +30,22 @@ namespace Badge.Pages.Admin.GroupAdmin
 
         public PaginatedList<Group> Groups { get; set; }
 
-        public async Task OnGetAsync(string sortOrder, string CurrentFilter, string searchString, int? pageIndex, bool myGroups)
+        public async Task OnGetAsync(string sortOrder, string CurrentFilter, string searchString, int? pageIndex, bool? myGroups)
         {
             CurrentSort = sortOrder;
             NameSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("Name_asc") ? "Name_desc" : "Name_asc";
             TypeSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("Type_asc") ? "Type_desc" : "Type_asc";
             LeaderSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("Leader_asc") ? "Leader_desc" : "Leader_asc";
             MembersSort = string.IsNullOrEmpty(sortOrder) || sortOrder.Equals("Member_asc") ? "Member_desc" : "Member_asc";
-            MyGroups = myGroups;
+            if (myGroups == null && User.IsInRole("Leader") || myGroups == true)
+            {
+                MyGroups = true;
+            }
+            else
+            {
+                MyGroups=false;
+            }
+
             if (searchString != null)
             {
                 pageIndex = 1;

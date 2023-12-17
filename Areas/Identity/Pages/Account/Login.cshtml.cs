@@ -39,13 +39,13 @@ namespace Badge.Areas.Identity.Pages.Account
 
             [Required]
             [EmailAddress]
-            [Display(Name ="Mailadresse")]
+            [Display(Name = "Mailadresse")]
             public string Email { get; set; }
 
 
             [Required]
             [DataType(DataType.Password)]
-            [Display(Name ="Adgangskode")]
+            [Display(Name = "Adgangskode")]
             public string Password { get; set; }
 
 

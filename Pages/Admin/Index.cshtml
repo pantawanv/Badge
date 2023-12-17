@@ -54,10 +54,17 @@
             <div class="divider-line-gradient" id="dl4"></div>
         </div>
         <div class="index-content" style="grid-area:2  / 1 / span 2 / span 3;"></div>
-        <div class="index-content" style="height:600px;">
-            <div style="width:70%; height:fit-content; margin-left:auto; margin-right:auto;">
-                <canvas id="soldPercentage" height="400" width="200"></canvas>
+        <div class="index-content" style="height:fit-content;">
+            <h4 style="margin-bottom:20px; text-align:center">Overblik over lodsedler</h4>
+            <div style="width:80%; height:fit-content; margin-left:auto; margin-right:auto;">
+                <canvas id="soldPercentage" style="width:80%;" role="img"></canvas>
             </div>
+            <br />
+            @if(User.IsInRole("Manager") || User.IsInRole("Admin"))
+            {
+                <a asp-page="./Lodsedler/Index" class="btn-full">Se lodsedler</a>
+                <a asp-page="./Lodsedler/Create" class="btn-full" id="add-btn-index">Opret lodsedler</a>
+            }
         </div>
     </div>
    
@@ -76,8 +83,8 @@
                     '#94B2CD',
                     '#5F8CB4',],
                 borderWidth: 2,
-                cutout: 32,
-                radius: 50
+                cutout: 30,
+                radius: 45
             }]
         },
         options: {
