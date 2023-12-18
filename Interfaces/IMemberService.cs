@@ -11,5 +11,8 @@ namespace Badge.Interfaces
         Task<List<Member>> GetMembersOfParentsAsync(int id);
         Parent GetParent(int id);
         IQueryable<Parent> GetParentsQuery();
+        IQueryable<Member> GetMembers();
+        Task UpdateMemberAsync(Member member);
+        Task DeleteMemberAsync(Member member);
     }
 }

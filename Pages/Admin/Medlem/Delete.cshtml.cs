@@ -1,5 +1,6 @@
 ﻿using Badge.Areas.Identity.Data;
 using Badge.Data;
+using Badge.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -11,12 +12,15 @@ namespace Badge.Pages.Admin.MemberAdmin
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IMemberService _memberService;
 
         public DeleteModel(UserManager<ApplicationUser> userManager,
-            ApplicationDbContext context)
+            ApplicationDbContext context,
+            IMemberService memberService)
         {
             _userManager = userManager;
             _context = context;
+            _memberService = memberService;
         }
 
         [BindProperty]
@@ -44,21 +48,8 @@ namespace Badge.Pages.Admin.MemberAdmin
 
         public async Task<IActionResult> OnPostAsync(string? id)
         {
-            if (id == null || _context.Members == null || _context.Users == null)
-            {
-                return NotFound();
-            }
-            var member = await _context.Members.FindAsync(id);
-            if (member != null)
-            {
-                var user = await _userManager.FindByIdAsync(member.Id);
-                if (user != null)
-                {
-                    await _userManager.DeleteAsync(member.User);
-                    await _context.SaveChangesAsync();
-                }
-            }
-
+            var member = await _memberService.GetMemberAsync(id);
+            await _memberService.DeleteMemberAsync(member);
             return RedirectToPage("./Index");
         }
     }

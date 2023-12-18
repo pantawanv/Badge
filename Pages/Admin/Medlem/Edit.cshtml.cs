@@ -1,5 +1,6 @@
 ﻿using Badge.Areas.Identity.Data;
 using Badge.Data;
+using Badge.Interfaces;
 using Badge.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,12 +15,14 @@ namespace Badge.Pages.Admin.MemberAdmin
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApplicationDbContext _context;
+        private readonly IMemberService _memberService;
 
         public EditModel(UserManager<ApplicationUser> userManager,
-            ApplicationDbContext context)
+            ApplicationDbContext context, IMemberService memberService)
         {
             _userManager = userManager;
             _context = context;
+            _memberService = memberService;
         }
 
         [BindProperty]
@@ -56,11 +59,11 @@ namespace Badge.Pages.Admin.MemberAdmin
 
         public async Task<IActionResult> OnGetAsync(string? id)
         {
-            if (id == null || _context.Members == null)
+            if (id == null || _memberService.GetMembers == null)
             {
                 return NotFound();
             }
-            var member = await _context.Members.Include(m => m.User).FirstOrDefaultAsync(l => l.Id == id);
+            var member = await _memberService.GetMemberAsync(id);
             if (member == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -81,7 +84,7 @@ namespace Badge.Pages.Admin.MemberAdmin
             {
                 RedirectToPage();
             }
-            var member = await _context.Members.Include(m => m.User).FirstOrDefaultAsync(l => l.Id == id);
+            var member = await _memberService.GetMemberAsync(id);
             if (member == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -95,25 +98,25 @@ namespace Badge.Pages.Admin.MemberAdmin
             {
                 if (Input.FName != fName)
                 {
-                    _context.Members.Find(member.Id).User.FName = Input.FName;
+                  (await _memberService.GetMemberAsync(id)).User.FName = Input.FName;
 
                 }
                 if (Input.LName != lName)
                 {
-                    _context.Members.Find(member.Id).User.LName = Input.LName;
+                    (await _memberService.GetMemberAsync(id)).User.LName = Input.LName;
 
                 }
                 if (Input.Email != email)
                 {
-                    _context.Members.Find(member.Id).User.Email = Input.Email;
+                    (await _memberService.GetMemberAsync(id)).User.Email = Input.Email;
                 }
 
                 if (Input.GroupId != groupId)
                 {
-                    _context.Members.Find(member.Id).GroupId = Input.GroupId;
+                    (await _memberService.GetMemberAsync(id)).GroupId = Input.GroupId;
                 }
 
-                await _context.SaveChangesAsync();
+                await _memberService.UpdateMemberAsync(member);
 
             }
 

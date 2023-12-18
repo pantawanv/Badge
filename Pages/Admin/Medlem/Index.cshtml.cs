@@ -1,4 +1,5 @@
 ﻿using Badge.Data;
+using Badge.Interfaces;
 using Badge.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -7,13 +8,13 @@ namespace Badge.Pages.Admin.MemberAdmin
 {
     public class IndexModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
         private readonly IConfiguration Configuration;
+        private readonly IMemberService _memberService;
 
-        public IndexModel(ApplicationDbContext context, IConfiguration configuration)
+        public IndexModel(IConfiguration configuration, IMemberService memberService)
         {
-            _context = context;
             Configuration = configuration;
+            _memberService = memberService;
         }
 
         public string FNameSort { get; set; }
@@ -45,8 +46,8 @@ namespace Badge.Pages.Admin.MemberAdmin
 
             CurrentFilter = searchString;
 
-            IQueryable<Member> memberIQ = from m in _context.Members
-                                          select m;
+
+            IQueryable<Member> memberIQ = _memberService.GetMembers();
 
 
             if (!String.IsNullOrEmpty(searchString))
