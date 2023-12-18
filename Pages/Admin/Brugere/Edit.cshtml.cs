@@ -11,13 +11,10 @@ namespace Badge.Pages.Admin.UserAdmin
     public class EditModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ApplicationDbContext _context;
 
-        public EditModel(UserManager<ApplicationUser> userManager,
-            ApplicationDbContext context)
+        public EditModel(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
-            _context = context;
         }
 
 
@@ -59,12 +56,12 @@ namespace Badge.Pages.Admin.UserAdmin
 
         public async Task<IActionResult> OnGetAsync(string? id)
         {
-            if (id == null || _context.Users == null)
+            if (id == null || _userManager.Users == null)
             {
                 return NotFound();
             }
 
-            var leader = await _context.Users.FirstOrDefaultAsync(l => l.Id == id);
+            var leader = await _userManager.FindByIdAsync(id);
             if (leader == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -76,7 +73,7 @@ namespace Badge.Pages.Admin.UserAdmin
 
         public async Task<IActionResult> OnPostAsync(string? id)
         {
-            var leader = await _context.Users.FirstOrDefaultAsync(l => l.Id == id);
+            var leader = await _userManager.FindByIdAsync(id);
             if (leader == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
@@ -88,27 +85,28 @@ namespace Badge.Pages.Admin.UserAdmin
             var email = leader.Email;
             if (Input.LName!= lName || Input.FName!=fName || Input.PhoneNumber !=phoneNumber || Input.Email !=email)
             {
+                var user = await _userManager.FindByIdAsync(id);
                 if (Input.FName != fName)
                 {
-                    _context.Users.Find(leader.Id).FName = Input.FName;
+                   user.FName = fName;
 
                 }
                 if (Input.LName != lName)
                 {
-                    _context.Users.Find(leader.Id).LName = Input.LName;
+                    user.LName = lName;
 
                 }
 
                 if (Input.PhoneNumber != phoneNumber)
                 {
-                    _context.Users.Find(leader.Id).PhoneNumber = Input.PhoneNumber;
+                    user.PhoneNumber = Input.PhoneNumber;
                 }
                 if (Input.Email != email)
                 {
-                    _context.Users.Find(leader.Id).Email = Input.Email;
+                    user.Email = Input.Email;
                 }
 
-                await _context.SaveChangesAsync();
+                await _userManager.UpdateAsync(user);
 
             }
 

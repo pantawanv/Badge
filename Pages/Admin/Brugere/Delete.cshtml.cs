@@ -10,12 +10,10 @@ namespace Badge.Pages.Admin.UserAdmin
 {
     public class DeleteModel : PageModel
     {
-        private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public DeleteModel(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public DeleteModel(UserManager<ApplicationUser> userManager)
         {
-            _context = context;
             _userManager = userManager;
         }
 
@@ -29,7 +27,7 @@ namespace Badge.Pages.Admin.UserAdmin
                 return NotFound();
             }
 
-            var user = await _context.Users.FirstOrDefaultAsync(m => m.Id == id);
+            var user = await _userManager.FindByIdAsync(id);
 
             if (user == null)
             {
@@ -55,7 +53,6 @@ namespace Badge.Pages.Admin.UserAdmin
                 await _userManager.DeleteAsync(user);
 
             }
-            await _context.SaveChangesAsync();
             return RedirectToPage("./Index");
         }
     }

@@ -15,7 +15,7 @@ namespace Badge.Services
 
         public async Task<List<Achievement>> GetAchievementsAsync()
         {
-            return await _context.Achievements.ToListAsync();
+            return await _context.Achievements.Include(a => a.AchievementType).ToListAsync();
         }
 
 

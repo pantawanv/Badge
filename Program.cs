@@ -20,6 +20,8 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<ISalesService, SalesService>();
 builder.Services.AddTransient<IMemberService, MemberService>();
 builder.Services.AddTransient<IUserFactory, UserFactory>();
+builder.Services.AddTransient<IGroupService, GroupService>();
+builder.Services.AddTransient<IAchievementService, AchievementService>();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
