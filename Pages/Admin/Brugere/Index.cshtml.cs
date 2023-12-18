@@ -1,5 +1,6 @@
 using Badge.Areas.Identity.Data;
 using Badge.Data;
+using Badge.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -10,12 +11,16 @@ namespace Badge.Pages.Admin.UserAdmin
     {
         private readonly ApplicationDbContext _context;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration Configuration;
-        public IndexModel(ApplicationDbContext context, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+        private readonly IUserService _userService;
+        public IndexModel(ApplicationDbContext context, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IUserService userService, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _roleManager = roleManager;
             Configuration = configuration;
+            _userService = userService;
+            _userManager = userManager;
         }
 
         public string FNameSort { get; set; }
@@ -51,7 +56,7 @@ namespace Badge.Pages.Admin.UserAdmin
 
             CurrentFilter = searchString;
 
-            IQueryable<ApplicationUser> UserIQ = from u in _context.Users select u;
+            IQueryable<ApplicationUser> UserIQ = _userService.GetUsers();
 
             if (UserIQ.Any())
             {

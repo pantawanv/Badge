@@ -22,6 +22,7 @@ builder.Services.AddTransient<IMemberService, MemberService>();
 builder.Services.AddTransient<IUserFactory, UserFactory>();
 builder.Services.AddTransient<IGroupService, GroupService>();
 builder.Services.AddTransient<IAchievementService, AchievementService>();
+builder.Services.AddTransient<IUserService, UserService>();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
@@ -55,7 +56,7 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
     options.Lockout.MaxFailedAccessAttempts = 5;
     options.Lockout.AllowedForNewUsers = true;
-
+    
     // User settings.
     options.User.AllowedUserNameCharacters =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";

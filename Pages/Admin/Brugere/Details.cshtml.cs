@@ -15,16 +15,18 @@ namespace Badge.Pages.Admin.UserAdmin
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IGroupService _groupService;
+        private readonly ApplicationDbContext _context;
 
-        public DetailsModel(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IGroupService groupService)
+        public DetailsModel(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IGroupService groupService, ApplicationDbContext context)
         {
             _userManager = userManager;
             _roleManager=roleManager;
             _groupService=groupService;
+            _context = context;
         }
         public ApplicationUser User { get; set; } = default!;
         public List<IdentityRole> Roles { get; set; } = default!;
-        public IList<Group> Groups { get; set; } = default!;
+        public List<Group> Groups { get; set; } = default!;
         public async Task<IActionResult> OnGetAsync(string? id)
         {
 
@@ -41,7 +43,7 @@ namespace Badge.Pages.Admin.UserAdmin
             {
                 User = user;
             }
-            var roles = from r in _roleManager.Roles where (_userManager.IsInRoleAsync(user, r.Name).Result == true) select r;
+            var roles = from r in _context.Roles where (from ur in _context.UserRoles where ur.UserId == id && ur.RoleId == r.Id select ur).Any() select r;
             Roles = await roles.ToListAsync();
             
             var groups = from g in _groupService.GetGroups() where g.Leader.Id == id select g;
