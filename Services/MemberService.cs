@@ -38,5 +38,15 @@ namespace Badge.Services
             var members = _context.MemberParents.Include(m => m.Member).ThenInclude(m => m.User).Where(m => m.ParentId == id);
             return await members.Select(m => m.Member).ToListAsync();
         }
+
+        public Parent GetParent(int id)
+        {
+            return _context.Parents.Include(p => p.Members).ThenInclude(p => p.Member).ThenInclude(p=>p.User).Where(p => p.Id == id).FirstOrDefault();
+        }
+
+        public IQueryable<Parent> GetParentsQuery()
+        {
+            return _context.Parents.Include(p => p.Members).ThenInclude(p => p.Member).ThenInclude(p => p.User).AsQueryable();
+        }
     }
 }

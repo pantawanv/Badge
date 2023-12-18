@@ -13,25 +13,24 @@ namespace Badge.Pages.App
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ISalesService _salesService;
         private readonly IMemberService _memberService;
-        private readonly ApplicationDbContext _context;
-        public IndexModel(UserManager<ApplicationUser> userManager, ISalesService salesService, IMemberService memberService, SignInManager<ApplicationUser> signInManager,
-            ApplicationDbContext context)
+        private readonly IAchievementService _achievementService;
+        public IndexModel(UserManager<ApplicationUser> userManager, ISalesService salesService, IMemberService memberService, IAchievementService achievementService, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _salesService = salesService;
             _memberService = memberService;
-            _context = context;
+            _achievementService = achievementService;
 
         }
         public IList<Achievement> Achievements { get; set; }
         public async Task OnGetAsync()
         {
-            var achivements = await _context.Achievements.Include(a => a.AchievementType).ToListAsync();
-            if (achivements == null)
+            var achievements = await _achievementService.GetAchievementsAsync();
+            if (achievements == null)
             {
-
+                NotFound();
             }
-            Achievements = achivements;
+            Achievements = achievements;
         }
 
         public bool CheckTicketAchievement(int amount)

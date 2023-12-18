@@ -1,5 +1,6 @@
 using Badge.Areas.Identity.Data;
 using Badge.Data;
+using Badge.Interfaces;
 using Badge.Resources;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -24,11 +25,11 @@ namespace Badge.Pages.Admin.UserAdmin
         private readonly ILogger<CreateModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
-
-        private readonly ApplicationDbContext _context;
+        private readonly IUserFactory _userFactory;
 
         public CreateModel(UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
+            IUserFactory userFactory,
             ILogger<CreateModel> logger,
             IEmailSender emailSender,
             RoleManager<IdentityRole> roleManager,
@@ -40,8 +41,7 @@ namespace Badge.Pages.Admin.UserAdmin
             _logger = logger;
             _emailSender = emailSender;
             _roleManager = roleManager;
-
-            _context = context;
+            _userFactory = userFactory;
         }
 
         [BindProperty]
@@ -51,16 +51,14 @@ namespace Badge.Pages.Admin.UserAdmin
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var roles = await _context.Roles.Where(r => r.NormalizedName != "ADMIN" && r.NormalizedName != "MEMBER").ToListAsync();
-            List<SelectListItem> items = new List<SelectListItem>();
+            
+            List<SelectListItem> roles = new List<SelectListItem>();
 
-            foreach (var item in roles)
-            {
-                string roleid = item.Id;
-                string rolename = TextResource.ResourceManager.GetString(item.Name);
-                items.Add(new SelectListItem() { Text = rolename, Value = roleid });
-            }
-            ViewData["RoleId"] = items;
+            roles.Add(new SelectListItem() { Text = "Leader", Value = _roleManager.FindByNameAsync("Leader").Result.Id });
+            roles.Add(new SelectListItem() { Text = "Manager", Value = _roleManager.FindByNameAsync("Manager").Result.Id });
+            
+            ViewData["RoleId"] = roles;
+
             return Page();
         }
 
@@ -79,11 +77,12 @@ namespace Badge.Pages.Admin.UserAdmin
             string fname = User.FName;
             string lname = User.LName;
 
-            string role = _context.Roles.Find(RoleId).Name;
+            
+            string role = _roleManager.FindByIdAsync(RoleId).Result.Name;
 
-            User = CreateUser();
+            User = _userFactory.CreateUser();
 
-            string password = CreateRandomPassword(10);
+            string password = _userFactory.CreateRandomPassword(10);
             await _userStore.SetUserNameAsync(User, email, CancellationToken.None);
             await _emailStore.SetEmailAsync(User, email, CancellationToken.None);
             User.FName = fname;
@@ -110,8 +109,8 @@ namespace Badge.Pages.Admin.UserAdmin
 
                 await _userManager.AddToRoleAsync(User, role);
 
-                await _emailSender.SendEmailAsync(email, "Confirm your email",
-                    $"Welcome to Badge!<br>Your account info is <br>username: {email}<br>password: {password}<br>Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                await _emailSender.SendEmailAsync(email, "Bekræft din email",
+                    $"Velkommen til Badge!<br>Din bruger info er <br>brugernavn: {email}<br>password: {password}<br>Du kan bekræfte din konto ved at <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>klikke her!</a>.");
 
                 return LocalRedirect(returnUrl+userId);
             }
@@ -123,34 +122,6 @@ namespace Badge.Pages.Admin.UserAdmin
 
             // If we got this far, something failed, redisplay form
             return RedirectToPage();
-        }
-
-        public static string CreateRandomPassword(int PasswordLength)
-        {
-            string _allowedChars = "0123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ";
-            Random randNum = new Random();
-            char[] chars = new char[PasswordLength];
-            int allowedCharCount = _allowedChars.Length;
-            string password;
-            for (int i = 0; i < PasswordLength; i++)
-            {
-                chars[i] = _allowedChars[(int)((_allowedChars.Length) * randNum.NextDouble())];
-            }
-            return (new string(chars))+"23";
-        }
-
-        private ApplicationUser CreateUser()
-        {
-            try
-            {
-                return Activator.CreateInstance<ApplicationUser>();
-            }
-            catch
-            {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(IdentityUser)}'. " +
-                    $"Ensure that '{nameof(IdentityUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
-                    $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
-            }
         }
 
         private IUserEmailStore<ApplicationUser> GetEmailStore()

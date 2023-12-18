@@ -1,4 +1,5 @@
 ﻿using Badge.Data;
+using Badge.Interfaces;
 using Badge.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -9,10 +10,12 @@ namespace Badge.Pages.Admin.MemberAdmin
     public class DetailsModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMemberService _memberService;
 
-        public DetailsModel(ApplicationDbContext context)
+        public DetailsModel(ApplicationDbContext context, IMemberService memberService)
         {
             _context = context;
+            _memberService = memberService;
         }
 
         public Member Member { get; set; } = default!;
@@ -24,16 +27,16 @@ namespace Badge.Pages.Admin.MemberAdmin
             {
                 return NotFound();
             }
-            //var parents = from p in _context.Parents where p.MemberId == id select p;
+            var parents = await _memberService.GetParentsOfMemberAsync(id);
 
-            //if (parents == null)
-            //{
-            //    return NotFound();
-            //}
-            //else
-            //{
-            //    Parents = await parents.ToListAsync();
-            //}
+            if (parents == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                Parents = parents;
+            }
 
             var member = await _context.Members.Include(m => m.Group).Include(m => m.User).FirstOrDefaultAsync(m => m.Id == id);
             if (member == null)

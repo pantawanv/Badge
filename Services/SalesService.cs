@@ -20,6 +20,11 @@ namespace Badge.Services
             return await _context.Sales.ToListAsync();
         }
 
+        public IQueryable<Sale> GetAllSalesQuery()
+        {
+            return _context.Sales.AsQueryable();
+        }
+
         public int GetSalesCount()
         {
             return _context.Sales.Count();

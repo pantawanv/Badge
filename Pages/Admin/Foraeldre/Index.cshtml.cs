@@ -1,4 +1,5 @@
 ﻿using Badge.Data;
+using Badge.Interfaces;
 using Badge.Models;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -9,11 +10,13 @@ namespace Badge.Pages.Admin.ParentAdmin
     {
         private readonly ApplicationDbContext _context;
         private readonly IConfiguration Configuration;
+        private readonly IMemberService _memberService;
 
-        public IndexModel(ApplicationDbContext context, IConfiguration configuration)
+        public IndexModel(ApplicationDbContext context, IConfiguration configuration, IMemberService memberService)
         {
             _context = context;
             Configuration = configuration;
+            _memberService = memberService;
         }
 
         public string MemberSort { get; set; }
@@ -47,14 +50,12 @@ namespace Badge.Pages.Admin.ParentAdmin
 
             CurrentFilter = searchString;
 
-            IQueryable<Parent> parentsIQ = from p in _context.Parents
-                                           select p;
+            IQueryable<Parent> parentsIQ = _memberService.GetParentsQuery();
 
             if (!String.IsNullOrEmpty(searchString))
             {
                 parentsIQ = parentsIQ.Where(p => (p.FName + " " + p.LName).Contains(searchString)
-                || p.Phone.Contains(searchString) || p.Email.Contains(searchString)
-                //|| (p.Member.User.FName + " " + p.Member.User.LName).Contains(searchString)
+                || p.Phone.Contains(searchString) || p.Email.Contains(searchString) || p.Members.Where(m => (m.Member.User.FName + " " + m.Member.User.LName).Contains(searchString)).Any()
                 );
 
             }
@@ -62,12 +63,12 @@ namespace Badge.Pages.Admin.ParentAdmin
 
             switch (sortOrder)
             {
-                //case "memberName_desc":
-                //    //parentsIQ = parentsIQ.OrderByDescending(p => p.Member.User.FName);
-                //    break;
-                //case "memberName_asc":
-                //    parentsIQ = parentsIQ.OrderBy(p => p.Member.User.FName);
-                //    break;
+                case "memberName_desc":
+                    parentsIQ = parentsIQ.OrderByDescending(p => p.Members.First().Member.User.FName);
+                    break;
+                case "memberName_asc":
+                    parentsIQ = parentsIQ.OrderBy(p => p.Members.First().Member.User.FName);
+                    break;
                 case "FName_desc":
                     parentsIQ = parentsIQ.OrderByDescending(p => p.FName);
                     break;

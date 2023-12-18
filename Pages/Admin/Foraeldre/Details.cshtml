@@ -12,23 +12,20 @@
 <div>
     <h4>Forældre</h4>
     <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            Barn
-        </dt>
-        <dd class="col-sm-10">
-@*             <a asp-page="/Administration/Medlem/Details" asp-route-id="@Model.Parent.Member.Id">@Html.DisplayFor(model => model.Parent.Member.User.FName) @Html.DisplayFor(model => model.Parent.Member.User.LName)</a>
- *@         
+    <h3>
+        
+       
+    </h3>
 
-            @if (Model.Parent.Members != null)
-            {
-                @foreach (var item in Model.Parent.Members)
-                {
-                    @item.Member.User.FName
-                }
-            }
- 
-        </dd>
+    @foreach (var item in Model.Parent.Members)
+    {
+        <div class="index-content">
+            <a asp-page="/Admin/Medlem/Details" asp-route-id="@item.MemberId">
+                @item.Member.User.FullName
+            </a>
+        </div>
+    }
+    <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Parent.FName)
         </dt>

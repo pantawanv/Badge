@@ -9,5 +9,7 @@ namespace Badge.Interfaces
         Task<List<Member>> GetAllMembersOfGroupAsync(int id);
         Task<List<Parent>> GetParentsOfMemberAsync(string id);
         Task<List<Member>> GetMembersOfParentsAsync(int id);
+        Parent GetParent(int id);
+        IQueryable<Parent> GetParentsQuery();
     }
 }
