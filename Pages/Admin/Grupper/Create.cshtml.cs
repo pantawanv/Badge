@@ -1,5 +1,6 @@
 ﻿using Badge.Areas.Identity.Data;
 using Badge.Data;
+using Badge.Interfaces;
 using Badge.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,37 +14,29 @@ namespace Badge.Pages.Admin.GroupAdmin
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IGroupService _groupService;
 
-        public CreateModel(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public CreateModel(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IGroupService groupService)
         {
             _context = context;
             _userManager = userManager;
+            _groupService = groupService;
         }
 
         public async Task<IActionResult> OnGetAsync()
         {
-            IdentityRole role = await _context.Roles.FirstAsync(r => r.Name == "Leader");
-            string roleid = role.Id;
-            var leaders = await (from u in _context.Users where (from r in _context.UserRoles where r.RoleId == roleid && r.UserId == u.Id select r).ToList().Count > 0 select u).ToListAsync();
+            var leaders = _userManager.GetUsersInRoleAsync("Leader").Result.ToList();
             ViewData["GroupTypeId"] = new SelectList(_context.GroupTypes, "Id", "Name");
-            ViewData["LeaderId"] = new SelectList(leaders, "Id", "FullName");
+            ViewData["LeaderId"] = new SelectList(leaders.ToList(), "Id", "FullName");
             return Page();
         }
 
         [BindProperty]
         public Group Group { get; set; } = default!;
 
-
-        // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            //if (!ModelState.IsValid || _context.Groups == null || Group == null)
-            //  {
-            //      return Page();
-            //  }
-
-            _context.Groups.Add(Group);
-            await _context.SaveChangesAsync();
+            _groupService.CreateGroupAsync(Group);
 
             return RedirectToPage("./Index");
         }
