@@ -13,13 +13,12 @@ namespace Badge.Pages.Admin.UserAdmin
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IConfiguration Configuration;
-        private readonly IUserService _userService;
-        public IndexModel(ApplicationDbContext context, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IUserService userService, UserManager<ApplicationUser> userManager)
+        public IndexModel(ApplicationDbContext context, RoleManager<IdentityRole> roleManager, IConfiguration configuration, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _roleManager = roleManager;
             Configuration = configuration;
-            _userService = userService;
+
             _userManager = userManager;
         }
 
@@ -56,7 +55,7 @@ namespace Badge.Pages.Admin.UserAdmin
 
             CurrentFilter = searchString;
 
-            IQueryable<ApplicationUser> UserIQ = _userService.GetUsers();
+            IQueryable<ApplicationUser> UserIQ = from u in _userManager.Users select u;
 
             if (UserIQ.Any())
             {

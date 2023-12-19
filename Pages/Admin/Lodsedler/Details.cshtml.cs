@@ -1,4 +1,5 @@
 ﻿using Badge.Data;
+using Badge.Interfaces;
 using Badge.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -10,11 +11,14 @@ namespace Badge.Pages.Admin.TicketAdmin
     public class DetailsModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly ISalesService _salesService;
+        private readonly IMemberService _memberService;
 
-        public DetailsModel(ApplicationDbContext context)
+        public DetailsModel(ApplicationDbContext context, ISalesService salesService, IMemberService memberService)
         {
             _context = context;
-
+            _salesService = salesService;
+            _memberService=memberService;
         }
         [BindProperty]
         public Ticket Ticket { get; set; } = default!;
@@ -32,7 +36,7 @@ namespace Badge.Pages.Admin.TicketAdmin
                 return NotFound();
             }
 
-            var ticket = await _context.Tickets.FirstOrDefaultAsync(m => m.Id == id);
+            var ticket = await _salesService.GetTicketAsync(id);
 
             if (ticket == null)
             {
@@ -42,19 +46,19 @@ namespace Badge.Pages.Admin.TicketAdmin
             {
                 Ticket = ticket;
 
-                var ticketGroupAssign = await _context.TicketGroupAssigns.Include(t => t.Group).FirstOrDefaultAsync(t => t.TicketId == id);
+                var ticketGroupAssign = await _salesService.GetTicketGroupAssignAsync(id);
                 if (ticketGroupAssign != null)
                 {
                     TicketGroupAssign = ticketGroupAssign;
-                    var groupMembers = _context.Members.Include(m => m.User).Where(m => m.GroupId == ticketGroupAssign.GroupId);
+                    var groupMembers = await _memberService.GetAllMembersOfGroupAsync(ticketGroupAssign.GroupId);
                     ViewData["GroupMembers"] = new SelectList(groupMembers, "Id", "User.FullName");
                 }
-                var ticketMemberAssign = await _context.TicketMemberAssigns.Include(t => t.Member).ThenInclude(t => t.User).FirstOrDefaultAsync(t => t.TicketId == id);
+                var ticketMemberAssign = await _salesService.GetTicketMemberAssignAsync(id);
                 if (ticketMemberAssign != null)
                 {
                     TicketMemberAssign = ticketMemberAssign;
                 }
-                var sale = await _context.Sales.Include(t => t.Seller).ThenInclude(t => t.Group).Include(t => t.Seller).ThenInclude(t => t.User).Include(t => t.Channel).FirstOrDefaultAsync(t => t.TicketId == id);
+                var sale = await _salesService.GetTicketSaleAsync(id);
                 if (sale != null)
                 {
                     Sale = sale;
@@ -63,55 +67,34 @@ namespace Badge.Pages.Admin.TicketAdmin
             }
 
             ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name");
-
-
             return Page();
         }
 
         public async Task<IActionResult> OnPostDeleteGroupAssignAsync()
         {
-            TicketGroupAssign ticketGroupAssign = await _context.TicketGroupAssigns.FirstOrDefaultAsync(t => t.TicketId == Ticket.Id);
-
-            if (ticketGroupAssign != null)
-            {
-
-                _context.TicketGroupAssigns.Remove(ticketGroupAssign);
-                _context.SaveChanges();
-
-                await OnPostDeleteMemberAssignAsync();
-            }
-
+            await _salesService.DeleteTicketGroupAssignAsync(Ticket.Id);
             return RedirectToPage("Details", new { id = Ticket.Id });
         }
 
         public async Task<IActionResult> OnPostDeleteMemberAssignAsync()
         {
-            TicketMemberAssign ticketMemberAssign = await _context.TicketMemberAssigns.FirstOrDefaultAsync(t => t.TicketId == Ticket.Id);
-            if (ticketMemberAssign != null)
-            {
-                _context.TicketMemberAssigns.Remove(ticketMemberAssign);
-                _context.SaveChanges();
-            }
+            await _salesService.DeleteTicketMemberAssignAsync(Ticket.Id);
             return RedirectToPage("Details", new { id = Ticket.Id });
         }
 
         public async Task<IActionResult> OnPostAddAssignAsync()
         {
-            var ticketGroupAssign = await _context.TicketGroupAssigns.Include(t => t.Group).FirstOrDefaultAsync(t => t.TicketId == Ticket.Id);
+            var ticketGroupAssign = await _salesService.GetTicketGroupAssignAsync(Ticket.Id);
             if (ticketGroupAssign == null)
             {
-                TicketGroupAssign.TicketId = Ticket.Id;
-                var result = await _context.TicketGroupAssigns.AddAsync(TicketGroupAssign);
-                _context.SaveChanges();
+                await _salesService.AddTicketGroupAssignAsync(Ticket.Id, TicketGroupAssign.GroupId);
             }
             else
             {
-                var memberGroupAssign = await _context.TicketMemberAssigns.FirstOrDefaultAsync(t => t.TicketId == Ticket.Id);
+                var memberGroupAssign = await _salesService.GetTicketMemberAssignAsync(Ticket.Id);
                 if (memberGroupAssign == null)
                 {
-                    TicketMemberAssign.TicketId = Ticket.Id;
-                    var result = await _context.TicketMemberAssigns.AddAsync(TicketMemberAssign);
-                    _context.SaveChanges();
+                    await _salesService.AddTicketMemberAssignAsync(Ticket.Id, TicketMemberAssign.MemberId);
                 }
             }
             return RedirectToPage("Details", new { id = Ticket.Id });

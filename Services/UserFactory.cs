@@ -6,7 +6,6 @@ namespace Badge.Services
 {
     public class UserFactory : IUserFactory
     {
-        public UserFactory() { }
 
         public ApplicationUser CreateUser()
         {

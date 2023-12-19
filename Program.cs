@@ -27,8 +27,6 @@ builder.Services.AddTransient<IGroupService, GroupService>();
 
 builder.Services.AddTransient<IAchievementService, AchievementService>();
 
-builder.Services.AddTransient<IUserService, UserService>();
-
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)

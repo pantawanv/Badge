@@ -16,7 +16,7 @@ namespace Badge.Pages.Admin.GroupAdmin
         }
 
         public Group Group { get; set; } = default!;
-        public IList<Member> Members { get; set; } = default!;
+        public List<Member> Members { get; set; } = default!;
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {

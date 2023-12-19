@@ -46,7 +46,7 @@ namespace Badge.Areas.Identity.Pages.Account
         public string ReturnUrl { get; set; }
 
 
-        public IList<AuthenticationScheme> ExternalLogins { get; set; }
+        public List<AuthenticationScheme> ExternalLogins { get; set; }
 
 
         public class InputModel

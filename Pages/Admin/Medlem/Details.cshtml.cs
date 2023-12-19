@@ -19,7 +19,7 @@ namespace Badge.Pages.Admin.MemberAdmin
         }
 
         public Member Member { get; set; } = default!;
-        public IList<Parent> Parents { get; set; }
+        public List<Parent> Parents { get; set; }
 
         public async Task<IActionResult> OnGetAsync(string? id)
         {

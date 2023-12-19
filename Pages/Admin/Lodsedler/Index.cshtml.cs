@@ -28,8 +28,8 @@ namespace Badge.Pages.Admin.TicketAdmin
 
         public PaginatedList<Ticket> Tickets { get; set; }
         public IQueryable<Sale> Sales { get; set; }
-        public IList<Ticket>? SelectedTickets { get; set; }
-        public IList<TicketGroupAssign>? GroupAssigns { get; set; }
+        public List<Ticket>? SelectedTickets { get; set; }
+        public List<TicketGroupAssign>? GroupAssigns { get; set; }
         public async Task<IActionResult> OnGetAsync(string sortOrder, string searchString, int? pageIndex, string[]? selectedTickets)
         {
 
