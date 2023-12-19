@@ -1,12 +1,15 @@
 ﻿@page
+@using Badge.Interfaces
 @model Badge.Pages.App.IndexModel
+@inject ISalesService salesService;
+@inject UserManager<ApplicationUser> userManager;
 @{
     Layout = "_AppLayout";
 }
 <h2>Hej</h2>
 <h1>@UserManager.GetUserAsync(User).Result.FName!</h1>
 <br />
-<p>Du har solgt  lodsedler ialt. Godt gået!</p>
+<p>Du har solgt @salesService.GetMembersSalesAsync(UserManager.GetUserId(User)).Result.Count() lodsedler ialt. Godt gået!</p>
 
 
 <div>

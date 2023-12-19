@@ -7,52 +7,12 @@
 }
 
 <h1>Rediger</h1>
-
-<h4>Forældre</h4>
-<hr />
-
-<div class="box-3rd" style="float:right;">
-    <h3>
-        @{
-            string childHeader;
-            @if (!Model.Parent.FName.EndsWith("s"))
-            {
-                childHeader = Model.Parent.FName + "s børn";
-            }
-            else
-            {
-                childHeader = Model.Parent.FName + "' børn";
-            }
-            @childHeader
-        }
-    </h3>
-    @foreach (var item in Model.Parent.Members)
-    {
-        <div class="index-content">
-            <a asp-page="/Medlemmer/Details" asp-route-id="@item.MemberId">
-                @item.Member.User.FullName
-            </a>
-            <form asp-page-handler="DeleteMemberParent" method="post" asp-route-memberid="@item.MemberId" asp-route-id="@Model.Parent.Id">
-                <input type="hidden" asp-for="Parent.Id" />
-                <button>delete</button>
-            </form>
-        </div>
-    }
-    @{
-        <form method="post" asp-page-handler="CreateMemberParent" asp-route-memberid="@Model.SelectedMemberId" asp-route-id="@Model.Parent.Id">
-            <p>Tilføj et nyt barn:</p>
-            <select asp-for="@Model.SelectedMemberId" asp-items="ViewBag.MemberId"></select>
-            <button>Tilføj</button>
-        </form>
-    }
-
-    
-</div>
-<div class="row">
-    <div class="col-md-4">
+<h4>Forælder</h4>
+<div style="display:grid; grid-template-columns: 80% auto; grid-gap: 30px;">
+    <div class="index-content" style="display:inline-grid; width: 100%;">
         <form method="post" asp-page-handler="Update">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Parent.Id" />           
+            <input type="hidden" asp-for="Parent.Id" />
             <div class="form-group">
                 <label asp-for="Parent.FName" class="control-label"></label>
                 <input asp-for="Parent.FName" class="form-control" />
@@ -77,13 +37,41 @@
                 <input type="submit" value="Gem" class="btn btn-primary" />
             </div>
         </form>
+        <div>
+            <a asp-page="./Index">Tilbage til liste</a>
+        </div>
+    </div>
+
+    <div class="index-content" style="display:inline-grid">
+        <h3 style="padding-bottom:0px!important;">Tilknyttede medlemmer</h3>
+        @foreach (var item in Model.Parent.Members)
+        {
+            <div class="index-content">
+                <a asp-page="/Medlemmer/Details" asp-route-id="@item.MemberId">
+                    @item.Member.User.FullName
+                </a>
+                <form asp-page-handler="DeleteMemberParent" method="post" asp-route-memberid="@item.MemberId" asp-route-id="@Model.Parent.Id">
+                    <input type="hidden" asp-for="Parent.Id" />
+                    <button>delete</button>
+                </form>
+            </div>
+        }
+        @{
+            <form method="post" asp-page-handler="CreateMemberParent" asp-route-memberid="@Model.SelectedMemberId" asp-route-id="@Model.Parent.Id">
+                <p>Tilføj et nyt barn:</p>
+                <select asp-for="@Model.SelectedMemberId" asp-items="ViewBag.MemberId"></select>
+                <button>Tilføj</button>
+            </form>
+        }
     </div>
 </div>
 
-<div>
-    <a asp-page="./Index">Tilbage til liste</a>
-</div>
+
+
+
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

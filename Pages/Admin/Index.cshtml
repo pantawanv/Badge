@@ -16,7 +16,7 @@
     <div class="index-grid">
         <div class="index-content index-infobox">
             <div class="index-infobox-inner">
-                <img src="~/images/Icon_Calendar.svg"/>
+                <img src="~/images/Icon_Calendar.svg" />
             </div>
             <div class="index-infobox-inner" style="float:right; right:0;">
                 <h4>5 dage tilbage!</h4>
@@ -26,7 +26,7 @@
         </div>
         <div class="index-content index-infobox">
             <div class="index-infobox-inner">
-                <img style="padding: 5px!important;"src="~/images/Icon_Ticket.svg" />
+                <img style="padding: 5px!important;" src="~/images/Icon_Ticket.svg" />
             </div>
             <div class="index-infobox-inner" style="float:right; right:0;">
                 <h4>@salesService.GetSalesCount() lodsedler solgt.</h4>
@@ -55,8 +55,19 @@
             <div class="divider-line-gradient" id="dl4"></div>
         </div>
         <div class="index-content" style="grid-area:2  / 1 / span 2 / span 3; padding: 30px!important;">
-            <h4 style="padding-bottom: 10px;">
-                Kredsens top-5 supersælgere
+
+            @if (User.IsInRole("Manager"))
+            {
+                <h4 style="padding-bottom: 10px;">
+                    Kredsens top-5 supersælgere
+                </h4>
+            }
+            else
+            {
+                <h4 style="padding-bottom: 10px;">
+                    Dine gruppers top-5 supersælgere
+                </h4>
+            }
             </h4>
             <table>
                 <thead>
@@ -75,9 +86,43 @@
                         </th>
                     </tr>
                 </thead>
-                <tbody>
-                    @{
-                        int i = 0;
+                @if (!User.IsInRole("Manager"))
+                {
+                    int i = 0;
+                    <tbody>
+
+
+
+                        @foreach (var item in Model.TopSellersLeaderGroup)
+                        {
+                            i++;
+                            <tr>
+                                <td>
+                                    @i
+                                </td>
+                                <td>
+                                    <a asp-page="/Admin/Medlem/Details" asp-route-id="@item.Id">
+                                        @item.User.FullName
+                                    </a>
+                                </td>
+                                <td>
+                                    <a asp-page="/Admin/Grupper/Details" asp-route-id="@item.GroupId" style="color:@ColorResource.ResourceManager.GetString(item.Group.GroupType.Name);">
+                                        @item.Group.Name
+                                    </a>
+                                </td>
+                                <td>
+                                    @item.Sales.Count()
+                                </td>
+                            </tr>
+                        }
+
+
+                    </tbody>
+                }
+                else
+                {
+                    int i = 0;
+                    <tbody>
                         @foreach (var item in Model.TopSellers)
                         {
                             i++;
@@ -100,10 +145,10 @@
                                 </td>
                             </tr>
                         }
-                    }
+                    </tbody>
+                }
 
-                </tbody>
-            </table>    
+            </table>
         </div>
         <div class="index-content" style="height:fit-content;">
             <h4 style="margin-bottom:20px; text-align:center">Overblik over lodsedler</h4>
@@ -111,14 +156,14 @@
                 <canvas id="soldPercentage" style="width:80%;" role="img"></canvas>
             </div>
             <br />
-            @if(User.IsInRole("Manager") || User.IsInRole("Admin"))
+            @if (User.IsInRole("Manager") || User.IsInRole("Admin"))
             {
                 <a asp-page="./Lodsedler/Index" class="btn-full">Se lodsedler</a>
                 <a asp-page="./Lodsedler/Create" class="btn-full" id="add-btn-index">Opret lodsedler</a>
             }
         </div>
     </div>
-   
+
 </div>
 <script>
     const ctx = document.getElementById('soldPercentage');
@@ -147,21 +192,21 @@
                     position: 'bottom',
                     title: {
                         display: true,
-                        padding:10
+                        padding: 10
                     }
                 }
             },
 
             scales: {
                 x: {
-                    display:false,
+                    display: false,
 
                 },
                 y: {
-                    display:false,
+                    display: false,
                 }
 
             }
         }
     });
-    </script>
+</script>
