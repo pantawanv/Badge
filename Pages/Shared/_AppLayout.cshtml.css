@@ -1,4 +1,4 @@
-﻿@media only screen and (max-width: 600px) {
+﻿@media only screen and (max-width: 700px) {
     html {
         font-size: 16px;
     }
@@ -10,9 +10,11 @@
     }
 
     .app-main{
-        width:100%!important;
+        width:80%!important;
         padding:0!important;
         margin-top: 0!important;
+        margin-left:10%!important;
+        margin-right:10%!important;
     }
     .menu {
        
@@ -23,18 +25,46 @@
         z-index: 1;
         padding-top: 0!important;
     }
-    }
+    
    
+}
+:root {
+    --danube-50: #f4f8fa;
+    --danube-100: #e5eef4;
+    --danube-200: #d1e3ec; /*paleblue*/
+    --danube-300: #b1d1df;
+    --danube-400: #8cb8ce;
+    --danube-500: #70a1c1;
+    --danube-600: #5f8cb4; /*maincolor*/
+    --danube-700: #5279a3;
+    --danube-800: #476486;
+    --danube-900: #3d536b;
+    --danube-950: #283443;
+    --maincolor: #5F8CB4;
+    --lighterblue: #94B2CD;
+    --maingrey: #E6E5E5;
+    --transparentmaingrey: rgb(from var(--maingrey) r g b / 0);
+    --paleblue: #d1e3ec;
+    --mintygreen: #05c46b;
+    --sunsetorange: #ff5e57;
+    --applevalley: #ea8685;
+    --lynxwhite: #f5f6fa;
+    --greenturquoise: #8DCEBF;
+    --yellowgreen: #D0ECD5;
+    --danube-purple: #4E3D6B;
 }
 
 html {
-    font-size; 14px;
+    font-size: 14px;
 }
 
 body {
-    margin-top: 0!important;
-    padding-top: 0!important;
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    
 }
+
+
 
 .t-navbar {
     height: auto;
@@ -57,6 +87,7 @@ body {
     margin-left:auto;
     margin-right:auto;
     padding: 35px;
+
 }
 
 .menu-list{

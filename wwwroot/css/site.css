@@ -267,11 +267,14 @@
     .achievement-container {
         margin-top: 25px !important;
         grid-template-columns: auto auto auto !important;
+        padding: 10px!important;
+        margin-left:0px!important;
+        float:unset!important;
     }
 
     .achievement {
-        width: 100px !important;
-        height: 100px !important;
+        width: 100%!important;
+        height: 100% !important;
     }
 
     .login-container h1 {
@@ -376,6 +379,7 @@ form {
 body {
     background-color: var(--maingrey);
     height: 90%;
+}
 
 img {
     -webkit-user-drag: none;
@@ -1226,8 +1230,13 @@ td {
     width: fit-content;
     margin-left: auto;
     margin-right: auto;
-
+    background-color: var(--lighterblue);
+    border-radius: 5px;
+    box-shadow: -1px -1px 10px 0px rgba(61, 83, 107, 0.3);
     padding: 20px;
+    margin-bottom:20px;
+    margin-left:50px;
+    float:right;
 }
 
 .achievement {
@@ -1250,8 +1259,8 @@ td {
     }
 
 .achievement-tooltip {
-    width: 110%;;
-    height: 95px;
+    width: 110%;
+    height: fit-content;
     left: -5%;
     top:105%;
     display: none;
