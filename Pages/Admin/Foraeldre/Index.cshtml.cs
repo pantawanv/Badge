@@ -1,6 +1,8 @@
-﻿using Badge.Data;
+﻿using Badge.Areas.Identity.Data;
+using Badge.Data;
 using Badge.Interfaces;
 using Badge.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,12 +13,15 @@ namespace Badge.Pages.Admin.ParentAdmin
         private readonly ApplicationDbContext _context;
         private readonly IConfiguration Configuration;
         private readonly IMemberService _memberService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public IndexModel(ApplicationDbContext context, IConfiguration configuration, IMemberService memberService)
+        public IndexModel(ApplicationDbContext context, IConfiguration configuration, IMemberService memberService, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             Configuration = configuration;
             _memberService = memberService;
+            _userManager = userManager;
+
         }
 
         public string MemberSort { get; set; }
@@ -27,10 +32,12 @@ namespace Badge.Pages.Admin.ParentAdmin
         public string CurrentFilter { get; set; }
         public string CurrentSort { get; set; }
 
+        public bool MyGroups { get; set; }
+
 
         public PaginatedList<Parent> Parents { get; set; }
 
-        public async Task OnGetAsync(string sortOrder, string currentFilter, string searchString, int? pageIndex)
+        public async Task OnGetAsync(string sortOrder, string currentFilter, string searchString, int? pageIndex, bool? myGroups)
         {
             CurrentSort = sortOrder;
             MemberSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("memberName_asc") ? "memberName_desc" : "memberName_asc";
@@ -38,6 +45,14 @@ namespace Badge.Pages.Admin.ParentAdmin
             LNameSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("LName_asc") ? "LName_desc" : "LName_asc";
             PhoneSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("Phone_asc") ? "Phone_desc" : "Phone_asc";
             EMailSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("Email_asc") ? "Email_desc" : "Email_asc";
+            if (myGroups == null && User.IsInRole("Leader") || myGroups == true)
+            {
+                MyGroups = true;
+            }
+            else
+            {
+                MyGroups=false;
+            }
 
             if (searchString != null)
             {
@@ -51,7 +66,11 @@ namespace Badge.Pages.Admin.ParentAdmin
             CurrentFilter = searchString;
 
             IQueryable<Parent> parentsIQ = _memberService.GetParentsQuery();
-
+            if (MyGroups)
+            {
+                var userId = _userManager.GetUserId(User);
+                parentsIQ = parentsIQ.Where(p => p.Members.Any(m => m.Member.Group.LeaderId == userId));
+            }
             if (!String.IsNullOrEmpty(searchString))
             {
                 parentsIQ = parentsIQ.Where(p => (p.FName + " " + p.LName).Contains(searchString)
@@ -101,8 +120,7 @@ namespace Badge.Pages.Admin.ParentAdmin
 
 
             var pageSize = Configuration.GetValue("PageSize", 4);
-            Parents = await PaginatedList<Parent>.CreateAsync(parentsIQ.AsNoTracking()
-                /*.Include(p => p.Member).ThenInclude(m => m.User)*/, pageIndex ?? 1, pageSize);
+            Parents = await PaginatedList<Parent>.CreateAsync(parentsIQ.AsNoTracking().Include(p => p.Members).ThenInclude(m => m.Member).ThenInclude(p=>p.Group), pageIndex ?? 1, pageSize);
 
 
 

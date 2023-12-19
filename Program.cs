@@ -13,23 +13,28 @@ var connectionString = builder.Configuration["ConnectionStrings:DefaultConnectio
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
-
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
 builder.Services.AddTransient<ISalesService, SalesService>();
+
 builder.Services.AddTransient<IMemberService, MemberService>();
+
 builder.Services.AddTransient<IUserFactory, UserFactory>();
+
 builder.Services.AddTransient<IGroupService, GroupService>();
+
 builder.Services.AddTransient<IAchievementService, AchievementService>();
+
 builder.Services.AddTransient<IUserService, UserService>();
+
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 builder.Services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
-
-
 
 builder.Services.AddRazorPages(options =>
 {
@@ -45,9 +50,13 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.AuthorizePage("/Admin/Brugere/Index", "Manager");
     options.Conventions.AuthorizePage("/Admin/Medlem/Create", "Manager");
     options.Conventions.AuthorizePage("/Admin/Medlem/Delete", "Manager");
+    options.Conventions.AuthorizePage("/Admin/Foraeldre/Delete", "Manager");
+    options.Conventions.AuthorizePage("/Admin/Lodsedler/Delete", "Manager");
+    options.Conventions.AuthorizePage("/Admin/Salg/Delete", "Manager");
 });
 
-builder.Services.AddTransient<IEmailSender, EmailSender>();
+
+
 builder.Services.Configure<AuthMessageSenderOptions>(builder.Configuration);
 
 builder.Services.Configure<IdentityOptions>(options =>

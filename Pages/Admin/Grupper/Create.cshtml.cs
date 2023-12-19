@@ -1,24 +1,32 @@
-﻿using Badge.Data;
+﻿using Badge.Areas.Identity.Data;
+using Badge.Data;
 using Badge.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace Badge.Pages.Admin.GroupAdmin
 {
     public class CreateModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CreateModel(ApplicationDbContext context)
+        public CreateModel(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
+            IdentityRole role = await _context.Roles.FirstAsync(r => r.Name == "Leader");
+            string roleid = role.Id;
+            var leaders = await (from u in _context.Users where (from r in _context.UserRoles where r.RoleId == roleid && r.UserId == u.Id select r).ToList().Count > 0 select u).ToListAsync();
             ViewData["GroupTypeId"] = new SelectList(_context.GroupTypes, "Id", "Name");
-            ViewData["LeaderId"] = new SelectList(_context.Users, "Id", "FullName");
+            ViewData["LeaderId"] = new SelectList(leaders, "Id", "FullName");
             return Page();
         }
 

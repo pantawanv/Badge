@@ -19,7 +19,11 @@
                     <div class="note-block note-green" style="display: inline-block; background-color:@color; text-transform:capitalize!important; margin-inline-end: 5px;">@name</div>
                 }
             </div>
-            <hr />
+        </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns: auto; grid-gap: 30px;">
+        <div class="index-content" style="display:inline-grid; width: 100%;">
             <dl class="row">
                 <dt class="col-sm-2">
                     @Html.DisplayNameFor(model => model.User.FName)
@@ -40,55 +44,59 @@
                     @Html.DisplayFor(model => model.User.Email)
                 </dd>
                 <dt class="col-sm-2">
-                    Tlf. 
+                    Tlf.
                 </dt>
                 <dd class="col-sm-10">
                     @Html.DisplayFor(model => model.User.PhoneNumber)
                 </dd>
             </dl>
+            <a asp-page="./Index">
+                Tilbage til liste
+            </a>
         </div>
-    </div>
-    <a asp-page="./Index">
-        Tilbage til liste
-    </a>
-    @if (Model.Roles.Where(r => r.Name == "Leader").Any())
-    {
-        <div class="box-full">
-            <h4>Grupper</h4>
-        <hr />
-            <div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>
-                                Navn
-                            </th>
-                            <th>
-                                Gruppetype
-                            </th>
-                            <th>Medlemmer</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.Groups)
-                        {
+        @if (Model.Roles.Where(r => r.Name == "Leader").Any())
+        {
+            <div class="box-full">
+                <h4>Grupper</h4>
+                <hr />
+                <div>
+                    <table>
+                        <thead>
                             <tr>
-                                <td>
-                                    <a asp-page="/Admin/Grupper/Details" asp-route-id="@item.Id">@item.Name</a>
-                                </td>
-                                <td>
-                                    @item.GroupType.Name
-                                </td>
-                                <td>
-                                    @item.Members.Count
-                                </td>
+                                <th>
+                                    Navn
+                                </th>
+                                <th>
+                                    Gruppetype
+                                </th>
+                                <th>Medlemmer</th>
                             </tr>
-                        }
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Groups)
+                            {
+                                <tr>
+                                    <td>
+                                        <a asp-page="/Admin/Grupper/Details" asp-route-id="@item.Id">@item.Name</a>
+                                    </td>
+                                    <td>
+                                        @item.GroupType.Name
+                                    </td>
+                                    <td>
+                                        @item.Members.Count
+                                    </td>
+                                </tr>
+                            }
 
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
+        }
     </div>
-    }
+
+    
+    
+    
    
 </div>

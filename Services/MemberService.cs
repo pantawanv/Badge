@@ -50,7 +50,7 @@ namespace Badge.Services
 
         public IQueryable<Parent> GetParentsQuery()
         {
-            return _context.Parents.Include(p => p.Members).ThenInclude(p => p.Member).ThenInclude(p => p.User).AsQueryable();
+            return _context.Parents.Include(p => p.Members).ThenInclude(p => p.Member).ThenInclude(p => p.User).Include(p => p.Members).ThenInclude(p => p.Member).ThenInclude(p => p.Group).AsQueryable();
         }
         public IQueryable<Member> GetMembers()
         {

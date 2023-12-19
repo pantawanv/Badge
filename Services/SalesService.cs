@@ -37,12 +37,12 @@ namespace Badge.Services
 
         public async Task<List<Ticket>> GetTicketsAsync()
         {
-            return await _context.Tickets.ToListAsync();
+            return await _context.Tickets.Include(t => t.TicketGroupAssign).ThenInclude(t=>t.Group).Include(t => t.Sale).ToListAsync();
         }
 
         public async Task<List<Ticket>> GetAvailableTicketsAsync()
         {
-            var tickets = from t in _context.Tickets where !(from s in _context.Sales where s.TicketId == t.Id select s).Any() select t;
+            var tickets = _context.Tickets.Include(t => t.TicketGroupAssign).ThenInclude(t => t.Group).Include(t => t.Sale).Where(t => _context.Sales.Where(s => s.TicketId == t.Id).Any() == false);
             return await tickets.ToListAsync();
         }
 

@@ -6,48 +6,68 @@
 }
 
 <h1>Detajler</h1>
-
-<div>
-    <h4>Medlem</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Member.User.FName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Member.User.FName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Member.User.LName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Member.User.LName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Member.Group)
-        </dt>
-       
-        <dd class="col-sm-10">
-            <a asp-page="/Admin/Grupper/Details" asp-route-id="@Model.Member.Group.Id">@Html.DisplayFor(model => model.Member.Group.Name)</a>
-        </dd>
-         @foreach (var item in Model.Parents)
-        {
+<div style="display:grid; grid-template-columns: 80% auto; grid-gap: 30px;">
+    <div class="index-content" style="display:inline-grid; width: 100%;">
+        <h4>Medlem</h4>
+        <hr />
+        <dl class="row">
             <dt class="col-sm-2">
-                Forældrenavn
+                @Html.DisplayNameFor(model => model.Member.User.FName)
             </dt>
-            
             <dd class="col-sm-10">
-                <a asp-page="/Admin/Foraeldre/Details" asp-route-id="@item.Id"> @item.FName @item.LName</a>  
+                @Html.DisplayFor(model => model.Member.User.FName)
             </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Member.User.LName)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Member.User.LName)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Member.Group)
+            </dt>
 
+            <dd class="col-sm-10">
+                <a asp-page="/Admin/Grupper/Details" asp-route-id="@Model.Member.Group.Id">@Html.DisplayFor(model => model.Member.Group.Name)</a>
+            </dd>
+            @foreach (var item in Model.Parents)
+            {
+                <dt class="col-sm-2">
+                    Forældrenavn
+                </dt>
+
+                <dd class="col-sm-10">
+                    <a asp-page="/Admin/Foraeldre/Details" asp-route-id="@item.Id"> @item.FName @item.LName</a>
+                </dd>
+
+            }
+        </dl>
+        <div>
+            @if (User.IsInRole("Manager") || UserManager.GetUserId(User) == Model.Member.Group.LeaderId)
+            {
+                <a asp-page="./Edit" asp-route-id="@Model.Member?.Id">Rediger</a>
+
+                <p style="display:inline-block"> | </p>
+
+            }
+            <a asp-page="./Index">Tilbage til liste</a>
+        </div>
+    </div>
+    
+    <div class="index-content" style="display:inline-grid">
+        <h3 style="padding-bottom:0px!important;">Tilknyttede forældre</h3>
+        @if (Model.Parents != null)
+        {
+            @foreach (var item in Model.Parents)
+            {
+                <div>
+                    <a asp-page="/Admin/Foraeldre/Details" asp-route-id="@item.Id">
+                        @item.FName @item.LName
+                    </a><br />
+                </div>
+            }
         }
-    </dl>
+       
+    </div>
 </div>
-<div>
-    @if(User.IsInRole("Manager") || UserManager.GetUserId(User) == Model.Member.Group.LeaderId)
-    {
-        <a asp-page="./Edit" asp-route-id="@Model.Member?.Id">Rediger</a><p> | </p>
 
-    }
-    <a asp-page="./Index">Tilbage til liste</a>
-</div>

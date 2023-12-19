@@ -1,5 +1,7 @@
-﻿using Badge.Interfaces;
+﻿using Badge.Areas.Identity.Data;
+using Badge.Interfaces;
 using Badge.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -10,11 +12,13 @@ namespace Badge.Pages.Admin.SalesAdmin
     {
         private readonly ISalesService _salesService;
         private readonly IMemberService _memberService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public CreateModel(ISalesService salesService, IMemberService memberService)
+        public CreateModel(ISalesService salesService, IMemberService memberService, UserManager<ApplicationUser> userManager)
         {
             _salesService = salesService;
             _memberService = memberService;
+            _userManager = userManager;
         }
 
         public Ticket SelectedTicket { get; set; }
@@ -30,6 +34,11 @@ namespace Badge.Pages.Admin.SalesAdmin
             if (tickets != null)
             {
                 Tickets = tickets;
+            }
+            if (!User.IsInRole("Manager"))
+            {
+                var ticketssorted = tickets.Where(t => t.TicketGroupAssign.Group.LeaderId == _userManager.GetUserId(User));
+                Tickets=ticketssorted.ToList();
             }
 
             if (selected != null)
@@ -50,15 +59,16 @@ namespace Badge.Pages.Admin.SalesAdmin
                     }
                     else
                     {
-
                         var members = await _memberService.GetAllMembersOfGroupAsync(group.Id);
                         ViewData["MemberId"] = new SelectList(members, "Id", "User.FullName");
                     }
                 }
                 else
                 {
+                    Sale = new Sale();
                     member = await _salesService.GetAssignedMemberAsync(selected);
-                    ViewData["MemberId"] = new SelectList(member.Id, member.User.FullName);
+                    Sale.SellerId = member.Id;
+                    Sale.Seller = member;
                 }
                 ViewData["TicketId"] =  new SelectList(selected);
                 var channels = _salesService.GetChannels();

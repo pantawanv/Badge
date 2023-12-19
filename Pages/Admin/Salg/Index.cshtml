@@ -219,7 +219,10 @@
                         </div>
                         <div class="dropdwn-content">
                             <a asp-page="./Details" asp-route-id="@item.Id">Detaljer</a>
-                            <a class="delete" asp-page="./Delete" asp-route-id="@item.Id">Slet</a>
+                            @if (User.IsInRole("Manager"))
+                            {
+                                <a class="delete" asp-page="./Delete" asp-route-id="@item.Id">Slet</a>
+                            }
                         </div>
                     </div>
                 </td>

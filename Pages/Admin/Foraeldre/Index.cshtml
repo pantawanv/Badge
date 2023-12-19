@@ -5,6 +5,24 @@
     ViewData["Title"] = "Forældre";
 }
 
+<div class="tab">
+    <div class="tab-button @(Model.MyGroups ? "" : "active")">
+        <a asp-page="./Index" asp-route-mygroups="false"
+           asp-route-currentFilter="@Model.CurrentFilter" asp-route-sortOrder="@Model.CurrentSort">
+            Forældre i alle grupper
+        </a>
+    </div>
+    @if (User.IsInRole("Leader"))
+    {
+        <div class="tab-button  @(Model.MyGroups ? "active" : "")">
+            <a asp-page="./Index" asp-route-myGroups="true"
+               asp-route-currentFilter="@Model.CurrentFilter" asp-route-sortOrder="@Model.CurrentSort">
+                Forældre i mine grupper
+            </a>
+        </div>
+    }
+</div>
+
 <div class="row" style="width:100%; padding:0; margin:0; margin-bottom:20px;">
     <div class="col-7">
         <h1>Forældre</h1>
