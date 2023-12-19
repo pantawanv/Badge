@@ -24,7 +24,7 @@ namespace Badge.Services
 
         public async Task<List<Member>> GetAllMembersAsync()
         {
-            return await _context.Members.Include(m => m.User).Include(m => m.Group).ThenInclude(m => m.GroupType).Include(m => m.Group).ThenInclude(m => m.Leader).ToListAsync();
+            return await _context.Members.Include(m=>m.Sales).Include(m => m.User).Include(m => m.Group).ThenInclude(m => m.GroupType).Include(m => m.Group).ThenInclude(m => m.Leader).ToListAsync();
         }
 
         public async Task<List<Member>> GetAllMembersOfGroupAsync(int id)
@@ -45,7 +45,7 @@ namespace Badge.Services
 
         public Parent GetParent(int id)
         {
-            return _context.Parents.Include(p => p.Members).ThenInclude(p => p.Member).ThenInclude(p=>p.User).Where(p => p.Id == id).FirstOrDefault();
+            return _context.Parents.Include(p => p.Members).ThenInclude(p => p.Member).ThenInclude(p=>p.User).Include(p => p.Members).ThenInclude(p => p.Member).ThenInclude(p => p.Group).Where(p => p.Id == id).FirstOrDefault();
         }
 
         public IQueryable<Parent> GetParentsQuery()

@@ -36,7 +36,15 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.AuthorizeFolder("/Admin", "Editor");
     options.Conventions.AuthorizeFolder("/App", "Member");
     options.Conventions.AuthorizePage("/Admin/Grupper/Create", "Manager");
+    options.Conventions.AuthorizePage("/Admin/Grupper/Delete", "Manager");
+    options.Conventions.AuthorizePage("/Admin/Grupper/Edit", "Manager");
     options.Conventions.AuthorizePage("/Admin/Brugere/Create", "Manager");
+    options.Conventions.AuthorizePage("/Admin/Brugere/Delete", "Manager");
+    options.Conventions.AuthorizePage("/Admin/Brugere/Edit", "Manager");
+    options.Conventions.AuthorizePage("/Admin/Brugere/Index", "Manager");
+    options.Conventions.AuthorizePage("/Admin/Brugere/Index", "Manager");
+    options.Conventions.AuthorizePage("/Admin/Medlem/Create", "Manager");
+    options.Conventions.AuthorizePage("/Admin/Medlem/Delete", "Manager");
 });
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();

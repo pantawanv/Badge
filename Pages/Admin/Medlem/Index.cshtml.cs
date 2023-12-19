@@ -1,6 +1,7 @@
 ﻿using Badge.Data;
 using Badge.Interfaces;
 using Badge.Models;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,17 +24,26 @@ namespace Badge.Pages.Admin.MemberAdmin
         public string SaleSort { get; set; }
         public string CurrentFilter { get; set; }
         public string CurrentSort { get; set; }
+        public bool MyGroups { get; set; }
 
         public PaginatedList<Member> Members { get; set; }
 
 
-        public async Task OnGetAsync(string sortOrder, string searchString, int? pageIndex)
+        public async Task OnGetAsync(string sortOrder, string searchString, int? pageIndex, bool? myGroups)
         {
             CurrentSort = sortOrder;
             FNameSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("FName_asc") ? "FName_desc" : "FName_asc";
             LNameSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("LName_asc") ? "LName_desc" : "LName_asc";
             GroupSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("Group_asc") ? "Group_desc" : "Group_asc";
             SaleSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("Sale_asc") ? "Sale_desc" : "Sale_asc";
+            if (myGroups == null && User.IsInRole("Leader") || myGroups == true)
+            {
+                MyGroups = true;
+            }
+            else
+            {
+                MyGroups=false;
+            }
 
             if (searchString != null)
             {
@@ -48,6 +58,10 @@ namespace Badge.Pages.Admin.MemberAdmin
 
 
             IQueryable<Member> memberIQ = _memberService.GetMembers();
+            if (MyGroups)
+            {
+                memberIQ = memberIQ.Where(m => m.Group.LeaderId == User.Identity.GetUserId());
+            }
 
 
             if (!String.IsNullOrEmpty(searchString))

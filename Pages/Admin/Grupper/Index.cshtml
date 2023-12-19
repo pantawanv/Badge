@@ -38,7 +38,6 @@
                 <button style="margin:auto; margin-right:0; width:100%;" class="btn-def">Opret</button>
             </a>
         }
-            
         </div>
     </div>
 
@@ -47,7 +46,7 @@
         <form asp-page="./Index" method="get" style="padding:0; margin:0;">
             <div class="form-actions no color">
                 <p style="padding:0; margin:0;">
-
+                    <input name="myGroups" value="@Model.MyGroups.ToString()" hidden/>
                     <div style="width:90%; height:40px; padding:0; margin:0;float:left;">
                         <input name="SearchString" value="@Model.CurrentFilter" style="width:100%; height:100%; margin:0; padding-left: 20px; border:none; border-radius: 5px 0 0 5px;" type="text" name="SearchString" value="" />
                     </div>
@@ -214,8 +213,14 @@
                         </div>
                         <div class="dropdwn-content">
                             <a asp-page="./Details" asp-route-id="@item.Id">Detaljer</a>
-                            <a asp-page="./Edit" asp-route-id="@item.Id">Rediger</a>
-                            <a class="delete" asp-page="./Delete" asp-route-id="@item.Id">Slet</a>
+                            @if (User.IsInRole("Manager"))
+                            {
+                                <a asp-page="./Edit" asp-route-id="@item.Id">Rediger</a>
+                            }
+                            @if (User.IsInRole("Manager"))
+                            {
+                                <a class="delete" asp-page="./Delete" asp-route-id="@item.Id">Slet</a>
+                            }
                         </div>
                     </div>
                 </td>

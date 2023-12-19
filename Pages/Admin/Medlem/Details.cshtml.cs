@@ -38,7 +38,7 @@ namespace Badge.Pages.Admin.MemberAdmin
                 Parents = parents;
             }
 
-            var member = await _context.Members.Include(m => m.Group).Include(m => m.User).FirstOrDefaultAsync(m => m.Id == id);
+            var member = await _memberService.GetMemberAsync(id);
             if (member == null)
             {
                 return NotFound();

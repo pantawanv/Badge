@@ -2,6 +2,8 @@
 using Badge.Data;
 using Badge.Interfaces;
 using Badge.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -64,6 +66,11 @@ namespace Badge.Pages.Admin.MemberAdmin
                 return NotFound();
             }
             var member = await _memberService.GetMemberAsync(id);
+            if (!User.IsInRole("Manager") && _userManager.GetUserId(User) != member.Group.LeaderId)
+            {
+                return Forbid();
+            }
+            
             if (member == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");

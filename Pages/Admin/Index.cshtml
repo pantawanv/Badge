@@ -1,5 +1,6 @@
 ﻿@page
 @using Badge.Interfaces
+@using Badge.Resources
 @model Badge.Pages.Admin.IndexModel
 @inject ISalesService salesService;
 @inject IMemberService memberService;
@@ -53,7 +54,57 @@
             </div>
             <div class="divider-line-gradient" id="dl4"></div>
         </div>
-        <div class="index-content" style="grid-area:2  / 1 / span 2 / span 3;"></div>
+        <div class="index-content" style="grid-area:2  / 1 / span 2 / span 3; padding: 30px!important;">
+            <h4 style="padding-bottom: 10px;">
+                Kredsens top-5 supersælgere
+            </h4>
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            Position
+                        </th>
+                        <th>
+                            Navn
+                        </th>
+                        <th>
+                            Gruppe
+                        </th>
+                        <th>
+                            Antal salg
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int i = 0;
+                        @foreach (var item in Model.TopSellers)
+                        {
+                            i++;
+                            <tr>
+                                <td>
+                                    @i
+                                </td>
+                                <td>
+                                    <a asp-page="/Admin/Medlem/Details" asp-route-id="@item.Id">
+                                        @item.User.FullName
+                                    </a>
+                                </td>
+                                <td>
+                                    <a asp-page="/Admin/Grupper/Details" asp-route-id="@item.GroupId" style="color:@ColorResource.ResourceManager.GetString(item.Group.GroupType.Name);">
+                                        @item.Group.Name
+                                    </a>
+                                </td>
+                                <td>
+                                    @item.Sales.Count()
+                                </td>
+                            </tr>
+                        }
+                    }
+
+                </tbody>
+            </table>    
+        </div>
         <div class="index-content" style="height:fit-content;">
             <h4 style="margin-bottom:20px; text-align:center">Overblik over lodsedler</h4>
             <div style="width:80%; height:fit-content; margin-left:auto; margin-right:auto;">

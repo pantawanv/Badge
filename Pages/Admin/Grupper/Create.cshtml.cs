@@ -18,7 +18,7 @@ namespace Badge.Pages.Admin.GroupAdmin
         public IActionResult OnGet()
         {
             ViewData["GroupTypeId"] = new SelectList(_context.GroupTypes, "Id", "Name");
-            ViewData["LeaderId"] = new SelectList(_context.Users, "Id", "FName");
+            ViewData["LeaderId"] = new SelectList(_context.Users, "Id", "FullName");
             return Page();
         }
 

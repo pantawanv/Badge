@@ -4,6 +4,25 @@
 @{
     ViewData["Title"] = "Medlemmer";
 }
+
+<div class="tab">
+    <div class="tab-button @(Model.MyGroups ? "" : "active")">
+        <a asp-page="./Index" asp-route-mygroups="false"
+           asp-route-currentFilter="@Model.CurrentFilter" asp-route-sortOrder="@Model.CurrentSort">
+            Medlemmer i alle grupper
+        </a>
+    </div>
+    @if (User.IsInRole("Leader"))
+    {
+        <div class="tab-button  @(Model.MyGroups ? "active" : "")">
+            <a asp-page="./Index" asp-route-myGroups="true"
+               asp-route-currentFilter="@Model.CurrentFilter" asp-route-sortOrder="@Model.CurrentSort">
+                Medlemmer i mine grupper
+            </a>
+        </div>
+    }
+</div>
+
 <div class="row" style="width:100%; padding:0; margin:0; margin-bottom:20px;">
     <div class="col-7">
         <h1>Medlemmer</h1>
@@ -24,8 +43,9 @@
     <form asp-page="./Index" method="get" style="padding:0; margin:0;">
         <div class="form-actions no color">
             <p style="padding:0; margin:0;">
-
+                
                 <div style="width:90%; height:40px; padding:0; margin:0;float:left;">
+                    <input name="myGroups" value="@Model.MyGroups.ToString()" hidden/>
                     <input name="SearchString" value="@Model.CurrentFilter" style="width:100%; height:100%; margin:0; padding-left: 20px; border:none; border-radius: 5px 0 0 5px;" type="text" name="SearchString" value="" />
                 </div>
                 <div style="width:10%; height:40px; padding:0 ; margin:0; float:right;">
@@ -41,7 +61,7 @@
         <tr>
             <th></th>
             <th>
-                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.FNameSort" asp-route-searchString="@Model.CurrentFilter">
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.FNameSort" asp-route-searchString="@Model.CurrentFilter" asp-route-myGroups="@Model.MyGroups">
                     <div class="srt-container">
                         <div class="srthead-container">
                             @Html.DisplayNameFor(model => model.Members[0].User.FName)
@@ -71,7 +91,7 @@
 
             </th>
             <th>
-                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.LNameSort" asp-route-searchString="@Model.CurrentFilter">
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.LNameSort" asp-route-searchString="@Model.CurrentFilter" asp-route-myGroups="@Model.MyGroups">
                     <div class="srt-container">
                         <div class="srthead-container">
                             @Html.DisplayNameFor(model => model.Members[0].User.LName)
@@ -100,7 +120,7 @@
                 </a>
             </th>
             <th>
-                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.GroupSort" asp-route-searchString="@Model.CurrentFilter">
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.GroupSort" asp-route-searchString="@Model.CurrentFilter" asp-route-myGroups="@Model.MyGroups">
                     <div class="srt-container">
                         <div class="srthead-container">
                             @Html.DisplayNameFor(model => model.Members[0].Group)
@@ -129,7 +149,7 @@
                 </a>
             </th>
             <th>
-                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.SaleSort" asp-route-searchString="@Model.CurrentFilter">
+                <a class="index-th-a" asp-page="./Index" asp-route-sortOrder="@Model.SaleSort" asp-route-searchString="@Model.CurrentFilter" asp-route-myGroups="@Model.MyGroups">
                     <div class="srt-container">
                         Solgte lodsedler
                         <div class="srtarw-container">
@@ -198,7 +218,10 @@
                         </div>
                         <div class="dropdwn-content">
                             <a asp-page="./Details" asp-route-id="@item.Id">Detaljer</a>
-                            <a asp-page="./Edit" asp-route-id="@item.Id">Rediger</a>
+                            @if (Model.MyGroups)
+                            {
+                                <a asp-page="./Edit" asp-route-id="@item.Id">Rediger</a>
+                            }
                             @if (User.IsInRole("Manager") || User.IsInRole("Admin"))
                             {
                                 <a class="delete" asp-page="./Delete" asp-route-id="@item.Id">Slet</a>
