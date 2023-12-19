@@ -11,18 +11,14 @@ namespace Badge.Pages.App
     public class IndexModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ISalesService _salesService;
-        private readonly IMemberService _memberService;
         private readonly IAchievementService _achievementService;
         public IndexModel(UserManager<ApplicationUser> userManager, ISalesService salesService, IMemberService memberService, IAchievementService achievementService, SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
-            _salesService = salesService;
-            _memberService = memberService;
             _achievementService = achievementService;
 
         }
-        public IList<Achievement> Achievements { get; set; }
+        public List<Achievement> Achievements { get; set; }
         public async Task OnGetAsync()
         {
             var achievements = await _achievementService.GetAchievementsAsync();
@@ -35,35 +31,17 @@ namespace Badge.Pages.App
 
         public bool CheckTicketAchievement(int amount)
         {
-            return amount <= GetSales();
+            return _achievementService.CheckTicketAchievement(amount, _userManager.GetUserId(User));
         }
 
         public bool CheckChannelAchievement(string name)
         {
-            switch (name)
-            {
-                case "Mobile Pay":
-                    return _salesService.GetMembersSalesAsync(GetMember().Id).Result.Where(s=>s.Channel.Name == "Mobile Pay").Count() > 0;
-                case "Kontant":
-                    return _salesService.GetMembersSalesAsync(GetMember().Id).Result.Where(s=>s.Channel.Name == "Kontant").Count() > 0;
-                default:
-                    return false;
-            }
+            return _achievementService.CheckChannelAchievement(name, _userManager.GetUserId(User));
         }
 
         public bool CheckGroupAchievement(int amount)
         {
-            return amount <= _salesService.GetGroupSalesAsync(GetMember().Group.Id).Result.Count();
-        }
-
-        public Member GetMember()
-        {
-            return _memberService.GetMemberAsync(_userManager.GetUserId(User)).Result;
-        }
-
-        public int GetSales()
-        {
-            return _salesService.GetMembersSalesAsync(GetMember().Id).Result.Count();
+            return _achievementService.CheckGroupAchievement(amount, _userManager.GetUserId(User));
         }
     }
 }
