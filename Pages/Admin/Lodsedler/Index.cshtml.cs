@@ -29,6 +29,7 @@ namespace Badge.Pages.Admin.TicketAdmin
         public PaginatedList<Ticket> Tickets { get; set; }
         public IQueryable<Sale> Sales { get; set; }
         public List<Ticket>? SelectedTickets { get; set; }
+        public int? PageIndex { get; set; }
         public List<TicketGroupAssign>? GroupAssigns { get; set; }
         public async Task<IActionResult> OnGetAsync(string sortOrder, string searchString, int? pageIndex, string[]? selectedTickets)
         {
@@ -40,9 +41,10 @@ namespace Badge.Pages.Admin.TicketAdmin
             SoldSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("sold_asc") ? "sold_desc" : "sold_asc";
             GroupAssigns = _context.TicketGroupAssigns.ToList();
 
+            PageIndex = pageIndex;
             if (searchString != null)
             {
-                pageIndex = 1;
+                PageIndex = 1;
             }
             else
             {
@@ -107,7 +109,7 @@ namespace Badge.Pages.Admin.TicketAdmin
             var pageSize = Configuration.GetValue("PageSize", 4);
             var sales = from s in _context.Sales select s;
             Sales = sales.Include(s => s.Ticket);
-            Tickets = await PaginatedList<Ticket>.CreateAsync(ticketsIQ.AsNoTracking().Include(t => t.TicketGroupAssign).ThenInclude(t => t.Group).Include(t => t.TicketMemberAssign).ThenInclude(t => t.Member).ThenInclude(m => m.User), pageIndex ?? 1, pageSize);
+            Tickets = await PaginatedList<Ticket>.CreateAsync(ticketsIQ.AsNoTracking().Include(t => t.TicketGroupAssign).ThenInclude(t => t.Group).Include(t => t.TicketMemberAssign).ThenInclude(t => t.Member).ThenInclude(m => m.User), PageIndex ?? 1, pageSize);
             return Page();
         }
 

@@ -42,6 +42,7 @@
             <form method="post" asp-page-handler="CreateGroupAssign" style="display:inline-block!important;">
                 @foreach (var item in Model.SelectedTickets)
                 {
+                    <input hidden asp-for="PageIndex" />
                     <input name="selectedTickets" value="@item.Id" hidden />
                 }
                 <select name="selectedGroup" asp-items="ViewBag.GroupId" style="height:100%; border:none; padding-left: 20px; padding-right:20px;"></select>
@@ -57,6 +58,7 @@
             <form method="post" asp-page-handler="CreateMemberAssign">
                 @foreach (var item in Model.SelectedTickets)
                 {
+                    <input hidden asp-for="PageIndex" />
                     <input name="selectedTickets" value="@item.Id" hidden />
                 }
                 <select style="height:100%; border:none; padding-left: 20px; padding-right:20px;" name="selectedMember" asp-items="ViewBag.MemberId"></select>
@@ -223,7 +225,7 @@
             {
                 <tr>
                     <td>
-
+                        <input hidden asp-for="PageIndex" />
                         <input name="selectedTickets" type="checkbox" onChange="this.form.submit()" title="select ticket" value="@item.Id" @{
                             if (Model.SelectedTickets.Any(p => p.Id == item.Id))
                             {

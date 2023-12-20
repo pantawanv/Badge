@@ -47,7 +47,6 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.AuthorizePage("/Admin/Brugere/Delete", "Manager");
     options.Conventions.AuthorizePage("/Admin/Brugere/Edit", "Manager");
     options.Conventions.AuthorizePage("/Admin/Brugere/Index", "Manager");
-    options.Conventions.AuthorizePage("/Admin/Brugere/Index", "Manager");
     options.Conventions.AuthorizePage("/Admin/Medlem/Create", "Manager");
     options.Conventions.AuthorizePage("/Admin/Medlem/Delete", "Manager");
     options.Conventions.AuthorizePage("/Admin/Foraeldre/Delete", "Manager");
@@ -99,8 +98,8 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("Admin", policy => policy.RequireRole("Admin"));
-    options.AddPolicy("Manager", policy => policy.RequireRole("Manager", "Admin"));
-    options.AddPolicy("Leader", policy => policy.RequireRole("Leader", "Admin"));
+    options.AddPolicy("Manager", policy => policy.RequireRole("Manager"));
+    options.AddPolicy("Leader", policy => policy.RequireRole("Leader"));
     options.AddPolicy("Member", policy => policy.RequireRole("Member"));
     options.AddPolicy("Editor", policy => policy.RequireRole("Admin", "Manager", "Leader"));
 
@@ -113,13 +112,7 @@ using (var scope = app.Services.CreateScope())
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var roles = new[] { "Admin", "Manager", "Leader", "Member" };
 
-    foreach (var role in roles)
-    {
-        if (!await roleManager.RoleExistsAsync(role))
-        {
-            await roleManager.CreateAsync(new IdentityRole(role));
-        }
-    }
+
 }
 
 if (app.Environment.IsDevelopment())

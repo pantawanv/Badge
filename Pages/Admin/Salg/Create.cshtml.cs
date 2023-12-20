@@ -35,11 +35,11 @@ namespace Badge.Pages.Admin.SalesAdmin
             {
                 Tickets = tickets;
             }
-            if (!User.IsInRole("Manager"))
-            {
-                var ticketssorted = tickets.Where(t => t.TicketGroupAssign.Group.LeaderId == _userManager.GetUserId(User));
-                Tickets=ticketssorted.ToList();
-            }
+            //if (!User.IsInRole("Manager"))
+            //{
+            //    var ticketssorted =  _salesService.GetAvailableTicketsAsync().Result.Where(t => t.TicketGroupAssign.Group.LeaderId == _userManager.GetUserId(User));
+            //    Tickets=ticketssorted.ToList();
+            //}
 
             if (selected != null)
             {

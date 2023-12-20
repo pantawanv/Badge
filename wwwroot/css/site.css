@@ -318,6 +318,9 @@
         padding-bottom:100px!important;
         padding-top:50px!important;
     }
+    .main {
+        min-height: 600px !important;
+    }
 }
 /*Media Larger phones end*/
 
