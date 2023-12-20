@@ -132,7 +132,7 @@ namespace Badge.Areas.Identity.Pages.Account
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "E-mail eller adgangskode passer ikke. Prøv venligst igen");
                     return Page();
                 }
             }

@@ -14,7 +14,7 @@
                 <form id="account" method="post">
                     <h2>Velkommen tilbage!</h2>
                     <br />
-                    <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+                    <div asp-validation-summary="ModelOnly" style="list-style:none!important"; class="text-danger" role="alert"></div>
                     <div style="margin-bottom:10px;">
                         @if (ViewData.ModelState.ContainsKey("NotMember"))
                         {
