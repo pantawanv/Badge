@@ -8,6 +8,10 @@
     "secrets2": {
       "type": "secrets",
       "dynamicId": null
+    },
+    "sqlite1": {
+      "ignored": "true",
+      "type": "sqlite"
     }
   }
 }

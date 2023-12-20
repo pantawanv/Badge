@@ -14,7 +14,7 @@
                 <form id="account" method="post">
                     <h2>Velkommen tilbage!</h2>
                     <br />
-                    <div asp-validation-summary="ModelOnly" style="list-style:none!important"; class="text-danger" role="alert"></div>
+                    <div asp-validation-summary="ModelOnly" style="list-style:none!important; text-decoration:none;"  class="text-danger" role="alert"></div>
                     <div style="margin-bottom:10px;">
                         @if (ViewData.ModelState.ContainsKey("NotMember"))
                         {
@@ -26,14 +26,14 @@
                         }
                     </div>
                     <div class="form-floating mb-3">
-                        <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                    <input asp-for="Input.Email" class="form-control"  autocomplete="username" aria-required="true" placeholder="name@example.com" />
                         <label asp-for="Input.Email" class="form-label">E-mail</label>
-                        <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        <span asp-validation-for="Input.Email" class="text-danger" style="list-style:none!important;"  ></span>
                     </div>
                     <div class="form-floating mb-3">
-                        <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
+                        <input asp-for="Input.Password" class="form-control" autocomplete="current-password" style="list-style:none!important;" aria-required="true" placeholder="password" />
                         <label asp-for="Input.Password" class="form-label">Adgangskode</label>
-                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    <span asp-validation-for="Input.Password" style="list-style:none!important; text-decoration:none;" class="text-danger"></span>
                     </div>
                     <div class="checkbox mb-3">
                         <label asp-for="Input.RememberMe" class="form-label">

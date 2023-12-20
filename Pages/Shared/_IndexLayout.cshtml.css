@@ -1,4 +1,4 @@
-﻿@media only screen and (max-width: 600px) {
+﻿@media only screen and (max-width: 700px) {
     html, body {
         width: 100% !important;
         height: 100% !important;
@@ -11,5 +11,18 @@
         height: 100%;
         padding: 0;
     }
+
+    body {
+        min-height: 100%!important;
     }
+    #footer-b{
+        height: auto!important
+    }
+
+}
+.navbar-right li a {
+    font-weight: 200 !important;
+}
+.t-navbar-container a{
+    font-weight: 300 !important;
 }
