@@ -242,6 +242,7 @@
 @if (Model.Members.HasPreviousPage)
 {
     <a asp-page="./Index"
+       asp-route-myGroups="@Model.MyGroups"
        asp-route-sortOrder="@Model.CurrentSort"
        asp-route-pageIndex="@(Model.Members.PageIndex - 1)"
        asp-route-currentFilter="@Model.CurrentFilter"
@@ -255,6 +256,7 @@
 
 
     <a asp-page="./Index"
+       asp-route-myGroups="@Model.MyGroups"
        asp-route-sortOrder="@Model.CurrentSort"
        asp-route-pageIndex="@(Model.Members.PageIndex + 1)"
        asp-route-currentFilter="@Model.CurrentFilter"

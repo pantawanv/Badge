@@ -229,6 +229,17 @@
         margin-top: 10px !important;
         padding-top: 0 !important;
     }
+    .app-main {
+        margin-top: 35px !important;
+        width:80%!important;
+    }
+
+    .t-navbar {
+        width: 80%!important;
+        margin-left: 10%;
+        margin-right: 10%;
+        padding-top: 30px;
+    }
 }
 /*Media Small screen end*/
 
@@ -350,6 +361,15 @@
     width: 100%;
 }
 
+input[type="checkbox" i]:disabled {
+    box-sizing: initial!important;
+    margin-left: auto;
+    margin-right:auto;
+    width:fit-content;
+    color:var(--danube-200)!important;
+    bborder-color: var(--danube-600)!important;
+    padding:0px!important;
+}
 .col2 {
     grid-template-columns: auto auto;
     
@@ -559,7 +579,7 @@ input[type=submit] {
 }
 
 .menu {
-    width: 80%;
+    width: 78%;
     top: 0;
     position: absolute;
     background-color: #E6E5E5;
@@ -654,6 +674,8 @@ input[type=submit] {
 
 .l-nav-container .l-nav-item:hover {
     background: #ffffff20;
+    transform:scale(1.02);
+    transition:.2s;
 }
 
 
@@ -776,19 +798,27 @@ input[type=submit] {
 }
 
 .tab-button {
-    background-color: var(--lighterblue);
+    background-color: transparent;
+    color: var(--maincolor)!important;
+    border: solid 2px var(--maincolor);
     padding: 12px 25px;
     height: 50px;
     margin-right: 10px;
-    border-radius: 25px;
+    border-radius: 5px;
+}
+
+.tab-button:hover {
+    transform: scale(1.02);
+    transition: .2s;
 }
 
 .tab .active {
     background-color: var(--maincolor);
+    color:white!important;
 }
 
 .tab-button a {
-    color: white;
+    color: inherit;
     font-family: 'Signika'
 }
 /*Admin page tabs end*/
@@ -838,10 +868,11 @@ input[type=submit] {
 }
 
 .group-marker {
-    height: 30px;
-    margin-bottom: -10px;
+    height: 36px;
+    margin-bottom: -13px;
     display: inline-block;
-    width: 5px;
+    width: 8px;
+    border-radius:4px;
 }
 /*Notes end*/
 
@@ -898,9 +929,12 @@ table {
 td {
     padding-bottom: 10px;
 }
+th, td{
+    min-height: 50px!important;
+}
 
 #group-tr:hover .group-marker {
-    transform: scale(1.05);
+    transform: scale(1.15);
     transition-duration:.2s;
 }
 
@@ -1234,17 +1268,20 @@ td {
     border-radius: 5px;
     box-shadow: -1px -1px 10px 0px rgba(61, 83, 107, 0.3);
     padding: 20px;
-    margin-bottom:20px;
-    margin-left:50px;
-    float:right;
+    margin-bottom: 20px;
+    margin-left: 50px;
+    float: right;
+    position: relative;
+    margin-top: 60px !important;
+    margin-bottom: 60px !important;
 }
 
 .achievement {
     width: 125px;
     height: 125px;
     text-align: center;
-    border-radius:50%;
-    box-shadow: -1px -1px 10px 0px rgba(61, 83, 107, 0.3);
+    border-radius: 50%;
+    box-shadow: 0px 0px 4px 3px #34506b68;
 }
 
     .achievement:hover {
@@ -1275,13 +1312,78 @@ td {
     .achievement:hover .achievement-tooltip {
         display:block;
     }
+
+.achievement-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.achievement-linegrid{
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-rows: auto auto auto;
+    place-items:center;
+    padding-top: 19%;
+    padding-bottom: 19%;
+    position:absolute;
+    overflow:hidden;
+}
+.achievement-linegrid-ver {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    place-items: center;
+    position: absolute;
+    overflow: hidden;
+    padding-left:4%;
+    padding-right:4%;
+}
+.achievement-line {
+    border: solid 2px #73a1ca40;
+    height: 30px;
+    border-radius: 2px;
+    width: 100%;
+    box-shadow: 0px 0px 4px 3px #34506b64;
+    background: rgb(132,159,185);
+    background: linear-gradient(0deg, rgba(132,159,185,1) 0%, rgba(161,188,213,1) 3%, rgba(148,178,205,1) 7%, rgba(134,148,161,1) 9%, rgba(148,178,205,1) 11%, rgba(161,189,214,1) 35%, rgba(157,186,211,1) 65%, rgba(148,178,205,1) 89%, rgba(134,148,161,1) 91%, rgba(148,178,205,1) 93%, rgba(161,188,213,1) 97%, rgba(132,159,185,1) 100%);
+}
+.achievement-line-ver {
+    width: 25px;
+    height: 100%;
+    box-shadow: 0px 0px 4px 3px #34506b68;
+    background: rgb(145,145,145);
+    background: linear-gradient(90deg, rgba(145,145,145,1) 0%, rgba(171,171,171,1) 5%, rgba(171,171,171,1) 40%, rgba(145,145,145,1) 50%, rgba(171,171,171,1) 60%, rgba(171,171,171,1) 95%, rgba(145,145,145,1) 100%);
+}
+.achievement-line-ver-blue {
+    width: 20px;
+    height: 110%;
+    margin-top:-5%;
+    box-shadow: 2px 0px 4px 3px #34506b64;
+    background: rgb(132,159,185);
+    background: linear-gradient(90deg, rgba(132,159,185,1) 0%, rgba(161,188,213,1) 3%, rgba(148,178,205,1) 7%, rgba(134,148,161,1) 9%, rgba(148,178,205,1) 11%, rgba(161,189,214,1) 35%, rgba(157,186,211,1) 65%, rgba(148,178,205,1) 89%, rgba(134,148,161,1) 91%, rgba(148,178,205,1) 93%, rgba(161,188,213,1) 97%, rgba(132,159,185,1) 100%);
+}
+
+.achievement-linegrid-top {
+    height: 100%;
+    width: 100%;
+    grid-template-rows: auto auto auto;
+    place-items: center;
+    position: absolute;
+    overflow: hidden;
+}
+
+
+.achievement-bg-container{
+    position:relative;
+}
 /*Achievements end*/
-
 /*-----*/
-
 /*App Profile */
 .app-profile-container {
-    text-align:center;
+    text-align: center;
 }
 
 .app-profile-container {
@@ -1519,4 +1621,50 @@ td {
     #sales-ticket-container::-webkit-scrollbar-thumb {
         background-color: var(--lighterblue);
         border-radius: 5px;
+    }
+
+#appsmallheader {
+    font-weight: 350!important;
+    font-size:20px;
+    letter-spacing:1px;
+    line-height:.7em!important;
+}
+
+#appLargeHeader {
+    font-size:30px;
+    font-weight:600;
+    letter-spacing: 1px;
+    padding-bottom:20px;
+}
+.app-main {
+    margin-top: 120px !important;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 35px;
+}
+
+.t-navbar {
+    height: auto;
+    width: 76%;
+    top: 0;
+    position: absolute;
+    margin-left: 12%;
+    margin-right: 12%;
+    padding-top: 30px;
+}
+
+.menu-list {
+    width: 70%;
+    margin: auto;
+    margin-top: 150px;
+}
+
+    .menu-list a, .menu-list-a {
+        width: 100% !important;
+        height: 60px !important;
+        display: block !important;
+        text-align: center !important;
+        font-size: 20px !important;
+        font-family: 'Signika';
     }

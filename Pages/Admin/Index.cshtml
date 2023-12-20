@@ -19,8 +19,8 @@
                 <img src="~/images/Icon_Calendar.svg" />
             </div>
             <div class="index-infobox-inner" style="float:right; right:0;">
-                <h4>5 dage tilbage!</h4>
-                <p>Til lodseddelsalget slutter d. xx-xx-xxxx</p>
+                <h4>@(((int)(salesService.GetEndDate()-DateTime.Now).TotalDays)) dage tilbage!</h4>
+                <p>Til lodseddelsalget slutter d. @salesService.GetEndDate().ToShortDateString()</p>
             </div>
             <div class="divider-line-gradient" id="dl1"></div>
         </div>
@@ -58,21 +58,21 @@
 
             @if (User.IsInRole("Manager"))
             {
-                <h4 style="padding-bottom: 10px;">
+                <h4 style="padding-bottom: 20px;">
                     Kredsens top-5 supersælgere
                 </h4>
             }
             else
             {
-                <h4 style="padding-bottom: 10px;">
+                <h4 style="padding-bottom: 20px;">
                     Dine gruppers top-5 supersælgere
-                </h4>
+                </h4 >
             }
-            </h4>
-            <table>
+            
+            <table style="padding: 20px!important; margin-left:15px; margin-right:15px; ">
                 <thead>
                     <tr>
-                        <th>
+                        <th >
                             Position
                         </th>
                         <th>

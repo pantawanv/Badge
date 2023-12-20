@@ -29,7 +29,7 @@
                 var member = MemberService.GetMemberAsync(UserManager.GetUserId(User)).Result;
                 if (member.User.AppUImageData != null)
                 {
-                    <div class="No-Img">
+                    <div class="No-Img" style="height:60px!important; width:60px!important;">
                         <img style="width:100%; height:100%;" src="data:image/png;base64,@member.User.AppUImageData" />
                     </div>
                 }

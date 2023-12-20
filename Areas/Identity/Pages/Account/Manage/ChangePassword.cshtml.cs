@@ -36,7 +36,7 @@ namespace Badge.Areas.Identity.Pages.Account.Manage
         {
             [Required]
             [DataType(DataType.Password)]
-            [Display(Name = "Nuværende adganskode")]
+            [Display(Name = "Nuværende adgangskode")]
             public string OldPassword { get; set; }
 
             [Required]
@@ -46,7 +46,7 @@ namespace Badge.Areas.Identity.Pages.Account.Manage
             public string NewPassword { get; set; }
 
             [DataType(DataType.Password)]
-            [Display(Name = "Bekræft adganskode")]
+            [Display(Name = "Bekræft adgangskode")]
             [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
         }

@@ -43,12 +43,15 @@ namespace Badge.Pages.Admin.SalesAdmin
 
             if (selected != null)
             {
-                SelectedTicket = await _salesService.GetTicketAsync(selected);
-                if (SelectedTicket==null)
+                var selectTicket = await _salesService.GetTicketAsync(selected);
+                if (selectTicket==null)
                 {
                     return NotFound();
                 }
+                SelectedTicket = selectTicket;
+                Sale = new Sale();
                 var member = await _salesService.GetAssignedMemberAsync(selected);
+
                 var group = await _salesService.GetAssignedGroupAsync(selected);
                 if (member == null)
                 {
@@ -59,17 +62,19 @@ namespace Badge.Pages.Admin.SalesAdmin
                     }
                     else
                     {
+                        
                         var members = await _memberService.GetAllMembersOfGroupAsync(group.Id);
                         ViewData["MemberId"] = new SelectList(members, "Id", "User.FullName");
                     }
                 }
                 else
                 {
-                    Sale = new Sale();
+                    
                     member = await _salesService.GetAssignedMemberAsync(selected);
                     Sale.SellerId = member.Id;
                     Sale.Seller = member;
                 }
+                Sale.TicketId = SelectedTicket.Id;
                 ViewData["TicketId"] =  new SelectList(selected);
                 var channels = _salesService.GetChannels();
                 ViewData["ChannelId"] = new SelectList(channels, "Id", "Name");

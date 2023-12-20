@@ -12,13 +12,16 @@ namespace Badge.Pages.App
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IAchievementService _achievementService;
-        public IndexModel(UserManager<ApplicationUser> userManager, ISalesService salesService, IMemberService memberService, IAchievementService achievementService, SignInManager<ApplicationUser> signInManager)
+        private readonly IArticleService _articleService;
+        public IndexModel(UserManager<ApplicationUser> userManager, IAchievementService achievementService, IArticleService articleService)
         {
             _userManager = userManager;
             _achievementService = achievementService;
+            _articleService = articleService;
 
         }
         public List<Achievement> Achievements { get; set; }
+        public Article Article { get; set; }
         public async Task OnGetAsync()
         {
             var achievements = await _achievementService.GetAchievementsAsync();
@@ -26,7 +29,9 @@ namespace Badge.Pages.App
             {
                 NotFound();
             }
+            var article = await _articleService.GetArticleAsync(1);
             Achievements = achievements;
+            Article = article;
         }
 
         public bool CheckTicketAchievement(int amount)

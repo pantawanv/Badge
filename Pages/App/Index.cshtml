@@ -5,59 +5,93 @@
 @inject UserManager<ApplicationUser> userManager;
 @{
     Layout = "_AppLayout";
+    int counter;
 }
-<h2>Hej</h2>
-<h1>@UserManager.GetUserAsync(User).Result.FName!</h1>
+<h2 id="appsmallheader">Hej</h2>
+<h1 id="appLargeHeader" style="display:inline-block;">@UserManager.GetUserAsync(User).Result.FName!</h1> <img src="~/images/wave.svg" width="50px" height="auto" style="display:inline-block; margin-top:-25px; margin-left:15px;"/>
 <br />
-<p>Du har solgt @salesService.GetMembersSalesAsync(UserManager.GetUserId(User)).Result.Count() lodsedler ialt. Godt gået!</p>
+<div style="border-radius: 10px; background-color:#d1e3ec; width: 100%;padding:10px; padding-top:15px; padding-bottom:15px;font-family:'Signika'; font-size:17px; ">
+    <p>Du har solgt @salesService.GetMembersSalesAsync(UserManager.GetUserId(User)).Result.Count() lodsedler i alt. Godt gået!</p>
+</div>
+
 
 
 <div>
     <h2 style="padding-top: 15px;">
         Her er dine mærker:
     </h2>
-</div>
-<div class="achievement-container">
-    @foreach (var item in Model.Achievements)
-    {
-        string unlocked = "0";
-        <div class="achievement">
-            
-            @switch (item.AchievementType.Name)
-            {
-                case "Ticket":
-                    if (!Model.CheckTicketAchievement(item.Amount))
-                    {
-                        unlocked = "1";
-                    }
-                    break;
-                case "Channel":
-                    if (!Model.CheckChannelAchievement(item.Name))
-                    {
-                        unlocked = "1";
-                    }
-                    break;
-                    case "GroupTicket":
-                    if (!Model.CheckGroupAchievement(item.Amount))
-                    {
-                        unlocked = "1";
-                    }
-                    break;
-                default:
-                    break;
-            }
+
+<div class="achievement-bg-container">
+    
+    <div class="achievement-container">
+        
+        <div class="achievement-bg">
+            <div class="achievement-linegrid-ver">
+                <div class="achievement-line-ver"></div>
+                <div class="achievement-line-ver"></div>
+                <div class="achievement-line-ver"></div>
+            </div>
+            <div class="achievement-linegrid">
+                <div class="achievement-line"></div>
+                <div class="achievement-line"></div>
+                <div class="achievement-line"></div>
+            </div>
             <div>
-                <img src="/images/@item.AchievementIcon" style="filter:grayscale(@unlocked);" />
+                <div class="achievement-linegrid-top" style="overflow:visible;">
+                    <div class="achievement-line" style="margin-top:-25px; top:0;position:absolute!important;"></div>
+                    <div class="achievement-line" style="margin-bottom:-25px; bottom:0!important; position:absolute!important;"></div>
+                    
+                </div>
             </div>
-            <div class="achievement-tooltip">
-                <b>@item.Name</b><br />@item.Description
-            </div>
+            
         </div>
-    }
+        @foreach (var item in Model.Achievements)
+        {
+            string unlocked = "0";
+            counter = 0;
+            <div class="achievement">
+
+                @switch (item.AchievementType.Name)
+                {
+                    case "Ticket":
+                        if (!Model.CheckTicketAchievement(item.Amount))
+                        {
+                            unlocked = "1";
+                        }else{ counter++; }
+                        break;
+                    case "Channel":
+                        if (!Model.CheckChannelAchievement(item.Name))
+                        {
+                            unlocked = "1";
+                        }
+                        else { counter++; }
+                        break;
+                    case "GroupTicket":
+                        if (!Model.CheckGroupAchievement(item.Amount))
+                        {
+                            unlocked = "1";
+                        }
+                        else { counter++; }
+                        break;
+                    default:
+                        break;
+                }
+                <div>
+                    <img src="/images/@item.AchievementIcon" style="filter:grayscale(@unlocked);" />
+                </div>
+                <div class="achievement-tooltip">
+                    <b>@item.Name</b><br />@item.Description
+                </div>
+            </div>
+        }
+    </div>
+</div>
 </div>
 <div>
     <h1>Læs mere om sidste års supersælger her:</h1>
+    <h3>@Model.Article.Title</h3>
+    <blockquote>@Model.Article.Description</blockquote>
     <p>
-        "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis doloribus asperiores repellat."
+        @Model.Article.Body
     </p>
 </div>

@@ -28,5 +28,6 @@ namespace Badge.Data
         public DbSet<Achievement> Achievements { get; set; }
         public DbSet<AchievementType> AchievementTypes { get; set; }
         public DbSet<MemberParent> MemberParents { get; set; }
+        public DbSet<Article> Articles { get; set; }
     }
 }

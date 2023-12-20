@@ -34,7 +34,7 @@ namespace Badge.Pages.Admin.ParentAdmin
             _context.Parents.Add(Parent);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("Details", new { id = Parent.Id });
         }
     }
 }

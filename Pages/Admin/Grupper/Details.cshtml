@@ -39,11 +39,12 @@
     }
     <a asp-page="./Index">Tilbage til liste</a>
 </div>
-<div>
-    <table class="table">
-    <thead>
-        <tr>
-            <th>
+<h3 style="margin-top:20px;">Medlemmer</h3>
+<div style="margin-top:20px;">
+    <table>
+    <thead style="background-color:lightgray; ">
+            <tr>
+                <th style="padding:10px!important;">
                 Navn
             </th>
             <th>
@@ -64,4 +65,48 @@
 }
     </tbody>
 </table>
+</div>
+<h3>Tilddelte Lodsedler</h3>
+<div style="margin-top:20px;">
+    <table>
+        <thead style="background-color:lightgray; ">
+            <tr>
+                <th style="padding:10px!important;">
+                    Id
+                </th>
+                <th>
+                    Tildelt medlem
+                </th>
+                <th>
+                    Solgt
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.TicketGroups)
+            {
+                <tr>
+                    <td style="padding: 20px!important; padding-left:0!important;">
+                        @item.TicketId
+                    </td>
+                    <td>
+                        @if(item.Ticket.TicketMemberAssign != null)
+                        {
+                            @item.Ticket.TicketMemberAssign.Member.User.FullName
+                        }
+                    </td>
+                    <td>
+                        @if(item.Ticket.Sale != null)
+                        {
+                            <div class="note-green note-block">Solgt</div>
+                        }
+                        else
+                        {
+                            <div class="note-red note-block">Ikke solgt</div>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 </div>

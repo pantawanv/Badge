@@ -5,13 +5,12 @@
 }
 <h1>Opret</h1>
 <h4>Forældre</h4>
-<hr />
-<div class="row">
+<div class="index-content" style="width:100%;">
     <div class="col-md-4">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-@*                 <label asp-for="Parent.MemberId" class="control-label"></label>
+                @*                 <label asp-for="Parent.MemberId" class="control-label"></label>
                 <select asp-for="Parent.MemberId" class ="form-control" asp-items="ViewBag.MemberId"></select> *@
             </div>
             <div class="form-group">
@@ -35,15 +34,17 @@
                 <span asp-validation-for="Parent.Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Opret" class="btn btn-primary" />
+                <input type="submit" value="Opret" class="btn-def btn-full" />
             </div>
         </form>
     </div>
+    <div>
+        <a asp-page="Index">Tilbage til liste</a>
+    </div>
 </div>
 
-<div>
-    <a asp-page="Index">Tilbage til liste</a>
-</div>
+
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

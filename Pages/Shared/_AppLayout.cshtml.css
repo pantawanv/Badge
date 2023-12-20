@@ -64,44 +64,20 @@ body {
     
 }
 
-
-
-.t-navbar {
-    height: auto;
-    width: 80%;
-    top: 0;
-    position: absolute;
-    margin-left: 10%;
-    margin-right: 10%;
-    padding-top: 30px;
+#appsmallheader {
+    font-weight:100!important;
+    font-size:14px;
 }
+
+
 
 
 .right {
     float: right;
 }
 
-.app-main {
-    margin-top: 75px;
-    width:80%;
-    margin-left:auto;
-    margin-right:auto;
-    padding: 35px;
 
-}
 
-.menu-list{
-    width: 70%;
-    margin: auto;
-    margin-top: 150px;
-}
-    .menu-list a, .menu-list-a{
-        width: 100%!important;
-        height: 60px!important;
-        display: block!important;
-        text-align: center!important;
-        font-size: 20px!important;
-        font-family: 'Signika';
-    }
+
 
  

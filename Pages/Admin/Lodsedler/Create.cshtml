@@ -7,27 +7,54 @@
 
 <h1>Opret</h1>
 
-<h4>Lodseddel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Ticket.Id" class="control-label"></label>
-                <input asp-for="Ticket.Id" class="form-control" />
-                <span asp-validation-for="Ticket.Id" class="text-danger"></span>
+<h4>Lodsedler</h4>
+<div class="index-content" style="width:100%;">
+
+    <div class="row" style="width:100%;">
+        <div class="col-md-4" style="display:inline-block;">
+            <form method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @if (!Model.MultiInsert == true)
+                {
+                    <h3>Opret en lodseddel</h3>
+                    <div class="form-group">
+                        <label asp-for="Ticket.Id" class="control-label"></label>
+                        <input asp-for="Ticket.Id" class="form-control" />
+                        <span asp-validation-for="Ticket.Id" class="text-danger"></span>
+                    </div>
+                }
+                else
+                {
+                    @Model.MultiTicket
+                    <h3>Opret flere lodsedler</h3>
+                    <p style="color:#ea8685;">Separér værdier med et mellemrum</p>
+                    <label asp-for="Ticket.Id" class="control-label"></label>
+                    <textarea asp-for="MultiTicket" rows="5" style="width:100%;" id="TITLE">
+                    </textarea>
+                }
+                <input type="hidden" asp-for="MultiInsert" value="@Model.MultiInsert" />
+                <div class="form-group">
+                    <input type="submit" value="Opret" class="btn-def btn-full" />
+                </div>
+            </form>
+            
+        </div>
+        <div class="col-md-4" style="display:inline-block;float:right; margin-left:auto;">
+            <a asp-route-multiInsert="@(Model.MultiInsert == true ? "false" : "true")">
+                <button class="btn-def btn-full" style="margin-top:20px;">
+                    @(Model.MultiInsert == true ? "Enkelt opret" : "Opret flere")
+                    </button>
+                </a>
             </div>
-            <div class="form-group">
-                <input type="submit" value="Opret" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
+    <div>
+        <a asp-page="Index">Tilbage til liste</a>
     </div>
+    </div>
+
+
 </div>
 
-<div>
-    <a asp-page="Index">Tilbage til liste</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

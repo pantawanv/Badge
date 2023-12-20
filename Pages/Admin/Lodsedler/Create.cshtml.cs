@@ -14,32 +14,60 @@ namespace Badge.Pages.Admin.TicketAdmin
             _context = context;
         }
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGetAsync(bool multiInsert)
         {
+            if (multiInsert)
+            {
+                MultiInsert = true;
+            }
+            else { MultiInsert = false; }
+            
             return Page();
         }
 
         [BindProperty]
         public Ticket Ticket { get; set; } = default!;
 
+        [BindProperty]
+        public string? MultiTicket { get; set; } = default!;
+        public bool? MultiInsert { get; set; }
+
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
         public async Task<IActionResult> OnPostAsync()
         {
-            if (!ModelState.IsValid || _context.Tickets == null || Ticket == null)
+            if ( _context.Tickets == null || Ticket == null)
             {
                 return Page();
             }
 
-            if (_context.Tickets.Where(t => t.Id == Ticket.Id).Any())
+            if(MultiTicket != null)
             {
-                ModelState.AddModelError("Ticket.Id", "En lodseddel med følgende id: " + Ticket.Id + " findes allerede.");
-                return Page();
+               var items = MultiTicket.Split(' ');
+                foreach (var item in items)
+                {
+                    var ticket = new Ticket();
+                    ticket.Id = item.ToString();
+
+                    if (_context.Tickets.Where(t => t.Id == ticket.Id).Any() && item != "" && item != " ")
+                    {
+                        ModelState.AddModelError("Ticket.Id", "En lodseddel med følgende id: " + ticket.Id + " findes allerede.");
+                        return Page();
+                    }
+                    _context.Tickets.Add(ticket);
+                    await _context.SaveChangesAsync();
+                }
+            } else
+            {
+                if (_context.Tickets.Where(t => t.Id == Ticket.Id).Any())
+                {
+                    ModelState.AddModelError("Ticket.Id", "En lodseddel med følgende id: " + Ticket.Id + " findes allerede.");
+                    return Page();
+                }
+
+                _context.Tickets.Add(Ticket);
+                await _context.SaveChangesAsync();
             }
-
-            _context.Tickets.Add(Ticket);
-            await _context.SaveChangesAsync();
-
             return RedirectToPage("./Index");
         }
     }

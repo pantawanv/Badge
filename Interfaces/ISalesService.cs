@@ -5,6 +5,7 @@ namespace Badge.Interfaces
 {
     public interface ISalesService
     {
+        DateTime GetEndDate();
         Task<List<Sale>> GetAllSalesAsync();
         IQueryable<Sale> GetAllSalesQuery();
         int GetSalesCount();

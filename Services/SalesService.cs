@@ -15,6 +15,12 @@ namespace Badge.Services
         }
 
         public static double EstimatedEarningsPerTicket = 19.82;
+        public static DateTime endDate = new DateTime(2024, 1, 10, 8, 25, 0);
+
+        public DateTime GetEndDate()
+        {
+            return endDate;
+        }
 
         public async Task<List<Sale>> GetAllSalesAsync()
         {
