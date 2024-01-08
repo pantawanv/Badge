@@ -37,7 +37,7 @@ namespace Badge.Areas.Identity.Pages.Account.Manage
 
         }
 
-        private async Task LoadAsync(ApplicationUser user)
+        private void Load(ApplicationUser user)
         {
             var imageString = user.AppUImageData;
             Input = new InputModel
@@ -54,7 +54,7 @@ namespace Badge.Areas.Identity.Pages.Account.Manage
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
-            await LoadAsync(user);
+            Load(user);
             return Page();
         }
 
@@ -68,7 +68,7 @@ namespace Badge.Areas.Identity.Pages.Account.Manage
 
             if (!ModelState.IsValid)
             {
-                await LoadAsync(user);
+                Load(user);
                 return Page();
             }
 
@@ -99,7 +99,7 @@ namespace Badge.Areas.Identity.Pages.Account.Manage
 
             if (!ModelState.IsValid)
             {
-                await LoadAsync(user);
+                Load(user);
                 return Page();
             }
 

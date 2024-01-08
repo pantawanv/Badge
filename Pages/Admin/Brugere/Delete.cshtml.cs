@@ -22,6 +22,7 @@ namespace Badge.Pages.Admin.UserAdmin
 
         public async Task<IActionResult> OnGetAsync(string? id)
         {
+            // Returnerer not found hvis der ikke er angivet et id
             if (id == null)
             {
                 return NotFound();
@@ -29,6 +30,7 @@ namespace Badge.Pages.Admin.UserAdmin
 
             var user = await _userManager.FindByIdAsync(id);
 
+            // Returnerer not found hvis der ikke eksisterer en bruger med det angivne id 
             if (user == null)
             {
                 return NotFound();
@@ -42,6 +44,7 @@ namespace Badge.Pages.Admin.UserAdmin
 
         public async Task<IActionResult> OnPostAsync(string? id)
         {
+            // Returnerer not found hvis der ikke er angivet et id
             if (id == null)
             {
                 return NotFound();

@@ -21,9 +21,9 @@ namespace Badge.Pages.Admin.ParentAdmin
 
         public Parent Parent { get; set; } = default!;
 
-        public async Task<IActionResult> OnGetAsync(int id)
+        public IActionResult OnGet(int id)
         {
-            if (id == null || _memberService.GetParent(id) == null )
+            if (id == null || _memberService.GetParent(id) == null)
             {
                 return NotFound();
             }
@@ -41,6 +41,6 @@ namespace Badge.Pages.Admin.ParentAdmin
             return Page();
         }
 
-        
+
     }
 }

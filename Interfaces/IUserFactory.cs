@@ -4,7 +4,7 @@ namespace Badge.Interfaces
 {
     public interface IUserFactory
     {
-        ApplicationUser CreateUser();
-        string CreateRandomPassword(int PasswordLength);
+        Task<ApplicationUser> CreateUserAsync();
+        Task<string> CreateRandomPasswordAsync(int PasswordLength);
     }
 }

@@ -1676,3 +1676,61 @@ th, td{
         font-size: 20px !important;
         font-family: 'Signika';
     }
+
+/* Sales Admin End*/
+
+/*-----*/
+
+/*Pagination*/
+
+.pagination {
+    display: inline-block;
+    margin-top:10px;
+    margin-bottom:50px;
+}
+
+.pagebtn:hover{
+    transform:scale(1.05);
+    color:inherit;
+    transition-duration: 1s;
+}
+
+.pagebtn {
+    width: 35px;
+    height: 35px;
+    padding: 6px;
+    text-align:center;
+    background-color: var(--lynxwhite);
+    display:inline-block;
+    overflow:hidden;
+    margin-inline-end: 5px;
+    border-radius: 5px;
+}
+
+.pagebtn-active {
+    background-color: var(--danube-600)!important;
+    color:white;
+    transform: scale(1.1)
+}
+
+.pagebtn-active:hover {
+    color: white;
+    transform: scale(1.1)
+}
+
+.pagebtn-disabled {
+    color: var(--maingrey);
+}
+
+.pagebtn-disabled:hover {
+    color: var(--maingrey);
+    transform:scale(1);
+}
+.material-symbols-rounded {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 14;
+    padding: 0px;
+    margin: 0px;
+    margin-top: -1px;
+    height: auto;
+    width: auto;
+}

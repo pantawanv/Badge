@@ -29,7 +29,7 @@ namespace Badge.Pages.Admin.SalesAdmin
         public string SalesDateSort { get; set; }
         public string CurrentFilter { get; set; }
         public string CurrentSort { get; set; }
-
+        public int? PageIndex { get; set; }
         public PaginatedList<Sale> Sales { get; set; }
 
         public async Task OnGetAsync(string sortOrder, string currentFilter, string searchString, int? pageIndex)
@@ -50,7 +50,7 @@ namespace Badge.Pages.Admin.SalesAdmin
             {
                 searchString = currentFilter;
             }
-
+            PageIndex = pageIndex == null ? 1 : pageIndex;
             CurrentFilter = searchString;
             IQueryable<Sale> salesIQ = _salesService.GetAllSalesQuery();
 

@@ -65,10 +65,10 @@ namespace Badge.Pages.Admin.ParentAdmin
 
             return RedirectToPage("./Index");
         }
-        public async Task<IActionResult> OnPostDeleteMemberParentAsync(string memberid)
+        public IActionResult OnPostDeleteMemberParent(string memberid)
         {
             var memberParent = _context.MemberParents.FirstOrDefault(mp => mp.ParentId == Parent.Id && mp.MemberId == memberid);
-            if(memberParent == null)
+            if (memberParent == null)
             {
                 return NotFound();
             }
@@ -82,16 +82,16 @@ namespace Badge.Pages.Admin.ParentAdmin
 
         public async Task<IActionResult> OnPostCreateMemberParentAsync(string memberid)
         {
-            var memberparent = _context.MemberParents.FirstOrDefault(m => m.MemberId == memberid && m.ParentId == Parent.Id);
+            var memberparent = await _context.MemberParents.FirstOrDefaultAsync(m => m.MemberId == memberid && m.ParentId == Parent.Id);
             if (memberparent != null)
             {
                 return RedirectToPage("Edit", new { id = Parent.Id });
             }
             else
             {
-                MemberParent memberParentToAdd = new MemberParent(){ MemberId = SelectedMemberId, ParentId = Parent.Id};
-                _context.MemberParents.Add(memberParentToAdd);
-                _context.SaveChanges();
+                MemberParent memberParentToAdd = new MemberParent() { MemberId = SelectedMemberId, ParentId = Parent.Id };
+                await _context.MemberParents.AddAsync(memberParentToAdd);
+                await _context.SaveChangesAsync();
 
                 return RedirectToPage("Edit", new { id = Parent.Id });
             }

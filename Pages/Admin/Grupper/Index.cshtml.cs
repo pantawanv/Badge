@@ -24,7 +24,7 @@ namespace Badge.Pages.Admin.GroupAdmin
         public string CurrentSort { get; set; }
 
         public string MembersSort { get; set; }
-
+        public int? PageIndex { get; set; }
         public bool MyGroups { get; set; }
 
 
@@ -55,7 +55,7 @@ namespace Badge.Pages.Admin.GroupAdmin
             {
                 searchString = CurrentFilter;
             }
-
+            PageIndex = pageIndex == null ? 1 : pageIndex;
             CurrentFilter = searchString;
 
             IQueryable<Group> groupsIQ = from g in _context.Groups

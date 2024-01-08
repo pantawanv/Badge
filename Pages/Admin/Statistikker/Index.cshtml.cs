@@ -16,7 +16,7 @@ namespace Badge.Pages.Admin.Statistikker
         public int SalesWeek { get; set; }
         public int TicketsTotal { get; set; }
 
-        public async Task OnGetAsync()
+        public void OnGet()
         {
             if (_context.Sales !=  null)
             {

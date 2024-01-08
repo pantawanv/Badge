@@ -25,8 +25,8 @@ namespace Badge.Pages.Admin.GroupAdmin
 
         public async Task<IActionResult> OnGetAsync()
         {
-            var leaders = _userManager.GetUsersInRoleAsync("Leader").Result.ToList();
-            ViewData["GroupTypeId"] = new SelectList(_context.GroupTypes, "Id", "Name");
+            var leaders = (await _userManager.GetUsersInRoleAsync("Leader"));
+            ViewData["GroupTypeId"] = new SelectList(await _context.GroupTypes.ToListAsync(), "Id", "Name");
             ViewData["LeaderId"] = new SelectList(leaders.ToList(), "Id", "FullName");
             return Page();
         }
@@ -36,7 +36,7 @@ namespace Badge.Pages.Admin.GroupAdmin
 
         public async Task<IActionResult> OnPostAsync()
         {
-            _groupService.CreateGroupAsync(Group);
+            await _groupService.CreateGroupAsync(Group);
 
             return RedirectToPage("./Index");
         }

@@ -1,7 +1,5 @@
 ﻿using Badge.Areas.Identity.Data;
 using Badge.Data;
-using Badge.Models;
-using Humanizer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -125,10 +123,9 @@ namespace Badge.Pages.Admin.UserAdmin
                 }
 
                 await _userManager.UpdateAsync(user);
-
             }
 
-            return RedirectToPage();
+            return RedirectToPage("Details", new { id });
         }
         public async Task<IActionResult> OnPostAddRoleAsync(string id)
         {
@@ -138,7 +135,7 @@ namespace Badge.Pages.Admin.UserAdmin
             var role = await _roleManager.FindByIdAsync(Input.RoleId);
             await _userManager.AddToRoleAsync(user, role.Name);
 
-            return LocalRedirect("");
+            return RedirectToPage("Details", new { id = user.Id });
         }
 
         public async Task<IActionResult> OnPostDeleteRoleAsync(string id, string roleid)
@@ -147,7 +144,7 @@ namespace Badge.Pages.Admin.UserAdmin
             if(user == null) { return NotFound(); }
             var role = await _roleManager.FindByIdAsync(roleid);
             await _userManager.RemoveFromRoleAsync(user, role.Name);
-            return RedirectToPage("Details", new { id = Input.Id });
+            return RedirectToPage("Details", new { id = user.Id });
         }
     }
 }

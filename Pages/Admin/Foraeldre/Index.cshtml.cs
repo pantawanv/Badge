@@ -31,7 +31,7 @@ namespace Badge.Pages.Admin.ParentAdmin
         public string EMailSort { get; set; }
         public string CurrentFilter { get; set; }
         public string CurrentSort { get; set; }
-
+        public int? PageIndex { get; set; }
         public bool MyGroups { get; set; }
 
 
@@ -62,7 +62,7 @@ namespace Badge.Pages.Admin.ParentAdmin
             {
                 searchString = currentFilter;
             }
-
+            PageIndex = pageIndex == null ? 1 : pageIndex;
             CurrentFilter = searchString;
 
             IQueryable<Parent> parentsIQ = _memberService.GetParentsQuery();

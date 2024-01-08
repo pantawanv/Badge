@@ -18,7 +18,6 @@ namespace Badge.Pages.Admin.UserAdmin
             _context = context;
             _roleManager = roleManager;
             Configuration = configuration;
-
             _userManager = userManager;
         }
 
@@ -29,9 +28,10 @@ namespace Badge.Pages.Admin.UserAdmin
         public string CurrentFilter { get; set; }
         public string CurrentSort { get; set; }
         public string View { get; set; }
+        public int? PageIndex { get; set; }
         public PaginatedList<ApplicationUser> Users { get; set; }
 
-        public async Task OnGetAsync(string searchString, string? view, string sortOrder, string currrentFilter, int? pageIndex)
+        public async Task OnGetAsync(string searchString, string view, string sortOrder, int? pageIndex)
         {
             CurrentSort = sortOrder;
             FNameSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("FName_asc") ? "FName_desc" : "FName_asc";
@@ -42,18 +42,22 @@ namespace Badge.Pages.Admin.UserAdmin
             string leaderId = _roleManager.Roles.First(r => r.Name == "Leader").Id;
             string managerId = _roleManager.Roles.First(r => r.Name == "Manager").Id;
 
-            View = view;
+            if (view != null)
+            {
+                View = view;
+            }
 
-            if (_context.Users != null)
+            if (searchString != null)
             {
                 pageIndex = 1;
             }
             else
             {
-                searchString = currrentFilter;
+                searchString = CurrentFilter;
             }
-
+            PageIndex = pageIndex == null ? 1 : pageIndex;
             CurrentFilter = searchString;
+            
 
             IQueryable<ApplicationUser> UserIQ = from u in _userManager.Users select u;
 
@@ -117,8 +121,7 @@ namespace Badge.Pages.Admin.UserAdmin
                 }
 
                 var pageSize = Configuration.GetValue("PageSize", 4);
-                Users = await PaginatedList<ApplicationUser>.CreateAsync(UserIQ.AsNoTracking()
-                    , pageIndex ?? 1, pageSize);
+                Users = await PaginatedList<ApplicationUser>.CreateAsync(UserIQ.AsNoTracking(), PageIndex ?? 1, pageSize);
             }
         }
     }

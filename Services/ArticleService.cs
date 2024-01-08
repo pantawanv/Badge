@@ -12,6 +12,8 @@ namespace Badge.Services
         {
             _context = context;
         }
+
+        // Henter artiklen
         public async Task<Article> GetArticleAsync(int id) 
         {
             return await _context.Articles.FindAsync(id);

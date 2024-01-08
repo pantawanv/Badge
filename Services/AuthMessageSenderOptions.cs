@@ -2,6 +2,8 @@
 {
     public class AuthMessageSenderOptions
     {
-        public string? SendGridKey { get; set; }
+        public string? AuthEmail { get; set; }
+        public string? AuthEmailPassword { get; set; }
+        public string? AuthServer { get; set; }
     }
 }

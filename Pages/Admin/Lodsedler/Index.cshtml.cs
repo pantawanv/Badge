@@ -25,7 +25,6 @@ namespace Badge.Pages.Admin.TicketAdmin
         public string SoldSort { get; set; }
         public string CurrentFilter { get; set; }
         public string CurrentSort { get; set; }
-
         public PaginatedList<Ticket> Tickets { get; set; }
         public IQueryable<Sale> Sales { get; set; }
         public List<Ticket>? SelectedTickets { get; set; }
@@ -41,7 +40,6 @@ namespace Badge.Pages.Admin.TicketAdmin
             SoldSort = String.IsNullOrEmpty(sortOrder) || sortOrder.Equals("sold_asc") ? "sold_desc" : "sold_asc";
             GroupAssigns = _context.TicketGroupAssigns.ToList();
 
-            PageIndex = pageIndex;
             if (searchString != null)
             {
                 PageIndex = 1;
@@ -50,6 +48,7 @@ namespace Badge.Pages.Admin.TicketAdmin
             {
                 searchString = CurrentFilter;
             }
+            PageIndex = pageIndex == null ? 1 : pageIndex;
             CurrentFilter = searchString;
 
             IQueryable<Ticket> ticketsIQ = from t in _context.Tickets select t;

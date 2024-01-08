@@ -6,8 +6,8 @@ namespace Badge.Services
 {
     public class UserFactory : IUserFactory
     {
-
-        public ApplicationUser CreateUser()
+        // Opretter en instans af en bruger 
+        public async Task<ApplicationUser> CreateUserAsync()
         {
             try
             {
@@ -19,8 +19,8 @@ namespace Badge.Services
             }
         }
 
-        // Generates a random password for the new user
-        public string CreateRandomPassword(int PasswordLength)
+        // Genererer et random password for brugeren 
+        public async Task<string> CreateRandomPasswordAsync(int PasswordLength)
         {
             string _allowedChars = "0123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ";
             Random randNum = new Random();
@@ -31,7 +31,7 @@ namespace Badge.Services
                 chars[i] = _allowedChars[(int)((_allowedChars.Length) * randNum.NextDouble())];
             }
             // Returnerer koden
-            // ¨Tilføjer en 2 cifret int, for at være sikker på at koden lever op til reglerne for passworded. 
+            // Tilføjer en 2 cifret int, for at være sikker på at koden lever op til reglerne for passworded. 
             return (new string(chars))+randNum.NextInt64(2);
         }
     }

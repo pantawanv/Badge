@@ -14,14 +14,14 @@ namespace Badge.Pages.Admin.TicketAdmin
             _context = context;
         }
 
-        public async Task<IActionResult> OnGetAsync(bool multiInsert)
+        public IActionResult OnGet(bool multiInsert)
         {
             if (multiInsert)
             {
                 MultiInsert = true;
             }
             else { MultiInsert = false; }
-            
+
             return Page();
         }
 

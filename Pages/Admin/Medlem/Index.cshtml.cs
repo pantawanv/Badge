@@ -25,7 +25,7 @@ namespace Badge.Pages.Admin.MemberAdmin
         public string CurrentFilter { get; set; }
         public string CurrentSort { get; set; }
         public bool MyGroups { get; set; }
-
+        public int? PageIndex { get; set; }
         public PaginatedList<Member> Members { get; set; }
 
 
@@ -53,7 +53,7 @@ namespace Badge.Pages.Admin.MemberAdmin
             {
                 searchString = CurrentFilter;
             }
-
+            PageIndex = pageIndex == null ? 1 : pageIndex;
             CurrentFilter = searchString;
 
 

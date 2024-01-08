@@ -250,22 +250,98 @@
     </tbody>
 </table>
 
-@if (Model.Parents.HasPreviousPage)
+@* Pagebuttons *@
+@if (Model.Parents.TotalPages > 1)
 {
-    <a asp-page="./Index"
-    asp-route-sortOrder="@Model.CurrentSort"
-    asp-route-pageIndex="@(Model.Parents.PageIndex - 1)"
-    asp-route-currentFilter="@Model.CurrentFilter"
-    class="btn btn-primary">
-        Forrige
-    </a>
+
+    <div class="pagination">
+
+        @if (Model.Parents.HasPreviousPage)
+        {
+            <a asp-page="./Index"
+               asp-route-mygroups="@Model.MyGroups"
+               asp-route-sortOrder="@Model.CurrentSort"
+               asp-route-pageIndex="1"
+               asp-route-currentFilter="@Model.CurrentFilter"
+               class="pagebtn">
+                <span class="material-symbols-rounded">
+                    first_page
+                </span>
+            </a>
+            <a asp-page="./Index"
+               asp-route-mygroups="@Model.MyGroups"
+               asp-route-sortOrder="@Model.CurrentSort"
+               asp-route-pageIndex="@(Model.Parents.PageIndex - 1)"
+               asp-route-currentFilter="@Model.CurrentFilter"
+               class="pagebtn">
+                <span class="material-symbols-rounded">
+                    navigate_before
+                </span>
+            </a>
+        }
+        else
+        {
+            <span class="pagebtn pagebtn-disabled">
+                <span class="material-symbols-rounded">
+                    first_page
+                </span>
+            </span>
+            <span class="pagebtn pagebtn-disabled">
+                <span class="material-symbols-rounded">
+                    navigate_before
+                </span>
+            </span>
+        }
+
+        @for (int i = 0; i < Model.Parents.TotalPages; i++)
+        {
+            var pagenumber = i + 1;
+            string currentpage = pagenumber == Model.PageIndex ? "pagebtn-active" : "";
+            <a asp-page="./Index"
+               asp-route-mygroups="@Model.MyGroups"
+               asp-route-sortOrder="@Model.CurrentSort"
+               asp-route-pageIndex="@(pagenumber)"
+               asp-route-currentFilter="@Model.CurrentFilter"
+               class="pagebtn @currentpage">@pagenumber</a>
+        }
+
+        @if (Model.Parents.HasNextPage)
+        {
+            <a asp-page="./Index"
+               asp-route-mygroups="@Model.MyGroups"
+               asp-route-sortOrder="@Model.CurrentSort"
+               asp-route-pageIndex="@(Model.Parents.PageIndex + 1)"
+               asp-route-currentFilter="@Model.CurrentFilter"
+               class="pagebtn">
+                <span class="material-symbols-rounded">
+                    navigate_next
+                </span>
+            </a>
+            <a asp-page="./Index"
+               asp-route-mygroups="@Model.MyGroups"
+               asp-route-sortOrder="@Model.CurrentSort"
+               asp-route-pageIndex="@(Model.Parents.TotalPages)"
+               asp-route-currentFilter="@Model.CurrentFilter"
+               class="pagebtn">
+                <span class="material-symbols-rounded">
+                    last_page
+                </span>
+            </a>
+        }
+        else
+        {
+            <span class="pagebtn pagebtn-disabled">
+                <span class="material-symbols-rounded">
+                    navigate_next
+                </span>
+            </span>
+            <span class="pagebtn pagebtn-disabled">
+                <span class="material-symbols-rounded">
+                    last_page
+                </span>
+            </span>
+        }
+    </div>
 }
-@if (Model.Parents.HasNextPage)
-{
-    <a asp-page="./Index"
-       asp-route-sortOrder="@Model.CurrentSort"
-       asp-route-pageIndex="@(Model.Parents.PageIndex + 1)"
-       asp-route-currentFilter="@Model.CurrentFilter"
-       class="btn btn-primary">Næste</a>
-}
+
 

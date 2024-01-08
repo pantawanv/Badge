@@ -1,5 +1,6 @@
 ﻿using Badge.Areas.Identity.Data;
 using Badge.Data;
+using Badge.Interfaces;
 using Badge.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using System.Text;
 using System.Text.Encodings.Web;
 
@@ -21,13 +23,15 @@ namespace Badge.Pages.Admin.MemberAdmin
         private readonly ILogger<CreateModel> _logger;
         private readonly IEmailSender _emailSender;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IUserFactory _userFactory;
 
         public CreateModel(UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             ILogger<CreateModel> logger,
             IEmailSender emailSender,
             RoleManager<IdentityRole> roleManager,
-            ApplicationDbContext context)
+            ApplicationDbContext context,
+            IUserFactory userFactory)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -35,13 +39,15 @@ namespace Badge.Pages.Admin.MemberAdmin
             _logger = logger;
             _emailSender = emailSender;
             _roleManager = roleManager;
+            _userFactory = userFactory;
 
             _context = context;
         }
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
-            ViewData["GroupId"] = new SelectList(_context.Groups, "Id", "Name");
+            var groups = await _context.Groups.ToListAsync();
+            ViewData["GroupId"] = new SelectList(groups, "Id", "Name");
             return Page();
         }
 
@@ -58,11 +64,9 @@ namespace Badge.Pages.Admin.MemberAdmin
             string fname = Member.User.FName;
             string lname = Member.User.LName;
 
-            string role = "Member";
+            Member.User = await _userFactory.CreateUserAsync();
 
-            Member.User = CreateUser();
-
-            string password = CreateRandomPassword(10);
+            string password = await _userFactory.CreateRandomPasswordAsync(8);
             await _userStore.SetUserNameAsync(Member.User, email, CancellationToken.None);
             await _emailStore.SetEmailAsync(Member.User, email, CancellationToken.None);
             Member.User.FName = fname;
@@ -81,7 +85,9 @@ namespace Badge.Pages.Admin.MemberAdmin
                     values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl, password = password },
                     protocol: Request.Scheme); ;
 
-                var roleresult = await _userManager.AddToRoleAsync(Member.User, role);
+                var user= await _userManager.FindByEmailAsync(email);
+                await _userManager.AddToRoleAsync(user, "Member");
+
 
                 await _emailSender.SendEmailAsync(email, "Confirm your email",
                     $"Welcome to Badge!<br>Your account info is <br>username: {email}<br>password: {password}<br>Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
@@ -89,7 +95,7 @@ namespace Badge.Pages.Admin.MemberAdmin
                 await _context.Members.AddAsync(Member);
                 await _context.SaveChangesAsync();
 
-                return LocalRedirect(returnUrl+userId);
+                return RedirectToPage("Details", new { id = user.Id });
             }
             foreach (var error in result.Errors)
             {
@@ -101,34 +107,7 @@ namespace Badge.Pages.Admin.MemberAdmin
             return Page();
         }
 
-        public static string CreateRandomPassword(int PasswordLength)
-        {
-            string _allowedChars = "0123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ";
-            Random randNum = new Random();
-            char[] chars = new char[PasswordLength];
-            int allowedCharCount = _allowedChars.Length;
-            string password;
-            for (int i = 0; i < PasswordLength; i++)
-            {
-                chars[i] = _allowedChars[(int)((_allowedChars.Length) * randNum.NextDouble())];
-            }
-            return (new string(chars))+"23";
-        }
-
-        private ApplicationUser CreateUser()
-        {
-            try
-            {
-                return Activator.CreateInstance<ApplicationUser>();
-            }
-            catch
-            {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(IdentityUser)}'. " +
-                    $"Ensure that '{nameof(IdentityUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
-                    $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
-            }
-        }
-
+    
         private IUserEmailStore<ApplicationUser> GetEmailStore()
         {
             if (!_userManager.SupportsUserEmail)

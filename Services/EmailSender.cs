@@ -18,7 +18,7 @@ public class EmailSender : IEmailSender
         _configuration = configuration;
     }
 
-    public AuthMessageSenderOptions Options { get; } //Set with Secret Manager.
+    public AuthMessageSenderOptions Options { get; } 
 
     public async Task SendEmailAsync(string toEmail, string subject, string message)
     {
@@ -27,12 +27,15 @@ public class EmailSender : IEmailSender
 
     public async Task Execute(string subject, string message, string toEmail)
     {
-        //var client = new SendGridClient(apiKey);
-        SmtpClient smtpClient = new SmtpClient("smtp.simply.com", 587);
-        string email = _configuration["EmailSender:Email"];
-        smtpClient.Credentials = new System.Net.NetworkCredential("badge@civah.dk", "Password123.");
+        var authEmail = Options.AuthEmail;
+        var authPassword = Options.AuthEmailPassword;
+        SmtpClient smtpClient = new SmtpClient("websmtp.simply.com", 587);
+        smtpClient.Credentials = new System.Net.NetworkCredential(authEmail, authPassword);
         smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
         smtpClient.EnableSsl = true;
+        
+        
+        // Opretter email
 
         MailMessage msg = new MailMessage()
         {
@@ -42,6 +45,8 @@ public class EmailSender : IEmailSender
             IsBodyHtml = true
 
         };
+
+        // Sender email
         msg.To.Add(toEmail);
         await smtpClient.SendMailAsync(msg);
     }

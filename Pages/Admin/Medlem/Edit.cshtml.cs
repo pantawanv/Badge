@@ -43,7 +43,7 @@ namespace Badge.Pages.Admin.MemberAdmin
             public int? GroupId { get; set; }
         }
 
-        private async Task LoadAsync(Member member)
+        private void Load(Member member)
         {
             var fName = member.User.FName;
             var lName = member.User.LName;
@@ -81,7 +81,7 @@ namespace Badge.Pages.Admin.MemberAdmin
                 ViewData["GroupId"] = new SelectList(groups, "Id", "Name");
             }
 
-            await LoadAsync(member);
+            Load(member);
             return Page();
         }
 

@@ -19,6 +19,7 @@ namespace Badge.Services
             _salesService=salesService;
         }
 
+        // Tjekker om medlemmet har lavet et salg med salgskanalen som matcher navnet på achievementen
         public bool CheckChannelAchievement(string name, string userId)
         {
             switch (name)
@@ -31,17 +32,20 @@ namespace Badge.Services
                     return false;
             }
         }
-
+        // Tjekker om medlemmerne i gruppen tilsammen har lavet <= salg end det angivne antal 
         public bool CheckGroupAchievement(int amount, string userId)
         {
             return amount <= _salesService.GetGroupSalesAsync(_memberService.GetMemberAsync(userId).Result.Group.Id).Result.Count();
         }
 
+
+        // Tjekker om medlemmet har lavet <= salg en det angivne antal
         public bool CheckTicketAchievement(int amount, string userId)
         {
             return amount <=  _salesService.GetMembersSalesAsync(userId).Result.Count();
         }
 
+        // Henter alle Achievements
         public async Task<List<Achievement>> GetAchievementsAsync()
         {
             return await _context.Achievements.Include(a => a.AchievementType).ToListAsync();

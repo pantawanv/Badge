@@ -13,33 +13,33 @@ namespace Badge.Services
             _context = context;
         }
 
-        //Get groups query
+        // Henter alle grupper
          public IQueryable<Group> GetGroups()
         {
             return _context.Groups.AsQueryable();
         }
 
-        //Get groups by leaderid
+        // Henter gruppen hvis leder matcher id'et 
 
         public async Task<List<Group>> GetGroupsByLeaderIdAsync(string id)
         {
            return await _context.Groups.Include(g => g.Members).ThenInclude(g=>g.User).Include(g=>g.Members).ThenInclude(g=>g.Sales).Where(g => g.LeaderId == id).ToListAsync();
         }
 
-        //Find Group By Id
+        // Henter gruppe som matcher id
         public Task<Group> GetGroupAsync(int id)
         {
             return _context.Groups.SingleOrDefaultAsync(g => g.Id == id);
         }
 
-        //Create group
+        // Opretter en ny gruppe
         public async Task CreateGroupAsync(Group group)
         {
             _context.Groups.Add(group);
             await _context.SaveChangesAsync();
         }
 
-        //Delete group
+        // Sletter en gruppe
 
         public async Task DeleteGroupAsync(Group group)
         {
@@ -47,14 +47,10 @@ namespace Badge.Services
             await _context.SaveChangesAsync();
         }
 
-        //Get group types
+        // Henter alle gruppe typer
         public async Task<List<GroupType>> GetGroupTypesAsync()
         {
             return await _context.GroupTypes.ToListAsync();
         }
-
-
-
-
     }
 }
