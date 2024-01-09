@@ -48,22 +48,27 @@ namespace Badge.Pages.Admin.UserAdmin
 
         public async Task<IActionResult> OnGetAsync()
         {
-            List<SelectListItem> roles = new List<SelectListItem>();
-
-            roles.Add(new SelectListItem() { Text = "Leader", Value = (await _roleManager.FindByNameAsync("Leader")).Id });
-            roles.Add(new SelectListItem() { Text = "Manager", Value = (await _roleManager.FindByNameAsync("Manager")).Id });
-            
-            ViewData["RoleId"] = roles;
+            await GetRolesAsync();
             return Page();
         }
 
+
+        public async Task GetRolesAsync()
+        {
+            List<SelectListItem> roles = new List<SelectListItem>();
+
+            roles.Add(new SelectListItem() { Text = "Leder", Value = (await _roleManager.FindByNameAsync("Leader")).Id });
+            roles.Add(new SelectListItem() { Text = "Bestyrer", Value = (await _roleManager.FindByNameAsync("Manager")).Id });
+
+            ViewData["RoleId"] = roles;
+        }
 
         [BindProperty]
         public ApplicationUser User { get; set; } = default!;
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-
+            
 
             returnUrl ??= Url.Content("~/Admin/Brugere/Details?id=");
 
@@ -92,7 +97,8 @@ namespace Badge.Pages.Admin.UserAdmin
 
             if (!ModelState.IsValid)
             {
-                RedirectToPage();
+                await GetRolesAsync();
+                return Page();
             }
 
             if (result.Succeeded)

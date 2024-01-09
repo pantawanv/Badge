@@ -1,7 +1,5 @@
 ﻿using Badge.Areas.Identity.Data;
 using Badge.Interfaces;
-using Microsoft.AspNetCore.Identity;
-
 namespace Badge.Services
 {
     public class UserFactory : IUserFactory

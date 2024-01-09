@@ -939,6 +939,39 @@ th, td{
     min-height: 50px!important;
 }
 
+tr {
+}
+
+.index-table {
+    border-radius: 10px !important;
+    overflow: hidden;
+    width: 100%;
+    text-align:center;
+}
+
+
+.index-table th {
+    background-color: var(--danube-400);
+    height: 50px;
+    color: white;
+    font-family: Signika;
+    font-size: 16px;
+    font-weight: 500;
+ }
+
+.index-table th, .index-table td {
+    padding: 15px;
+}
+
+    .index-table td {
+        height: 20px;
+        border-bottom: 1px solid #b2bec3;
+        background-color: #f1f2f6;
+    }
+    .index-table tbody tr:last-child td {
+        border-bottom: none!important;
+    }
+
 #group-tr:hover .group-marker {
     transform: scale(1.15);
     transition-duration:.2s;

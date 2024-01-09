@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Badge.Areas.Identity.Data
@@ -9,9 +10,11 @@ namespace Badge.Areas.Identity.Data
 
         [PersonalData]
         [DisplayName("Fornavn")]
+        [Required (ErrorMessage = "Fornavn skal udfyldes.")]
         public string? FName { get; set; }
         [PersonalData]
         [DisplayName("Efternavn")]
+        [Required(ErrorMessage = "Efternavn skal udfyldes.")]
         public string? LName { get; set; }
         [PersonalData]
         [DisplayName("Profilbillede")]

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Badge.Models
@@ -7,6 +8,8 @@ namespace Badge.Models
     public class Ticket
     {
         [Key]
+        [DisplayName("Stregkode")]
+        [Required(ErrorMessage = "Stregkode skal udfyldes.")]
         public string Id { get; set; }
 
         [InverseProperty(nameof(TicketGroupAssign.Ticket))]

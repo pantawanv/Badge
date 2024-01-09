@@ -11,6 +11,7 @@ namespace Badge.Services
         private readonly ApplicationDbContext _context;
         public SalesService(ApplicationDbContext context)
         {
+            
             _context=context;
         }
 

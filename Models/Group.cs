@@ -10,9 +10,9 @@ namespace Badge.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Gruppenavn skal udfyldes.")]
         [StringLength(50)]
-        [DisplayName("Gruppe")]
+        [DisplayName("Gruppenavn")]
 
         public string Name { get; set; }
         [DisplayName("Gruppetype")]
