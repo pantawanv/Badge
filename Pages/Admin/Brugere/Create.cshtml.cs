@@ -95,12 +95,6 @@ namespace Badge.Pages.Admin.UserAdmin
 
             var result = await _userManager.CreateAsync(User, password);
 
-            if (!ModelState.IsValid)
-            {
-                await GetRolesAsync();
-                return Page();
-            }
-
             if (result.Succeeded)
             {
                 _logger.LogInformation("User created a new account with password.");
@@ -126,10 +120,11 @@ namespace Badge.Pages.Admin.UserAdmin
 
             foreach (var error in result.Errors)
             {
+                await GetRolesAsync();
                 ModelState.AddModelError(string.Empty, error.Description);
             }
             // If we got this far, something failed, redisplay form
-            return RedirectToPage();
+            return Page();
         }
 
 

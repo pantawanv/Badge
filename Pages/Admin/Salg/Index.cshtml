@@ -187,12 +187,12 @@
 @foreach (var item in Model.Sales) {
         <tr>
             <td>
-                    <a asp-page="/Administration/Lodsedler/Details" asp-route-id="@item.Ticket.Id">@Html.DisplayFor(modelItem => item.Ticket.Id)</a>
+                    <a asp-page="/Admin/Lodsedler/Details" asp-route-id="@item.Ticket.Id">@Html.DisplayFor(modelItem => item.Ticket.Id)</a>
             </td>
             <td>
                     @if (item.Seller!=null)
                     {
-                        <a asp-page="/Administration/Medlem/Details" asp-route-id="@item.Seller.Id">@Html.DisplayFor(modelitem => item.Seller.User.FullName)</a>
+                        <a asp-page="/Admin/Medlem/Details" asp-route-id="@item.Seller.Id">@Html.DisplayFor(modelitem => item.Seller.User.FullName)</a>
 
                     }
 

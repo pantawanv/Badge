@@ -221,7 +221,7 @@
                 <td>
                     @foreach (var child in item.Members)
                     {
-                        <a asp-page="/Medlemmer/Details" asp-route-id="@child.MemberId">
+                        <a asp-page="/Admin/Medlem/Details" asp-route-id="@child.MemberId">
                             @child.Member.User.FullName
 
                         </a>
